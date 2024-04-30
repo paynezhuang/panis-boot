@@ -1,0 +1,34 @@
+spring:
+  profiles:
+    # 激活环境
+    active: @env@
+  application:
+    name: panis-boot-admin
+  main:
+    allow-circular-references: true
+server:
+  # 服务端口
+  port: 9999
+# springdoc-openapi项目配置
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    tags-sorter: alpha
+    operations-sorter: alpha
+  api-docs:
+    path: /v3/api-docs
+  group-configs:
+    - group: '系统管理'
+      paths-to-match: '/**'
+      packages-to-scan: com.izpan.admin.controller.system
+    - group: '基础管理'
+      paths-to-match: '/**'
+      packages-to-scan: com.izpan.admin.controller.base
+# knife4j的增强配置，不需要增强可以不配
+knife4j:
+  enable: true
+  setting:
+    language: zh_cn
+    enable-footer: false
+    enable-footer-custom: true
+    footer-custom-content: PanisBoot - Copyright 2023 [IZPAN.COM](https://izpan.com) | 鸣谢 [knife4j](https://gitee.com/xiaoym/knife4j)

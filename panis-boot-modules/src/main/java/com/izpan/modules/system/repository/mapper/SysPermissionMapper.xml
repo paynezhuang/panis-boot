@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.izpan.modules.system.repository.mapper.SysPermissionMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="SysPermissionResultMap" type="com.izpan.modules.system.domain.entity.SysPermission">
+        <result column="menu_id" property="menuId"/>
+        <result column="menu_name" property="menuName"/>
+        <result column="name" property="name"/>
+        <result column="resource" property="resource"/>
+        <result column="status" property="status"/>
+        <result column="description" property="description"/>
+        <result column="sort" property="sort"/>
+        <result column="id" property="id"/>
+        <result column="create_user" property="createUser"/>
+        <result column="create_user_id" property="createUserId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="update_user_id" property="updateUserId"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="is_deleted" property="isDeleted"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="SysPermissionColumnList">
+        id,
+        create_user,
+        create_user_id,
+        create_time,
+        update_user,
+        update_user_id,
+        update_time,
+        is_deleted,
+        menu_id, menu_name, name, resource , description, sort, status
+    </sql>
+
+    <sql id="SysRoleAssociationPermission">
+        SELECT sp.menu_id,
+               sp.menu_name,
+               sp.id,
+               sp.name,
+               sp.resource
+        FROM sys_permission sp
+                 INNER JOIN sys_role_permission srp ON
+            srp.permission_id = sp.id
+                AND srp.is_deleted = 0
+        WHERE sp.is_deleted = 0
+          AND sp.status = 1
+    </sql>
+
+    <select id="queryPermissionListWithRoleIds" resultType="com.izpan.modules.system.domain.entity.SysPermission">
+        <include refid="SysRoleAssociationPermission"/>
+        AND srp.role_id IN
+        <foreach collection="roleIds" item="roleId" open="(" separator="," close=")">
+            #{roleId}
+        </foreach>
+    </select>
+
+    <select id="queryPermissionListWithRoleId" resultType="com.izpan.modules.system.domain.entity.SysPermission">
+        <include refid="SysRoleAssociationPermission"/>
+        AND srp.role_id = #{roleId}
+    </select>
+
+
+</mapper>

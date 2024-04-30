@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.izpan.modules.system.repository.mapper.SysMenuMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="SysMenuResultMap" type="com.izpan.modules.system.domain.entity.SysMenu">
+        <result column="parent_id" property="parentId"/>
+        <result column="type" property="type"/>
+        <result column="name" property="name"/>
+        <result column="i18n_key" property="i18nKey"/>
+        <result column="route_name" property="routeName"/>
+        <result column="route_path" property="routePath"/>
+        <result column="icon" property="icon"/>
+        <result column="icon_type" property="iconType"/>
+        <result column="component" property="component"/>
+        <result column="keep_alive" property="keepAlive"/>
+        <result column="hide" property="hide"/>
+        <result column="href" property="href"/>
+        <result column="sort" property="sort"/>
+        <result column="status" property="status"/>
+        <result column="id" property="id"/>
+        <result column="create_user" property="createUser"/>
+        <result column="create_user_id" property="createUserId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="update_user_id" property="updateUserId"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="is_deleted" property="isDeleted"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="SysMenuColumnList">
+        SELECT sm.id,
+               sm.create_user,
+               sm.create_user_id,
+               sm.create_time,
+               sm.update_user,
+               sm.update_user_id,
+               sm.update_time,
+               sm.is_deleted,
+               sm.parent_id,
+               sm.type,
+               sm.name,
+               sm.i18n_key,
+               sm.route_name,
+               sm.route_path,
+               sm.icon,
+               sm.icon_type,
+               sm.component,
+               sm.keep_alive,
+               sm.hide,
+               sm.href,
+               sm.sort,
+               sm.multi_tab,
+               sm.fixed_index_in_tab,
+               sm.query,
+               sm.status
+        FROM sys_menu sm
+    </sql>
+
+    <sql id="SysRoleAssociationMenu">
+        <include refid="SysMenuColumnList"/>
+        INNER JOIN sys_role_menu srm ON
+        srm.menu_id = sm.id
+        AND srm.is_deleted = 0
+        WHERE sm.is_deleted = 0
+        AND sm.status = 1
+    </sql>
+
+    <select id="listMenuByRoleIds" resultType="com.izpan.modules.system.domain.entity.SysMenu">
+        <include refid="SysRoleAssociationMenu"/>
+        AND srm.role_id IN
+        <foreach collection="roleIds" item="roleId" open="(" separator="," close=")">
+            #{roleId}
+        </foreach>
+    </select>
+
+
+    <select id="queryMenuListWithRoleId" resultType="com.izpan.modules.system.domain.entity.SysMenu">
+        <include refid="SysRoleAssociationMenu"/>
+        AND srm.role_id = #{roleId}
+    </select>
+
+</mapper>
