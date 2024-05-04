@@ -25,7 +25,6 @@
         <dependency>
             <groupId>com.izpan</groupId>
             <artifactId>panis-boot-starter-database-mysql</artifactId>
-            <version>1.0.0-SNAPSHOT</version>
         </dependency>
     </dependencies>
 </project>

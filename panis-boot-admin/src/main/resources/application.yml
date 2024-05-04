@@ -18,12 +18,16 @@ springdoc:
   api-docs:
     path: /v3/api-docs
   group-configs:
-    - group: '系统管理'
-      paths-to-match: '/**'
-      packages-to-scan: com.izpan.admin.controller.system
     - group: '基础管理'
       paths-to-match: '/**'
       packages-to-scan: com.izpan.admin.controller.base
+    - group: '系统管理'
+      paths-to-match: '/**'
+      packages-to-scan: com.izpan.admin.controller.system
+    - group: '监控管理'
+      paths-to-match: '/**'
+      packages-to-scan: com.izpan.admin.controller.monitor
+
 # knife4j的增强配置，不需要增强可以不配
 knife4j:
   enable: true
