@@ -3,7 +3,9 @@ package com.izpan.infrastructure.util;
 import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.connection.RedisConnection;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisKeyCommands;
+import org.springframework.data.redis.connection.RedisServerCommands;
 import org.springframework.data.redis.core.Cursor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ScanOptions;
@@ -674,6 +676,27 @@ public class RedisUtil {
             log.error(e.getMessage(), e);
         }
         return 0L;
+    }
+
+    /**
+     * 获取 Redis 信息
+     *
+     * @return {@linkplain Properties} Redis 信息
+     * @author payne.zhuang
+     * @CreateTime 2024-05-04 13:57
+     */
+    public static Properties getRedisInfo(String section) {
+        RedisConnectionFactory connectionFactory = redisTemplate.getConnectionFactory();
+        assert connectionFactory != null;
+        try (RedisConnection connection = connectionFactory.getConnection()) {
+            RedisServerCommands serverCommands = connection.serverCommands();
+            // 如果提供了节名称，请求特定节的信息
+            if (section != null && !section.isEmpty()) {
+                return serverCommands.info(section);
+            } else {
+                return serverCommands.info();
+            }
+        }
     }
 
 }
