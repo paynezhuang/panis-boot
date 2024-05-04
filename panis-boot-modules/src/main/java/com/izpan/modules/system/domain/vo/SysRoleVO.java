@@ -25,7 +25,7 @@ import java.io.Serial;
 public class SysRoleVO extends BaseVO {
 
     @Serial
-    private static final long serialVersionUID = 1L;
+    private static final long serialVersionUID = 5617979161002086574L;
 
     @Schema(description = "父主键")
     private Long parentId;
