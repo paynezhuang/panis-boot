@@ -9,10 +9,13 @@ import com.izpan.common.domain.LoginUser;
 import com.izpan.common.exception.BizException;
 import com.izpan.common.pool.StringPools;
 import com.izpan.common.util.CglibUtil;
+import com.izpan.common.util.IPUtil;
 import com.izpan.infrastructure.holder.GlobalUserHolder;
 import com.izpan.infrastructure.page.PageQuery;
 import com.izpan.infrastructure.util.RedisUtil;
 import com.izpan.infrastructure.util.ServletHolderUtil;
+import com.izpan.modules.monitor.domain.entity.MonLogsLogin;
+import com.izpan.modules.monitor.service.IMonLogsLoginService;
 import com.izpan.modules.system.domain.bo.SysRoleBO;
 import com.izpan.modules.system.domain.bo.SysUserBO;
 import com.izpan.modules.system.domain.entity.SysUser;
@@ -50,6 +53,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @NonNull
     private ISysUserRoleService sysUserRoleService;
+
+    @NonNull
+    private IMonLogsLoginService monLogsLoginService;
 
     @Override
     public IPage<SysUser> listSysUserPage(PageQuery pageQuery, SysUserBO sysUserBO) {
@@ -111,28 +117,57 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public Map<String, String> userLogin(SysUserBO sysUserBO) {
+        MonLogsLogin loginLogs = initLoginLog(sysUserBO);
         SysUser userForUserName = baseMapper.getUserByUserName(sysUserBO.getUserName());
-        if (ObjectUtils.isEmpty(userForUserName)) {
-            throw new BizException("查找不到用户名 %s".formatted(sysUserBO.getUserName()));
+        try {
+            if (ObjectUtils.isEmpty(userForUserName)) {
+                throw new BizException("查找不到用户名 %s".formatted(sysUserBO.getUserName()));
+            }
+            if (StringPools.ZERO.equals(userForUserName.getStatus())) {
+                throw new BizException("当前用户 %s 已被禁止登录".formatted(sysUserBO.getUserName()));
+            }
+            // 密码拼接
+            String inputPassword = sysUserBO.getPassword() + userForUserName.getSalt();
+            // 密码比对
+            if (!DigestUtils.sha256Hex(inputPassword).equals(userForUserName.getPassword())) {
+                throw new BizException("登录失败，请核实用户名以及密码");
+            }
+            // sa token 进行登录
+            StpUtil.login(userForUserName.getId());
+            // 更新用户登录时间
+            userForUserName.setLastLoginTime(LocalDateTime.now());
+            saveUserToSession(userForUserName, false);
+            loginLogs.setUserId(userForUserName.getId());
+            loginLogs.setUserRealName(userForUserName.getRealName());
+            super.updateById(userForUserName);
+        } catch (BizException e) {
+            loginLogs.setStatus(StringPools.ZERO);
+            loginLogs.setMessage(e.getMessage());
+            throw e;
+        } finally {
+            monLogsLoginService.save(loginLogs);
         }
-        if (StringPools.ZERO.equals(userForUserName.getStatus())) {
-            throw new BizException("当前用户 %s 已被禁止登录".formatted(sysUserBO.getUserName()));
-        }
-        // 密码拼接
-        String inputPassword = sysUserBO.getPassword() + userForUserName.getSalt();
-        // 密码比对
-        if (!DigestUtils.sha256Hex(inputPassword).equals(userForUserName.getPassword())) {
-            throw new BizException("登录失败，请核实用户名以及密码");
-        }
-        // sa token 进行登录
-        StpUtil.login(userForUserName.getId());
-        // 更新用户登录时间
-        userForUserName.setLastLoginTime(LocalDateTime.now());
-        // 用户登录 IP
-        log.info("登录IP:{}", JakartaServletUtil.getClientIP(ServletHolderUtil.getRequest()));
-        saveUserToSession(userForUserName, false);
-        super.updateById(userForUserName);
         return Map.of("token", StpUtil.getTokenValue());
+    }
+
+    /**
+     * 初始化登录日志
+     *
+     * @param sysUserBO 用户对象
+     * @return {@linkplain MonLogsLogin} 登录日志对象
+     * @author payne.zhuang
+     * @CreateTime 2024-05-05 18:44
+     */
+    private MonLogsLogin initLoginLog(SysUserBO sysUserBO) {
+        String ip = JakartaServletUtil.getClientIP(ServletHolderUtil.getRequest());
+        return MonLogsLogin.builder()
+                .userName(sysUserBO.getUserName())
+                .status(StringPools.ONE)
+                .userAgent(ServletHolderUtil.getRequest().getHeader("User-Agent"))
+                .ip(ip)
+                .ipAddr(IPUtil.getIpAddr(ip))
+                .message("登陆成功")
+                .build();
     }
 
     /**
