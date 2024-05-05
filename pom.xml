@@ -48,6 +48,7 @@
         <java.jwt.version>4.4.0</java.jwt.version>
         <jsr310.version>2.17.0</jsr310.version>
         <oshi.version>6.6.0</oshi.version>
+        <ip2region.version>2.7.0</ip2region.version>
     </properties>
 
     <dependencyManagement>
@@ -105,6 +106,13 @@
                 <groupId>com.github.oshi</groupId>
                 <artifactId>oshi-core</artifactId>
                 <version>${oshi.version}</version>
+            </dependency>
+
+            <!-- ip2region -->
+            <dependency>
+                <groupId>org.lionsoul</groupId>
+                <artifactId>ip2region</artifactId>
+                <version>${ip2region.version}</version>
             </dependency>
 
             <!-- Starter -->
