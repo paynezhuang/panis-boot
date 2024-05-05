@@ -37,7 +37,8 @@ public class SysPermissionController {
     @GetMapping("/page")
     @SaCheckPermission("sys:permission:page")
     @Operation(operationId = "1", summary = "获取权限管理列表")
-    public Result<RPage<SysPermissionVO>> page(@Parameter(description = "分页对象", required = true) PageQuery pageQuery, @Parameter(description = "查询对象") SysPermissionSearchDTO sysPermissionSearchDTO) {
+    public Result<RPage<SysPermissionVO>> page(@Parameter(description = "分页对象", required = true) PageQuery pageQuery,
+                                               @Parameter(description = "查询对象") SysPermissionSearchDTO sysPermissionSearchDTO) {
         return Result.data(sysPermissionFacade.listSysPermissionPage(pageQuery, sysPermissionSearchDTO));
     }
 

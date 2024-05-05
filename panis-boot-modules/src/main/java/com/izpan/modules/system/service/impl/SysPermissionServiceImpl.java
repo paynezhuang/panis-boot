@@ -10,12 +10,14 @@ import com.izpan.common.exception.BizException;
 import com.izpan.common.pool.StringPools;
 import com.izpan.common.util.CglibUtil;
 import com.izpan.infrastructure.page.PageQuery;
+import com.izpan.infrastructure.util.GsonUtil;
 import com.izpan.infrastructure.util.RedisUtil;
 import com.izpan.modules.system.domain.bo.SysPermissionBO;
 import com.izpan.modules.system.domain.entity.SysPermission;
 import com.izpan.modules.system.repository.mapper.SysPermissionMapper;
 import com.izpan.modules.system.service.ISysPermissionService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -31,6 +33,7 @@ import java.util.List;
  * @ClassName com.izpan.modules.system.domain.entity.SysPermission
  * @CreateTime 2023-08-05
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, SysPermission> implements ISysPermissionService {

@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Sets;
-import com.izpan.common.util.CollectionUtils;
+import com.izpan.common.util.CollectionUtil;
 import com.izpan.infrastructure.page.PageQuery;
 import com.izpan.modules.system.domain.bo.SysUserRoleBO;
 import com.izpan.modules.system.domain.entity.SysUserRole;
@@ -61,7 +61,7 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
                 .map(SysUserRole::getRoleId).collect(Collectors.toSet());
         // 判断用户角色关联关系是否发生变化
         if (userOriginRoleIds.equals(Sets.newHashSet(roleIds))) return;
-        if (CollectionUtils.isNotEmpty(userOriginRoleIds)) {
+        if (CollectionUtil.isNotEmpty(userOriginRoleIds)) {
             // 删除用户角色关联关系
             baseMapper.delete(new LambdaQueryWrapper<SysUserRole>().eq(SysUserRole::getUserId, userId));
         }
