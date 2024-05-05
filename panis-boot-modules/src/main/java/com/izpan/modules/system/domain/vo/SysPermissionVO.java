@@ -38,7 +38,7 @@ public class SysPermissionVO extends BaseVO {
     private Long menuId;
 
     @Schema(description = "所属菜单名称")
-    private Long menuName;
+    private String menuName;
 
     @Schema(description = "权限描述")
     private String description;
