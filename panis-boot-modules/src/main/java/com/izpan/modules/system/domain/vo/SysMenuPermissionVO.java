@@ -33,6 +33,9 @@ public class SysMenuPermissionVO implements Serializable {
     @Schema(description = "菜单名称")
     private String menuName;
 
+    @Schema(description = "多语言标题")
+    private String i18nKey;
+
     @Schema(description = "权限按钮")
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<Button> buttons;

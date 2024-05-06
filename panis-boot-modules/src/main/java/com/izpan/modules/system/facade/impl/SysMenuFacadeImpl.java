@@ -1,6 +1,5 @@
 package com.izpan.modules.system.facade.impl;
 
-import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.google.common.collect.Lists;
 import com.izpan.common.util.CglibUtil;
@@ -154,6 +153,7 @@ public class SysMenuFacadeImpl implements ISysMenuFacade {
             SysMenuPermissionVO build = SysMenuPermissionVO.builder()
                     .menuId(menu.getId())
                     .menuName(menu.getName())
+                    .i18nKey(menu.getI18nKey())
                     .build();
             // 根据菜单Id获取权限信息
             List<SysPermissionBO> permissions = menuIdPermissionMap.getOrDefault(menu.getId(), Lists.newArrayList());
