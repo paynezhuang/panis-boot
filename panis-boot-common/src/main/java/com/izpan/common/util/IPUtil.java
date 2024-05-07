@@ -40,7 +40,6 @@ public class IPUtil {
 //        String path = resourceUrl.getPath();
         Resource resource = new ClassPathResource("ip/ip2region.xdb");
         String dbPath = resource.getFile().getPath();
-        log.info("dbPath: {}", dbPath);
         // 1、从 dbPath 加载整个 xdb 到内存。
         byte[] cBuff;
         try {

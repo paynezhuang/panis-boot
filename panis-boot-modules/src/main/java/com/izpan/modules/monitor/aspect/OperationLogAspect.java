@@ -3,9 +3,12 @@ package com.izpan.modules.monitor.aspect;
 import cn.hutool.extra.servlet.JakartaServletUtil;
 import com.google.common.collect.Lists;
 import com.izpan.common.constants.RequestConstant;
+import com.izpan.common.util.CglibUtil;
 import com.izpan.common.util.IPUtil;
 import com.izpan.infrastructure.util.GsonUtil;
+import com.izpan.modules.monitor.domain.dto.logs.exception.MonLogsErrorAddDTO;
 import com.izpan.modules.monitor.domain.dto.logs.operation.MonLogsOperationAddDTO;
+import com.izpan.modules.monitor.facade.IMonLogsErrorFacade;
 import com.izpan.modules.monitor.facade.IMonLogsOperationFacade;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.annotation.Resource;
@@ -23,11 +26,13 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Matcher;
 
 /**
- * 操作日志切面
+ * 操作/错误异常日志切面
  *
  * @Author payne.zhuang <paynezhuang@gmail.com>
  * @ProjectName panis-boot
@@ -45,13 +50,16 @@ public class OperationLogAspect {
      */
     MonLogsOperationAddDTO logsOperationAddDTO;
 
-    @Resource
-    private IMonLogsOperationFacade monLogsOperationFacade;
-
     /**
      * 定义一个开始时间
      */
     Long startTime = null;
+
+    @Resource
+    private IMonLogsOperationFacade monLogsOperationFacade;
+
+    @Resource
+    private IMonLogsErrorFacade monLogsErrorFacade;
 
     /**
      * 定义切入点
@@ -122,10 +130,22 @@ public class OperationLogAspect {
     }
 
     /**
-     * controller 方法
+     * 异常 方法
      */
     @AfterThrowing(pointcut = "controllerPoint()", throwing = "exception")
     public void afterThrowing(JoinPoint joinPoint, Throwable exception) {
         log.info("controller after throwing...");
+        if (ObjectUtils.isNotEmpty(logsOperationAddDTO)) {
+            long useTime = System.currentTimeMillis() - startTime;
+            logsOperationAddDTO.setUseTime(useTime);
+            MonLogsErrorAddDTO logsErrorAddDTO = CglibUtil.convertObj(logsOperationAddDTO, MonLogsErrorAddDTO::new);
+            StackTraceElement stackTraceElement = exception.getStackTrace()[0];
+            logsErrorAddDTO.setLine(stackTraceElement.getLineNumber());
+            logsErrorAddDTO.setExceptionMessage(exception.getMessage());
+            logsErrorAddDTO.setExceptionClass(stackTraceElement.getClassName());
+            logsErrorAddDTO.setStackTrace(Matcher.quoteReplacement(Arrays.toString(exception.getStackTrace())));
+            log.info(GsonUtil.toJson(logsErrorAddDTO));
+            monLogsErrorFacade.add(logsErrorAddDTO);
+        }
     }
 }

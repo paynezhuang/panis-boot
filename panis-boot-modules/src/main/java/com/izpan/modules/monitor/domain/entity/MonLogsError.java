@@ -10,11 +10,11 @@ import lombok.experimental.SuperBuilder;
 import java.io.Serial;
 
 /**
- * 操作日志 Entity 实体类
+ * 错误异常日志 Entity 实体类
  *
  * @Author payne.zhuang <paynezhuang@gmail.com>
  * @ProjectName panis-boot
- * @ClassName com.izpan.modules.monitor.domain.entity.MonLogsOperation
+ * @ClassName com.izpan.modules.monitor.domain.entity.MonLogsError
  * @CreateTime 2024-05-07
  */
 
@@ -22,11 +22,11 @@ import java.io.Serial;
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("mon_logs_operation")
-public class MonLogsOperation extends BaseEntity {
+@TableName("mon_logs_error")
+public class MonLogsError extends BaseEntity {
 
     @Serial
-    private static final long serialVersionUID = 6125605399637357701L;
+    private static final long serialVersionUID = 1882454550101779208L;
 
     /**
      * 请求ID
@@ -82,4 +82,24 @@ public class MonLogsOperation extends BaseEntity {
      * 请求耗时
      */
     private Long useTime;
+
+    /**
+     * 异常信息
+     */
+    private String exceptionMessage;
+
+    /**
+     * 异常类
+     */
+    private String exceptionClass;
+
+    /**
+     * 异常行号
+     */
+    private Integer line;
+
+    /**
+     * 堆栈信息
+     */
+    private String stackTrace;
 }
