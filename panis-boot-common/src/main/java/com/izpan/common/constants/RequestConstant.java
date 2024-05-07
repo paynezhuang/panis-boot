@@ -23,4 +23,8 @@ public final class RequestConstant {
     public static final String CONTENT_TYPE_NAME = "Content-Type";
 
     public static final String CONTENT_TYPE = "application/json;charset=utf-8";
+
+    public static final String X_REQUEST_ID = "X-Request-Id";
+
+    public static final String USER_AGENT = "User-Agent";
 }

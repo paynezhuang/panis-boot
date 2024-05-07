@@ -5,6 +5,7 @@ import cn.hutool.extra.servlet.JakartaServletUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.izpan.common.constants.RequestConstant;
 import com.izpan.common.domain.LoginUser;
 import com.izpan.common.exception.BizException;
 import com.izpan.common.pool.StringPools;
@@ -163,7 +164,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         return MonLogsLogin.builder()
                 .userName(sysUserBO.getUserName())
                 .status(StringPools.ONE)
-                .userAgent(ServletHolderUtil.getRequest().getHeader("User-Agent"))
+                .userAgent(ServletHolderUtil.getRequest().getHeader(RequestConstant.USER_AGENT))
                 .ip(ip)
                 .ipAddr(IPUtil.getIpAddr(ip))
                 .message("登陆成功")
