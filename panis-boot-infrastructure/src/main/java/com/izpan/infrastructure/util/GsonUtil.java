@@ -12,11 +12,10 @@ import java.util.Map;
 /**
  * Google Gson 工具类
  *
- * @Author payne.zhuang <payne.zhuang@gosonic.com.cn>
+ * @Author payne.zhuang <paynezhuang@gmail.com>
  * @ProjectName panis-boot
  * @ClassName com.izpan.infrastructure.util.GsonUtil
  * @CreateTime 2024/4/26 - 16:47
- * @Copyright (C), 2024 Gosonic <<a href="https://www.gosonic.com.cn">https://www.gosonic.com.cn</a>>
  */
 public class GsonUtil {
 

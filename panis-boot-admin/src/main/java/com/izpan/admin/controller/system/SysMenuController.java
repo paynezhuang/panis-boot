@@ -11,7 +11,6 @@ import com.izpan.modules.system.domain.dto.menu.SysMenuUpdateDTO;
 import com.izpan.modules.system.domain.vo.SysMenuEditVO;
 import com.izpan.modules.system.domain.vo.SysMenuPermissionVO;
 import com.izpan.modules.system.domain.vo.SysMenuTreeVO;
-import com.izpan.modules.system.domain.vo.SysMenuVO;
 import com.izpan.modules.system.facade.ISysMenuFacade;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

@@ -9,14 +9,13 @@ import java.io.Serializable;
 /**
  * 菜单管理 动态查询参数 DTO 对象
  *
- * @Author payne.zhuang <payne.zhuang@gosonic.com.cn>
+ * @Author payne.zhuang <paynezhuang@gmail.com>
  * @ProjectName panis-boot
  * @ClassName com.izpan.modules.system.domain.dto.menu.queryKeyValuePairs
  * @CreateTime 2024/4/25 - 16:22
- * @Copyright (C), 2024 Gosonic <<a href="https://www.gosonic.com.cn">https://www.gosonic.com.cn</a>>
  */
 @Data
-public class SysMenuQueryKeyValuePairsDTO implements Serializable {
+public class SysMenuQueryKVPairsDTO implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 8405260450479507855L;

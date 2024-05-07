@@ -1,6 +1,7 @@
 package com.izpan.modules.system.domain.vo;
 
 import com.izpan.infrastructure.domain.BaseVO;
+import com.izpan.modules.system.domain.dto.menu.SysMenuQueryKVPairsDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,7 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.io.Serial;
-import java.util.Map;
+import java.util.List;
 
 /**
  * 菜单管理编辑返回 VO 对象
@@ -75,8 +76,10 @@ public class SysMenuEditVO extends BaseVO {
     private Integer fixedIndexInTab;
 
     @Schema(description = "路由查询参数 key value 集合")
-    private Map<String, String> query;
+    private List<SysMenuQueryKVPairsDTO> query;
 
     @Schema(description = "是否启用(0:禁用,1:启用)")
     private String status;
+
+
 }

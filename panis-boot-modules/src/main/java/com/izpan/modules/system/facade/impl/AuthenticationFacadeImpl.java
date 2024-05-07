@@ -170,7 +170,7 @@ public class AuthenticationFacadeImpl implements IAuthenticationFacade {
                     .hideInMenu(StringPools.Y.equals(menu.getHide()))
                     .multiTab(StringPools.Y.equals(menu.getMultiTab()))
                     .fixedIndexInTab(menu.getFixedIndexInTab())
-                    .query(GsonUtil.fromJsonMap(menu.getQuery()))
+                    .query(GsonUtil.fromJsonList(menu.getQuery()))
                     .permissions(menuPermissionMap.getOrDefault(menu.getId(), Lists.newArrayList()))
                     .build();
             if (menu.getIconType().equals(StringPools.TWO)) {

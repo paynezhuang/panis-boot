@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 用户权限路由对象
@@ -102,12 +101,29 @@ public class SysUserRouteVO implements Serializable {
         private Integer fixedIndexInTab;
 
         @Schema(description = "路由查询参数")
-        private transient Map<String, String> query;
+        private transient List<QueryKVParis> query;
 
         @Schema(description = "路由权限按钮")
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
         private List<String> permissions;
 
+    }
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Schema(name = "QueryParis", description = "路由查询参数")
+    public static class QueryKVParis implements Serializable {
+
+        @Serial
+        private static final long serialVersionUID = -8961492109335677992L;
+
+        @Schema(description = "键")
+        private String key;
+
+        @Schema(description = "值")
+        private String value;
     }
 }
 

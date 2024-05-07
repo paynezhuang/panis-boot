@@ -96,7 +96,7 @@ public class SysMenuFacadeImpl implements ISysMenuFacade {
     public SysMenuEditVO get(Long id) {
         SysMenu byId = sysMenuService.getById(id);
         SysMenuEditVO sysMenuEditVO = CglibUtil.convertObj(byId, SysMenuEditVO::new);
-        sysMenuEditVO.setQuery(GsonUtil.fromJsonMap(byId.getQuery()));
+        sysMenuEditVO.setQuery(GsonUtil.fromJsonList(byId.getQuery()));
         return sysMenuEditVO;
     }
 

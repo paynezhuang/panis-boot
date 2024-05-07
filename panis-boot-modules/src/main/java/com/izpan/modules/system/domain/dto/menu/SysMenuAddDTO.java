@@ -6,7 +6,7 @@ import lombok.Setter;
 
 import java.io.Serial;
 import java.io.Serializable;
-import java.util.Map;
+import java.util.List;
 
 /**
  * 菜单管理 新增 DTO 对象
@@ -71,7 +71,7 @@ public class SysMenuAddDTO implements Serializable {
     private Integer fixedIndexInTab;
 
     @Schema(description = "路由查询参数 key value 集合")
-    private Map<String, String> query;
+    private List<SysMenuQueryKVPairsDTO> query;
 
     @Schema(description = "是否启用(0:禁用,1:启用)")
     private String status;
