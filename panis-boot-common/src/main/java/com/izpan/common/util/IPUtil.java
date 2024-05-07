@@ -60,11 +60,7 @@ public class IPUtil {
 
         // 3、查询
         try {
-            long sTime = System.nanoTime();
-            String ipAddr = searcher.search(ip);
-            long cost = TimeUnit.NANOSECONDS.toMicros(System.nanoTime() - sTime);
-            log.info("region: {}, ioCount: {}, took: {} μs\n", ipAddr, searcher.getIOCount(), cost);
-            return ipAddr;
+            return searcher.search(ip);
         } catch (Exception e) {
             log.error("failed to search({})", ip, e);
         }

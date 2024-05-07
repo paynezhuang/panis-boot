@@ -48,12 +48,13 @@ public class OperationLogAspect {
     /**
      * 操作日志业务处理对象
      */
-    MonLogsOperationAddDTO logsOperationAddDTO;
+    private final ThreadLocal<MonLogsOperationAddDTO> logsOperationAddDTO = new ThreadLocal<>();
 
     /**
      * 定义一个开始时间
      */
-    Long startTime = null;
+    private final ThreadLocal<Long> startTime = new ThreadLocal<>();
+
 
     @Resource
     private IMonLogsOperationFacade monLogsOperationFacade;
@@ -71,8 +72,7 @@ public class OperationLogAspect {
     @SneakyThrows
     @Before("controllerPoint()")
     public void beforeLog(JoinPoint point) {
-        log.info("controller beforeLog...");
-        startTime = System.currentTimeMillis();
+        startTime.set(System.currentTimeMillis());
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         // 获取 request 信息
         HttpServletRequest request = Objects.requireNonNull(attributes).getRequest();
@@ -102,7 +102,7 @@ public class OperationLogAspect {
             arguments.add(GsonUtil.toJson(arg));
         }
         String ip = JakartaServletUtil.getClientIP(request);
-        logsOperationAddDTO = MonLogsOperationAddDTO.builder()
+        logsOperationAddDTO.set(MonLogsOperationAddDTO.builder()
                 .requestId(requestId)
                 .requestUri(requestURI)
                 .requestMethod(requestMethod)
@@ -113,7 +113,7 @@ public class OperationLogAspect {
                 .ip(ip)
                 .ipAddr(IPUtil.getIpAddr(ip))
                 .userAgent(request.getHeader(RequestConstant.USER_AGENT))
-                .build();
+                .build());
     }
 
     /**
@@ -121,11 +121,14 @@ public class OperationLogAspect {
      */
     @AfterReturning(pointcut = "controllerPoint()", returning = "result")
     public void afterReturning(Object result) {
-        log.info("controller after returning...");
-        if (ObjectUtils.isNotEmpty(logsOperationAddDTO)) {
-            long useTime = System.currentTimeMillis() - startTime;
-            logsOperationAddDTO.setUseTime(useTime);
-            monLogsOperationFacade.add(logsOperationAddDTO);
+        try {
+            MonLogsOperationAddDTO addDTO = logsOperationAddDTO.get();
+            if (ObjectUtils.isNotEmpty(addDTO)) {
+                addDTO.setUseTime(System.currentTimeMillis() - startTime.get());
+                monLogsOperationFacade.add(addDTO);
+            }
+        } finally {
+            remove();
         }
     }
 
@@ -134,18 +137,25 @@ public class OperationLogAspect {
      */
     @AfterThrowing(pointcut = "controllerPoint()", throwing = "exception")
     public void afterThrowing(JoinPoint joinPoint, Throwable exception) {
-        log.info("controller after throwing...");
-        if (ObjectUtils.isNotEmpty(logsOperationAddDTO)) {
-            long useTime = System.currentTimeMillis() - startTime;
-            logsOperationAddDTO.setUseTime(useTime);
-            MonLogsErrorAddDTO logsErrorAddDTO = CglibUtil.convertObj(logsOperationAddDTO, MonLogsErrorAddDTO::new);
-            StackTraceElement stackTraceElement = exception.getStackTrace()[0];
-            logsErrorAddDTO.setLine(stackTraceElement.getLineNumber());
-            logsErrorAddDTO.setExceptionMessage(exception.getMessage());
-            logsErrorAddDTO.setExceptionClass(stackTraceElement.getClassName());
-            logsErrorAddDTO.setStackTrace(Matcher.quoteReplacement(Arrays.toString(exception.getStackTrace())));
-            log.info(GsonUtil.toJson(logsErrorAddDTO));
-            monLogsErrorFacade.add(logsErrorAddDTO);
+        try {
+            MonLogsOperationAddDTO addDTO = logsOperationAddDTO.get();
+            if (ObjectUtils.isNotEmpty(addDTO)) {
+                MonLogsErrorAddDTO logsErrorAddDTO = CglibUtil.convertObj(addDTO, MonLogsErrorAddDTO::new);
+                StackTraceElement stackTraceElement = exception.getStackTrace()[0];
+                logsErrorAddDTO.setLine(stackTraceElement.getLineNumber());
+                logsErrorAddDTO.setExceptionMessage(exception.getMessage());
+                logsErrorAddDTO.setExceptionClass(stackTraceElement.getClassName());
+                logsErrorAddDTO.setStackTrace(Matcher.quoteReplacement(Arrays.toString(exception.getStackTrace())));
+                logsErrorAddDTO.setUseTime(System.currentTimeMillis() - startTime.get());
+                monLogsErrorFacade.add(logsErrorAddDTO);
+            }
+        } finally {
+            remove();
         }
+    }
+
+    private void remove() {
+        logsOperationAddDTO.remove();
+        startTime.remove();
     }
 }
