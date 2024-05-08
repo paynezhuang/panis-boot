@@ -26,7 +26,8 @@ public class MonLogsLoginServiceImpl extends ServiceImpl<MonLogsLoginMapper, Mon
     public IPage<MonLogsLogin> listMonLogsLoginPage(PageQuery pageQuery, MonLogsLoginBO loginBO) {
         LambdaQueryWrapper<MonLogsLogin> queryWrapper = new LambdaQueryWrapper<MonLogsLogin>()
                 .eq(ObjectUtils.isNotEmpty(loginBO.getUserName()), MonLogsLogin::getUserName, loginBO.getUserName())
-                .eq(ObjectUtils.isNotEmpty(loginBO.getUserRealName()), MonLogsLogin::getUserRealName, loginBO.getUserRealName());
+                .eq(ObjectUtils.isNotEmpty(loginBO.getUserRealName()), MonLogsLogin::getUserRealName, loginBO.getUserRealName())
+                .orderByDesc(MonLogsLogin::getCreateTime);
         return baseMapper.selectPage(pageQuery.buildPage(), queryWrapper);
     }
 

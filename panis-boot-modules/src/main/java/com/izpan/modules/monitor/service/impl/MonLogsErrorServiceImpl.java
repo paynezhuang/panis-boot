@@ -23,6 +23,8 @@ import org.springframework.stereotype.Service;
 public class MonLogsErrorServiceImpl extends ServiceImpl<MonLogsErrorMapper, MonLogsError> implements IMonLogsErrorService {
     @Override
     public IPage<MonLogsError> listMonLogsErrorPage(PageQuery pageQuery, MonLogsErrorBO monLogsErrorBO) {
-        return baseMapper.selectPage(pageQuery.buildPage(), new LambdaQueryWrapper<>());
+        LambdaQueryWrapper<MonLogsError> queryWrapper = new LambdaQueryWrapper<MonLogsError>()
+                .orderByDesc(MonLogsError::getCreateTime);
+        return baseMapper.selectPage(pageQuery.buildPage(), queryWrapper);
     }
 }

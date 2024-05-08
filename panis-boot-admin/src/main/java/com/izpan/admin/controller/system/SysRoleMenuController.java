@@ -54,7 +54,7 @@ public class SysRoleMenuController {
     @PostMapping("/")
     @SaCheckPermission("sys:role:menu:add")
     @Operation(operationId = "3", summary = "根据角色 ID 保存菜单")
-    public Result<Boolean> addMenuForRoleId(@Parameter(description = "更新对象") @RequestBody SysRoleMenuAddDTO sysRoleMenuAddDTO) {
+    public Result<Boolean> add(@Parameter(description = "更新对象") @RequestBody SysRoleMenuAddDTO sysRoleMenuAddDTO) {
         return Result.data(sysRoleMenuFacade.addMenuForRoleId(sysRoleMenuAddDTO.getRoleId(), sysRoleMenuAddDTO.getMenuIds()));
     }
 

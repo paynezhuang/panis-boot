@@ -101,7 +101,7 @@ public class SysUserRouteVO implements Serializable {
         private Integer fixedIndexInTab;
 
         @Schema(description = "路由查询参数")
-        private transient List<QueryKVParis> query;
+        private List<QueryKVParis> query;
 
         @Schema(description = "路由权限按钮")
         @JsonInclude(JsonInclude.Include.NON_EMPTY)

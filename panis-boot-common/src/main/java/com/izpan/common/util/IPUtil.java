@@ -4,10 +4,10 @@ import com.izpan.common.pool.StringPools;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.lionsoul.ip2region.xdb.Searcher;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
+import org.springframework.util.FileCopyUtils;
 
-import java.util.concurrent.TimeUnit;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  * IP 工具类
@@ -25,6 +25,18 @@ public class IPUtil {
 
     }
 
+    private static Searcher searcher = null;
+
+    static {
+        try (InputStream ris = IPUtil.class.getResourceAsStream("/ip2region/data.xdb")) {
+            byte[] dbBinStr = FileCopyUtils.copyToByteArray(ris);
+            searcher = Searcher.newWithBuffer(dbBinStr);
+            log.info("create content cached searcher success");
+        } catch (IOException e) {
+            log.error("failed to create content cached searcher", e);
+        }
+    }
+
     /**
      * 获取 IP 地址（xdb模式实现）
      *
@@ -35,29 +47,6 @@ public class IPUtil {
      */
     @SneakyThrows
     public static String getIpAddr(String ip) {
-//        URL resourceUrl = Thread.currentThread().getContextClassLoader().getResource("ip/ip2region.xdb");
-//        assert resourceUrl != null;
-//        String path = resourceUrl.getPath();
-        Resource resource = new ClassPathResource("ip/ip2region.xdb");
-        String dbPath = resource.getFile().getPath();
-        // 1、从 dbPath 加载整个 xdb 到内存。
-        byte[] cBuff;
-        try {
-            cBuff = Searcher.loadContentFromFile(dbPath);
-        } catch (Exception e) {
-            log.error("failed to load content from {}", dbPath, e);
-            return StringPools.EMPTY;
-        }
-
-        // 2、使用上述的 cBuff 创建一个完全基于内存的查询对象。
-        Searcher searcher;
-        try {
-            searcher = Searcher.newWithBuffer(cBuff);
-        } catch (Exception e) {
-            log.error("failed to create content cached searcher", e);
-            return StringPools.EMPTY;
-        }
-
         // 3、查询
         try {
             return searcher.search(ip);
