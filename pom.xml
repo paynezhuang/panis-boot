@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- SpringBoot 版本 -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.2.4</version>
+        <relativePath/>
+    </parent>
+
+    <groupId>com.izpan</groupId>
+    <artifactId>panis-boot</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <description>PanisBoot 后台管理项目</description>
+
+    <packaging>pom</packaging>
+    <modules>
+        <!-- 基础模块 -->
+        <module>panis-boot-common</module>
+        <!-- 基础配置模块 -->
+        <module>panis-boot-infrastructure</module>
+        <!-- 业务模块 -->
+        <module>panis-boot-modules</module>
+        <!-- 后台管理 -->
+        <module>panis-boot-admin</module>
+    </modules>
+
+
+    <!-- 资源属性 -->
+    <properties>
+        <!-- Java 版本 -->
+        <java.version>21</java.version>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <maven.plugin.version>3.13.0</maven.plugin.version>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <!-- SpringBoot -->
+
+        <!-- 其他工具版本 -->
+        <hutool.version>5.8.27</hutool.version>
+        <knife4j.version>4.5.0</knife4j.version>
+        <java.jwt.version>4.4.0</java.jwt.version>
+        <jsr310.version>2.17.0</jsr310.version>
+        <oshi.version>6.6.0</oshi.version>
+        <ip2region.version>2.7.0</ip2region.version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <!-- Modules -->
+            <dependency>
+                <groupId>com.izpan</groupId>
+                <artifactId>panis-boot-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.izpan</groupId>
+                <artifactId>panis-boot-infrastructure</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.izpan</groupId>
+                <artifactId>panis-boot-modules</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.izpan</groupId>
+                <artifactId>panis-boot-admin</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- Hutool -->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-extra</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-crypto</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+
+            <!-- knife4j swagger -->
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-openapi3-jakarta-spring-boot-starter</artifactId>
+                <version>${knife4j.version}</version>
+            </dependency>
+
+            <!-- Jackson Datatype -->
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-jsr310</artifactId>
+                <version>${jsr310.version}</version>
+            </dependency>
+
+            <!-- 系统监控 Core -->
+            <dependency>
+                <groupId>com.github.oshi</groupId>
+                <artifactId>oshi-core</artifactId>
+                <version>${oshi.version}</version>
+            </dependency>
+
+            <!-- ip2region -->
+            <dependency>
+                <groupId>org.lionsoul</groupId>
+                <artifactId>ip2region</artifactId>
+                <version>${ip2region.version}</version>
+            </dependency>
+
+            <!-- Starter -->
+            <dependency>
+                <groupId>com.izpan</groupId>
+                <artifactId>panis-boot-starter-common</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.izpan</groupId>
+                <artifactId>panis-boot-starter-code-generator</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.izpan</groupId>
+                <artifactId>panis-boot-starter-database-mybatis-plus</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.izpan</groupId>
+                <artifactId>panis-boot-starter-database-mysql</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.izpan</groupId>
+                <artifactId>panis-boot-starter-database-redis</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.izpan</groupId>
+                <artifactId>panis-boot-starter-sa-token</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <finalName>${project.name}-${project.version}</finalName>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**/*.xml</include>
+                </includes>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.plugin.version}</version>
+                <configuration>
+                    <source>21</source>
+                    <target>21</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <compilerArgs>
+                        <arg>-parameters</arg>
+                        <arg>-J--add-opens java.base/java.lang=ALL-UNNAMED</arg>
+                        <arg>-J--add-opens java.base/jdk.internal.misc=ALL-UNNAMED</arg>
+                        <arg>-J-Dio.netty.tryReflectionSetAccessible=true</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <!-- 配置不同的profile，对应不同的生产环境 -->
+    <profiles>
+        <profile>
+            <!-- 开发 -->
+            <id>dev</id>
+            <properties>
+                <env>mybatis,dev</env>
+                <maven.test.skip>true</maven.test.skip>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                        <filtering>true</filtering>
+                    </resource>
+                </resources>
+            </build>
+        </profile>
+        <profile>
+            <!-- 生产 -->
+            <id>prod</id>
+            <properties>
+                <env>mybatis,prod</env>
+                <maven.test.skip>true</maven.test.skip>
+            </properties>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources</directory>
+                        <filtering>true</filtering>
+                    </resource>
+                </resources>
+            </build>
+        </profile>
+    </profiles>
+
+</project>

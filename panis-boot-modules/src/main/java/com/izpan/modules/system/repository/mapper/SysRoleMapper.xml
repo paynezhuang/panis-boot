@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.izpan.modules.system.repository.mapper.SysRoleMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="SysRoleResultMap" type="com.izpan.modules.system.domain.entity.SysRole">
+        <result column="parent_id" property="parentId"/>
+        <result column="role_name" property="roleName"/>
+        <result column="role_code" property="roleCode"/>
+        <result column="description" property="description"/>
+        <result column="sort" property="sort"/>
+        <result column="status" property="status"/>
+        <result column="id" property="id"/>
+        <result column="create_user" property="createUser"/>
+        <result column="create_user_id" property="createUserId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="update_user_id" property="updateUserId"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="is_deleted" property="isDeleted"/>
+    </resultMap>
+
+
+    <!-- 通用查询结果列 -->
+    <sql id="SysRoleColumnList">
+        id,
+        create_user,
+        create_user_id,
+        create_time,
+        update_user,
+        update_user_id,
+        update_time,
+        is_deleted,
+        parent_id, role_name, role_code, description, sort, status
+    </sql>
+
+    <select id="queryRoleListWithUserId" resultType="com.izpan.modules.system.domain.entity.SysRole">
+        SELECT r.*
+        FROM sys_role r
+                 INNER JOIN sys_user_role ur ON r.id = ur.role_id
+            AND r.is_deleted = 0
+        WHERE ur.is_deleted = 0
+          AND r.status = 1
+          AND ur.user_id = #{userId}
+        ORDER BY r.sort
+    </select>
+
+</mapper>

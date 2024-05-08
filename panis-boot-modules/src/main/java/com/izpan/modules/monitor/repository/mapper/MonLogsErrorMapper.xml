@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.izpan.modules.monitor.repository.mapper.MonLogsErrorMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="MonLogsErrorResultMap" type="com.izpan.modules.monitor.domain.entity.MonLogsError">
+        <result column="request_id" property="requestId"/>
+        <result column="ip" property="ip"/>
+        <result column="ip_addr" property="ipAddr"/>
+        <result column="user_agent" property="userAgent"/>
+        <result column="request_uri" property="requestUri"/>
+        <result column="request_method" property="requestMethod"/>
+        <result column="content_type" property="contentType"/>
+        <result column="operation" property="operation"/>
+        <result column="method_name" property="methodName"/>
+        <result column="method_params" property="methodParams"/>
+        <result column="use_time" property="useTime"/>
+        <result column="exception_message" property="exceptionMessage"/>
+        <result column="exception_class" property="exceptionClass"/>
+        <result column="line" property="line"/>
+        <result column="stack_trace" property="stackTrace"/>
+        <result column="id" property="id"/>
+        <result column="create_user" property="createUser"/>
+        <result column="create_user_id" property="createUserId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="update_user_id" property="updateUserId"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="is_deleted" property="isDeleted"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="MonLogsErrorColumnList">
+        id,
+        create_user,
+        create_user_id,
+        create_time,
+        update_user,
+        update_user_id,
+        update_time,
+        is_deleted,
+        request_id, ip, ip_addr, user_agent, request_uri, request_method, content_type, operation, method_name, method_params, use_time, exception_message, exception_class, line, stack_trace
+    </sql>
+
+</mapper>
