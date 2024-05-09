@@ -154,6 +154,17 @@
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>application*.yml</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>application.yml</include>
+                    <include>application-${env}.yml</include>
+                </includes>
             </resource>
             <resource>
                 <directory>src/main/java</directory>
@@ -188,36 +199,20 @@
             <!-- 开发 -->
             <id>dev</id>
             <properties>
-                <env>mybatis,dev</env>
+                <env>dev</env>
                 <maven.test.skip>true</maven.test.skip>
             </properties>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
-            <build>
-                <resources>
-                    <resource>
-                        <directory>src/main/resources</directory>
-                        <filtering>true</filtering>
-                    </resource>
-                </resources>
-            </build>
         </profile>
         <profile>
             <!-- 生产 -->
             <id>prod</id>
             <properties>
-                <env>mybatis,prod</env>
+                <env>prod</env>
                 <maven.test.skip>true</maven.test.skip>
             </properties>
-            <build>
-                <resources>
-                    <resource>
-                        <directory>src/main/resources</directory>
-                        <filtering>true</filtering>
-                    </resource>
-                </resources>
-            </build>
         </profile>
     </profiles>
 

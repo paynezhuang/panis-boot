@@ -9,6 +9,7 @@ spring:
 server:
   # 服务端口
   port: 9999
+
 # springdoc-openapi项目配置
 springdoc:
   swagger-ui:
@@ -36,3 +37,18 @@ knife4j:
     enable-footer: false
     enable-footer-custom: true
     footer-custom-content: PanisBoot - Copyright 2023 [IZPAN.COM](https://izpan.com) | 鸣谢 [knife4j](https://gitee.com/xiaoym/knife4j)
+
+# mybatis plus 配置
+mybatis-plus:
+  mapper-locations: classpath:com/izpan/modules/*/repository/mapper/*Mapper.xml
+  typeAliasesPackage: com.izpan.modules.**.domain.entity
+  global-config:
+    banner: false
+    db-config:
+      # 主键类型
+      id-type: assign_id
+      # 字段策略
+      insert-strategy: not_null
+      update-strategy: not_null
+      table-underline: true
+      logic-delete-field: is_deleted
