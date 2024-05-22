@@ -124,6 +124,9 @@ public class SysRolePermissionServiceImpl extends ServiceImpl<SysRolePermissionM
                 .eq(SysRolePermission::getPermissionId, permissionId);
         List<SysRolePermission> sysRolePermissions = baseMapper.selectList(inQueryWrapper);
         sysRolePermissions.stream().map(SysRolePermission::getRoleId).toList()
-                .forEach(roleId -> RedisUtil.del(SystemCacheConstant.rolePermissionResourcesKey(roleId)));
+                .forEach(roleId -> {
+                    RedisUtil.del(SystemCacheConstant.rolePermissionListKey(roleId));
+                    RedisUtil.del(SystemCacheConstant.rolePermissionResourcesKey(roleId));
+                });
     }
 }
