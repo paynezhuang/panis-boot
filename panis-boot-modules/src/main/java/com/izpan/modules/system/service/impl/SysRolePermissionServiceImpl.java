@@ -24,6 +24,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -103,12 +104,13 @@ public class SysRolePermissionServiceImpl extends ServiceImpl<SysRolePermissionM
     @Cacheable(value = SystemCacheConstant.SYSTEM_ROLE_PERMISSION_RESOURCES, key = "#roleId")
     public List<String> queryPermissionResourcesWithRoleId(Long roleId) {
         List<SysPermissionBO> sysPermissionBOS = sysPermissionService.queryPermissionListWithRoleId(roleId);
-        return sysPermissionBOS.stream()
+        // https://github.com/spring-projects/spring-data-redis/issues/2697
+        return new ArrayList<>(sysPermissionBOS.stream()
                 .map(SysPermission::getResource)
                 .flatMap(resource -> Streams.stream(Splitter.on(StringPools.SEMICOLON)
                         .trimResults().omitEmptyStrings().split(resource)))
                 .distinct()
-                .toList();
+                .toList());
     }
 
     @Override
