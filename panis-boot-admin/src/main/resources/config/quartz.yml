@@ -1,0 +1,43 @@
+spring:
+  quartz:
+    # 将任务保存到数据库
+    job-store-type: jdbc
+    # 程序结束时会等待quartz相关内容结束
+    wait-for-jobs-to-complete-on-shutdown: true
+    # 启动时更新已存在的job
+    overwrite-existing-jobs: true
+    jdbc:
+      # 数据库架构初始化模式: never 从不进行初始化,always 每次都清空数据库进行初始化,embedded 只初始化内存数据库（默认值）
+      initialize-schema: never
+    properties:
+      org:
+        quartz:
+          scheduler:
+            # 实例名
+            instanceName: scheduler
+            # 实例编号自动生成
+            instanceId: AUTO
+          jobStore:
+            # 数据保存方式为数据库持久化
+            class: org.springframework.scheduling.quartz.LocalDataSourceJobStore
+            # 数据库代理类
+            driverDelegateClass: org.quartz.impl.jdbcjobstore.StdJDBCDelegate
+            # 数据库表前缀
+            tablePrefix: mon_qrtz_ #数据表的前缀
+            # 是否以集群方式运行
+            isClustered: true
+            # 调度实例失效的检查时间间隔，单位毫秒
+            clusterCheckinInterval: 10000
+            # JobDataMaps是否都为String类型
+            useProperties: true
+            # 最大能忍受的触发超时时间，单位毫秒
+            misfireThreshold: 60000
+          threadPool:
+            # 连接池实现类
+            class: org.quartz.simpl.SimpleThreadPool
+            # 线程数量
+            threadCount: 20
+            # 线程优先级
+            threadPriority: 5
+            # 配置是否启动自动加载数据库内的定时任务，默认true
+            threadsInheritContextClassLoaderOfInitializingThread: true

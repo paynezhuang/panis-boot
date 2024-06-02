@@ -1,0 +1,14 @@
+# mybatis plus 配置
+mybatis-plus:
+  mapper-locations: classpath:com/izpan/modules/*/repository/mapper/*Mapper.xml
+  typeAliasesPackage: com.izpan.modules.**.domain.entity
+  global-config:
+    banner: false
+    db-config:
+      # 主键类型
+      id-type: assign_id
+      # 字段策略
+      insert-strategy: not_null
+      update-strategy: not_null
+      table-underline: true
+      logic-delete-field: is_deleted

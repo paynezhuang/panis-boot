@@ -24,17 +24,17 @@ public interface I${entity}Facade {
     /**
     * 根据 ID 获取详情信息
     *
-    * @param id 用户ID
-    * @return {@link ${entity}VO} 用户 VO 对象
+    * @param id ${table.comment!}ID
+    * @return {@link ${entity}VO} ${table.comment!} VO 对象
     * @author payne.zhuang
     * @CreateTime ${date} 15:10
     */
     ${entity}VO get(Long id);
 
     /**
-    * 新增用户
+    * 新增${table.comment!}
     *
-    * @param ${table.entityPath!}AddDTO 新增用户 DTO 对象
+    * @param ${table.entityPath!}AddDTO 新增${table.comment!} DTO 对象
     * @return {@link Boolean} 结果
     * @author payne.zhuang
     * @CreateTime ${date} 15:10
@@ -42,7 +42,7 @@ public interface I${entity}Facade {
     boolean add(${entity}AddDTO ${table.entityPath!}AddDTO);
 
     /**
-    * 编辑更新用户信息
+    * 编辑更新${table.comment!}信息
     *
     * @param ${table.entityPath!}UpdateDTO 编辑更新 DTO 对象
     * @return {@link Boolean} 结果
@@ -52,7 +52,7 @@ public interface I${entity}Facade {
     boolean update(${entity}UpdateDTO ${table.entityPath!}UpdateDTO);
 
     /**
-    * 批量删除用户信息
+    * 批量删除${table.comment!}信息
     *
     * @param ${table.entityPath!}DeleteDTO 删除 DTO 对象
     * @return @return {@link Boolean} 结果

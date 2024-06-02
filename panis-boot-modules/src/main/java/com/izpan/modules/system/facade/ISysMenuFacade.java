@@ -9,7 +9,6 @@ import com.izpan.modules.system.domain.dto.menu.SysMenuUpdateDTO;
 import com.izpan.modules.system.domain.vo.SysMenuEditVO;
 import com.izpan.modules.system.domain.vo.SysMenuPermissionVO;
 import com.izpan.modules.system.domain.vo.SysMenuTreeVO;
-import com.izpan.modules.system.domain.vo.SysMenuVO;
 
 import java.util.List;
 

@@ -55,7 +55,6 @@ public class OperationLogAspect {
      */
     private final ThreadLocal<Long> startTime = new ThreadLocal<>();
 
-
     @Resource
     private IMonLogsOperationFacade monLogsOperationFacade;
 

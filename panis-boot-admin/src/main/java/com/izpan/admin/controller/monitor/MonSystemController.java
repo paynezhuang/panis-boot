@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * 系统服务监控 门面接口层
+ * 系统服务监控 Controller 控制层
  *
  * @Author payne.zhuang <paynezhuang@gmail.com>
  * @ProjectName panis-boot

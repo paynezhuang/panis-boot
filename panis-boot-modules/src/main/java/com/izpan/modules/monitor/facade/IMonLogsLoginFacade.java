@@ -33,17 +33,17 @@ public interface IMonLogsLoginFacade {
     /**
      * 根据 ID 获取详情信息
      *
-     * @param id 用户ID
-     * @return {@link MonLogsLoginVO} 用户 VO 对象
+     * @param id 登录日志ID
+     * @return {@link MonLogsLoginVO} 登录日志 VO 对象
      * @author payne.zhuang
      * @CreateTime 2024-05-05 15:10
      */
     MonLogsLoginVO get(Long id);
 
     /**
-     * 新增用户
+     * 新增登录日志
      *
-     * @param monLogsLoginAddDTO 新增用户 DTO 对象
+     * @param monLogsLoginAddDTO 新增登录日志 DTO 对象
      * @return {@link Boolean} 结果
      * @author payne.zhuang
      * @CreateTime 2024-05-05 15:10
@@ -51,7 +51,7 @@ public interface IMonLogsLoginFacade {
     boolean add(MonLogsLoginAddDTO monLogsLoginAddDTO);
 
     /**
-     * 编辑更新用户信息
+     * 编辑更新登录日志信息
      *
      * @param monLogsLoginUpdateDTO 编辑更新 DTO 对象
      * @return {@link Boolean} 结果
@@ -61,7 +61,7 @@ public interface IMonLogsLoginFacade {
     boolean update(MonLogsLoginUpdateDTO monLogsLoginUpdateDTO);
 
     /**
-     * 批量删除用户信息
+     * 批量删除登录日志信息
      *
      * @param monLogsLoginDeleteDTO 删除 DTO 对象
      * @return @return {@link Boolean} 结果

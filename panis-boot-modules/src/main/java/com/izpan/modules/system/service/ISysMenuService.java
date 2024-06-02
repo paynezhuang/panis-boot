@@ -31,7 +31,6 @@ public interface ISysMenuService extends IService<SysMenu> {
     /**
      * 获取所有菜单信息
      *
-     * @param sysMenuBO BO 查询对象
      * @return {@link List} 菜单列表
      * @author payne.zhuang
      * @CreateTime 2024-04-17 21:05

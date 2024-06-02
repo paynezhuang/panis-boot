@@ -8,7 +8,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.2.4</version>
+        <version>3.3.0</version>
         <relativePath/>
     </parent>
 
@@ -43,11 +43,11 @@
         <!-- SpringBoot -->
 
         <!-- 其他工具版本 -->
-        <hutool.version>5.8.27</hutool.version>
+        <hutool.version>5.8.28</hutool.version>
         <knife4j.version>4.5.0</knife4j.version>
         <java.jwt.version>4.4.0</java.jwt.version>
-        <jsr310.version>2.17.0</jsr310.version>
-        <oshi.version>6.6.0</oshi.version>
+        <jsr310.version>2.17.1</jsr310.version>
+        <oshi.version>6.6.1</oshi.version>
         <ip2region.version>2.7.0</ip2region.version>
     </properties>
 
@@ -146,6 +146,11 @@
                 <artifactId>panis-boot-starter-sa-token</artifactId>
                 <version>${project.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.izpan</groupId>
+                <artifactId>panis-boot-starter-job-quartz</artifactId>
+                <version>${project.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -184,6 +189,7 @@
                     <encoding>${project.build.sourceEncoding}</encoding>
                     <compilerArgs>
                         <arg>-parameters</arg>
+                        <arg>-Xlint:-options</arg>
                         <arg>-J--add-opens java.base/java.lang=ALL-UNNAMED</arg>
                         <arg>-J--add-opens java.base/jdk.internal.misc=ALL-UNNAMED</arg>
                         <arg>-J-Dio.netty.tryReflectionSetAccessible=true</arg>

@@ -33,17 +33,17 @@ public interface IMonLogsOperationFacade {
     /**
      * 根据 ID 获取详情信息
      *
-     * @param id 用户ID
-     * @return {@link MonLogsOperationVO} 用户 VO 对象
+     * @param id 操作日志ID
+     * @return {@link MonLogsOperationVO} 操作日志 VO 对象
      * @author payne.zhuang
      * @CreateTime 2024-05-07 15:10
      */
     MonLogsOperationVO get(Long id);
 
     /**
-     * 新增用户
+     * 新增操作日志
      *
-     * @param monLogsOperationAddDTO 新增用户 DTO 对象
+     * @param monLogsOperationAddDTO 新增操作日志 DTO 对象
      * @return {@link Boolean} 结果
      * @author payne.zhuang
      * @CreateTime 2024-05-07 15:10
@@ -51,7 +51,7 @@ public interface IMonLogsOperationFacade {
     boolean add(MonLogsOperationAddDTO monLogsOperationAddDTO);
 
     /**
-     * 编辑更新用户信息
+     * 编辑更新操作日志信息
      *
      * @param monLogsOperationUpdateDTO 编辑更新 DTO 对象
      * @return {@link Boolean} 结果
@@ -61,7 +61,7 @@ public interface IMonLogsOperationFacade {
     boolean update(MonLogsOperationUpdateDTO monLogsOperationUpdateDTO);
 
     /**
-     * 批量删除用户信息
+     * 批量删除操作日志信息
      *
      * @param monLogsOperationDeleteDTO 删除 DTO 对象
      * @return @return {@link Boolean} 结果

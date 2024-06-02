@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.izpan.modules.monitor.repository.mapper.MonLogsSchedulerMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="MonLogsSchedulerResultMap" type="com.izpan.modules.monitor.domain.entity.MonLogsScheduler">
+        <result column="job_name" property="jobName" />
+        <result column="job_group" property="jobGroup" />
+        <result column="trigger_name" property="triggerName" />
+        <result column="trigger_group" property="triggerGroup" />
+        <result column="use_time" property="useTime" />
+        <result column="status" property="status" />
+        <result column="exception_message" property="exceptionMessage" />
+        <result column="exception_class" property="exceptionClass" />
+        <result column="line" property="line" />
+        <result column="stack_trace" property="stackTrace" />
+        <result column="id" property="id" />
+        <result column="create_user" property="createUser" />
+        <result column="create_user_id" property="createUserId" />
+        <result column="create_time" property="createTime" />
+        <result column="update_user" property="updateUser" />
+        <result column="update_user_id" property="updateUserId" />
+        <result column="update_time" property="updateTime" />
+        <result column="is_deleted" property="isDeleted" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="MonLogsSchedulerColumnList">
+        id,
+        create_user,
+        create_user_id,
+        create_time,
+        update_user,
+        update_user_id,
+        update_time,
+        is_deleted,
+        job_name, job_group, trigger_name, trigger_group, use_time, status, exception_message, exception_class, line, stack_trace
+    </sql>
+
+</mapper>

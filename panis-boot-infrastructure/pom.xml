@@ -62,9 +62,15 @@
                 </exclusion>
             </exclusions>
         </dependency>
+        <!-- Sa-Token -->
         <dependency>
             <groupId>com.izpan</groupId>
             <artifactId>panis-boot-starter-sa-token</artifactId>
+        </dependency>
+        <!-- Job Quartz -->
+        <dependency>
+            <groupId>com.izpan</groupId>
+            <artifactId>panis-boot-starter-job-quartz</artifactId>
         </dependency>
         <!-- PanisBoot Starter End -->
     </dependencies>

@@ -1,6 +1,7 @@
 package com.izpan.infrastructure.holder;
 
 import cn.dev33.satoken.exception.NotLoginException;
+import cn.dev33.satoken.exception.NotWebContextException;
 import cn.dev33.satoken.stp.StpUtil;
 import com.izpan.common.domain.LoginUser;
 import org.springframework.stereotype.Component;
@@ -32,7 +33,7 @@ public class GlobalUserHolder {
     public static LoginUser getUser() {
         try {
             return (LoginUser) StpUtil.getSession().get("user");
-        } catch (NotLoginException exception) {
+        } catch (NotLoginException | NotWebContextException exception) {
             return LoginUser.builder().id(-1L).realName("系统用户").build();
         }
     }

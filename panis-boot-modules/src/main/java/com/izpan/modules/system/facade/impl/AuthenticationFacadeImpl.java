@@ -95,9 +95,13 @@ public class AuthenticationFacadeImpl implements IAuthenticationFacade {
             List<Long> currentUserRoleIds = GlobalUserHolder.getRoleIds();
             // 获取当前用户的菜单列表以及权限按钮列表
             List<SysMenuBO> sysMenuBOS = Lists.newArrayList();
-            currentUserRoleIds.stream().map(sysRoleMenuService::queryMenuListWithRoleId).forEach(sysMenuBOS::addAll);
+            currentUserRoleIds.stream()
+                    .map(sysRoleMenuService::queryMenuListWithRoleId)
+                    .forEach(sysMenuBOS::addAll);
             List<SysPermissionBO> sysPermissionBOS = Lists.newArrayList();
-            currentUserRoleIds.stream().map(sysRolePermissionService::queryPermissionListWithRoleId).forEach(sysPermissionBOS::addAll);
+            currentUserRoleIds.stream()
+                    .map(sysRolePermissionService::queryPermissionListWithRoleId)
+                    .forEach(sysPermissionBOS::addAll);
             // 将权限集合分组成菜单对应按钮集合
             Map<Long, List<String>> menuPermissionMap = transform(sysPermissionBOS);
             // 返回路由对象

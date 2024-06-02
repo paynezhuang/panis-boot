@@ -1,6 +1,7 @@
 package com.izpan.modules.system.domain.dto.menu;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.izpan.common.domain.KVPairs;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -101,29 +102,12 @@ public class SysUserRouteVO implements Serializable {
         private Integer fixedIndexInTab;
 
         @Schema(description = "路由查询参数")
-        private List<QueryKVParis> query;
+        private List<KVPairs> query;
 
         @Schema(description = "路由权限按钮")
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
         private List<String> permissions;
 
-    }
-
-    @Data
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Schema(name = "QueryParis", description = "路由查询参数")
-    public static class QueryKVParis implements Serializable {
-
-        @Serial
-        private static final long serialVersionUID = -8961492109335677992L;
-
-        @Schema(description = "键")
-        private String key;
-
-        @Schema(description = "值")
-        private String value;
     }
 }
 

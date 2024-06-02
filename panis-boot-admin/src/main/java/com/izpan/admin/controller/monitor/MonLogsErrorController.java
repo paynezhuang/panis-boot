@@ -12,7 +12,6 @@ import com.izpan.modules.monitor.domain.vo.MonLogsErrorVO;
 import com.izpan.modules.monitor.facade.IMonLogsErrorFacade;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;

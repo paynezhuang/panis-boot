@@ -1,7 +1,7 @@
 package com.izpan.modules.system.domain.vo;
 
+import com.izpan.common.domain.KVPairs;
 import com.izpan.infrastructure.domain.BaseVO;
-import com.izpan.modules.system.domain.dto.menu.SysMenuQueryKVPairsDTO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -76,7 +76,7 @@ public class SysMenuEditVO extends BaseVO {
     private Integer fixedIndexInTab;
 
     @Schema(description = "路由查询参数 key value 集合")
-    private List<SysMenuQueryKVPairsDTO> query;
+    private List<KVPairs> query;
 
     @Schema(description = "是否启用(0:禁用,1:启用)")
     private String status;

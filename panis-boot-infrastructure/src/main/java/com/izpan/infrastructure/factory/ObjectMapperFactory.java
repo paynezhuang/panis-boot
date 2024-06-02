@@ -26,6 +26,8 @@ import java.util.TimeZone;
  * @ClassName com.izpan.infrastructure.factory.ObjectMapperFactory
  * @CreateTime 2024/4/21 - 20:23
  */
+
+@SuppressWarnings("java:S125")
 public class ObjectMapperFactory {
 
     private static ObjectMapper objectMapper;

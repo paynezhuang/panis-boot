@@ -33,17 +33,17 @@ public interface IMonLogsErrorFacade {
     /**
      * 根据 ID 获取详情信息
      *
-     * @param id 用户ID
-     * @return {@link MonLogsErrorVO} 用户 VO 对象
+     * @param id 异常错误ID
+     * @return {@link MonLogsErrorVO} 异常错误 VO 对象
      * @author payne.zhuang
      * @CreateTime 2024-05-07 15:10
      */
     MonLogsErrorVO get(Long id);
 
     /**
-     * 新增用户
+     * 新增异常错误
      *
-     * @param monLogsErrorAddDTO 新增用户 DTO 对象
+     * @param monLogsErrorAddDTO 新增异常错误 DTO 对象
      * @return {@link Boolean} 结果
      * @author payne.zhuang
      * @CreateTime 2024-05-07 15:10
@@ -51,7 +51,7 @@ public interface IMonLogsErrorFacade {
     boolean add(MonLogsErrorAddDTO monLogsErrorAddDTO);
 
     /**
-     * 编辑更新用户信息
+     * 编辑更新异常错误信息
      *
      * @param monLogsErrorUpdateDTO 编辑更新 DTO 对象
      * @return {@link Boolean} 结果
@@ -61,7 +61,7 @@ public interface IMonLogsErrorFacade {
     boolean update(MonLogsErrorUpdateDTO monLogsErrorUpdateDTO);
 
     /**
-     * 批量删除用户信息
+     * 批量删除异常错误信息
      *
      * @param monLogsErrorDeleteDTO 删除 DTO 对象
      * @return @return {@link Boolean} 结果

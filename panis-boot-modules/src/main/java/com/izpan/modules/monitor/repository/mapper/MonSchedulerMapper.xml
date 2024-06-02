@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.izpan.modules.monitor.repository.mapper.MonSchedulerMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="MonSchedulerBOMap" type="com.izpan.modules.monitor.domain.bo.MonSchedulerBO">
+        <result column="job_name" property="jobName"/>
+        <result column="job_group" property="jobGroup"/>
+        <result column="job_class_name" property="jobClassName"/>
+        <result column="description" property="description"/>
+        <result column="trigger_name" property="triggerName"/>
+        <result column="trigger_group" property="triggerGroup"/>
+        <result column="cron_expression" property="cronExpression"/>
+        <result column="trigger_description" property="triggerDescription"/>
+        <result column="trigger_state" property="triggerState"/>
+        <result column="id" property="id"/>
+        <result column="create_user" property="createUser"/>
+        <result column="create_user_id" property="createUserId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="update_user_id" property="updateUserId"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="is_deleted" property="isDeleted"/>
+    </resultMap>
+
+    <sql id="select">
+        SELECT ms.id,
+               ms.job_name ,
+               ms.job_group,
+               ms.job_data,
+               ms.trigger_name,
+               ms.trigger_group,
+               ms.trigger_data,
+               mqjd.JOB_CLASS_NAME,
+               mqjd.DESCRIPTION,
+               mqct.CRON_EXPRESSION ,
+               mqt.DESCRIPTION AS TRIGGER_DESCRIPTION,
+               mqt.TRIGGER_STATE,
+               ms.create_time,
+               ms.create_user,
+               ms.create_user_id
+        FROM mon_scheduler ms
+             LEFT JOIN mon_qrtz_JOB_DETAILS mqjd
+               ON ms.job_name = mqjd.JOB_NAME
+               AND ms.job_group = mqjd.JOB_GROUP
+             LEFT JOIN mon_qrtz_TRIGGERS mqt
+               ON ms.job_name = mqt.JOB_NAME
+               AND ms.job_group = mqt.JOB_GROUP
+             LEFT JOIN mon_qrtz_CRON_TRIGGERS mqct
+               ON mqt.TRIGGER_NAME = mqct.TRIGGER_NAME
+               AND mqt.TRIGGER_GROUP = mqct.TRIGGER_GROUP
+    </sql>
+
+    <select id="listMonSchedulerPage" resultMap="MonSchedulerBOMap">
+        <include refid="select"/>
+        <where>
+            ms.is_deleted = 0
+            <if test="monSchedulerBO.jobName != null and monSchedulerBO.jobName != ''">
+                AND ms.job_name LIKE CONCAT('%', #{monSchedulerBO.jobName}, '%')
+            </if>
+            <if test="monSchedulerBO.jobGroup != null and monSchedulerBO.jobGroup != ''">
+                AND ms.job_group LIKE CONCAT('%', #{monSchedulerBO.jobGroup}, '%')
+            </if>
+        </where>
+    </select>
+
+    <resultMap id="MonSchedulerBOGetIdMap" type="com.izpan.modules.monitor.domain.bo.MonSchedulerBO" extends="MonSchedulerBOMap">
+        <result column="job_data" property="jobData"
+                typeHandler="com.izpan.infrastructure.typehandler.JobDataTypeHandler"/>
+        <result column="trigger_data" property="triggerData"
+                typeHandler="com.izpan.infrastructure.typehandler.JobDataTypeHandler"/>
+    </resultMap>
+
+    <select id="queryById" resultMap="MonSchedulerBOGetIdMap">
+        <include refid="select"/>
+        WHERE ms.id = #{id} AND ms.is_deleted = 0
+    </select>
+</mapper>

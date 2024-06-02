@@ -3,7 +3,6 @@ package com.izpan.modules.system.facade;
 import com.izpan.modules.system.domain.dto.LoginFormDTO;
 import com.izpan.modules.system.domain.dto.menu.SysUserRouteVO;
 import com.izpan.modules.system.domain.dto.user.SysUserUpdateCurrentInfoDTO;
-import com.izpan.modules.system.domain.vo.SysUserInfoVO;
 import com.izpan.modules.system.domain.vo.SysUserVO;
 
 import java.util.Map;

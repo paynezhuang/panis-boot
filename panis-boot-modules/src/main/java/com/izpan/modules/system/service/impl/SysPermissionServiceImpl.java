@@ -10,7 +10,6 @@ import com.izpan.common.exception.BizException;
 import com.izpan.common.pool.StringPools;
 import com.izpan.common.util.CglibUtil;
 import com.izpan.infrastructure.page.PageQuery;
-import com.izpan.infrastructure.util.GsonUtil;
 import com.izpan.infrastructure.util.RedisUtil;
 import com.izpan.modules.system.domain.bo.SysPermissionBO;
 import com.izpan.modules.system.domain.entity.SysPermission;
