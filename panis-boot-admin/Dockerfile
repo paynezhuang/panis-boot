@@ -8,7 +8,7 @@ RUN ln -snf /usr/share/zoneinfo/"$TZ" /etc/localtime && echo "$TZ" > /etc/timezo
 # 设置工作目录
 WORKDIR /app
 # 将构建的jar文件复制到镜像中
-COPY target/panis-boot-admin-1.0.0-SNAPSHOT.jar app.jar
+COPY target/panis-boot-admin-1.0.1-SNAPSHOT.jar app.jar
 # 允许外界访问容器的9999端口
 EXPOSE 9999
 # 配置容器启动后执行的命令
