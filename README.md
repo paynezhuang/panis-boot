@@ -1,6 +1,6 @@
 # PanisBoot 后台管理系统
 
-![SpringBoot](https://img.shields.io/badge/Spring%20Boot-3.2-blue.svg)
+![SpringBoot](https://img.shields.io/badge/Spring%20Boot-3.3-blue.svg)
 ![JDK](https://img.shields.io/badge/JDK-21+-blue.svg)
 ![Version](https://img.shields.io/badge/Version-1.0.0--SNAPSHOT-blue.svg)
 [![License](https://img.shields.io/badge/License-Apache%20License%202.0-B9D6AF.svg)](./LICENSE)
@@ -25,14 +25,14 @@ Panis: 名为 Pan , is Pan 反过来 `Panis`，同译为：面包。
 | MyBatis-Plus | 持久层框架     | 3.5.6      |
 | MySQL        | 数据库       | 8.0.35     |
 | Redis        | 缓存        | 7.2.3      |
-| Sa-Token     | 鉴权框架      | 1.37.0     |
+| Sa-Token     | 鉴权框架      | 1.38.0     |
 | Logback      | 日志管理      | 1.5.6      |
 | Knife4j      | 接口文档      | 4.5.0      |
 | Lombok       | 工具库       | 1.18.32    |
 | Jackson      | JSON解析    | 2.15.4     |
-| Gson         | JSON解析    | 2.10.1     |
-| Guava        | Google工具库 | 33.1.0-jre |
-| Hutool       | 工具库       | 5.8.27     |
+| Gson         | JSON解析    | 2.11.0     |
+| Guava        | Google工具库 | 33.2.0-jre |
+| Hutool       | 工具库       | 5.8.28     |
 
 ### 项目源码
 
