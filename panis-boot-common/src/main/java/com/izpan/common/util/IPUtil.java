@@ -31,9 +31,9 @@ public class IPUtil {
         try (InputStream ris = IPUtil.class.getResourceAsStream("/ip2region/data.xdb")) {
             byte[] dbBinStr = FileCopyUtils.copyToByteArray(ris);
             searcher = Searcher.newWithBuffer(dbBinStr);
-            log.info("create content cached searcher success");
+            log.info("Create content cached searcher success");
         } catch (IOException e) {
-            log.error("failed to create content cached searcher", e);
+            log.error("Failed to create content cached searcher", e);
         }
     }
 
@@ -51,7 +51,7 @@ public class IPUtil {
         try {
             return searcher.search(ip);
         } catch (Exception e) {
-            log.error("failed to search({})", ip, e);
+            log.error("Failed to search({})", ip, e);
         }
         return StringPools.EMPTY;
     }
