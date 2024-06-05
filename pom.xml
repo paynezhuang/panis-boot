@@ -159,6 +159,7 @@
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
+                <filtering>true</filtering>
                 <excludes>
                     <exclude>application*.yml</exclude>
                 </excludes>
