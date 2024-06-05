@@ -64,36 +64,41 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
     public boolean addMenuForRoleId(Long roleId, List<Long> menuIds) {
         LambdaQueryWrapper<SysRoleMenu> inQueryWrapper = new LambdaQueryWrapper<SysRoleMenu>()
                 .eq(SysRoleMenu::getRoleId, roleId);
+        // 查找原有权限
         List<SysRoleMenu> originSysRoleMenusList = baseMapper.selectList(inQueryWrapper);
         Set<Long> originMenuIdSet = originSysRoleMenusList.stream()
                 .map(SysRoleMenu::getMenuId).collect(Collectors.toSet());
+        // 前端传输菜单Ids，转换为 Set
         Set<Long> menuIdSet = Sets.newHashSet(menuIds);
-        if (originMenuIdSet.equals(menuIdSet)) return true;
-        // 计算差异，需要增加的菜单
-        Set<Long> addMenuIdSet = Sets.difference(menuIdSet, originMenuIdSet);
-        // 计算差异，需要删除的菜单
-        Set<Long> removeMenuIdSet = Sets.difference(originMenuIdSet, menuIdSet);
-        // 如有删除，则进行删除数据
-        if (!CollectionUtils.isEmpty(removeMenuIdSet)) {
-            LambdaQueryWrapper<SysRoleMenu> removeQueryWrapper = new LambdaQueryWrapper<SysRoleMenu>()
-                    .eq(SysRoleMenu::getRoleId, roleId)
-                    .in(SysRoleMenu::getMenuId, removeMenuIdSet);
-            baseMapper.delete(removeQueryWrapper);
-        }
-        // 根据菜单 ID 找出找出是否有目录的ID，进行移除，无需保存。在查找用户路由时，会填充进入给到前端
-        List<SysMenuBO> parentMenuIds = sysMenuService.queryWithDirectoryList(menuIds);
-        parentMenuIds.stream().map(SysMenuBO::getId).toList().forEach(menuIdSet::remove);
-        // 如有新增，则需要进行新增
-        boolean saveBath = true;
-        if (!CollectionUtils.isEmpty(addMenuIdSet)) {
-            menuIdSet.remove(0L);
-            // 进行新增数据
-            List<SysRoleMenu> saveUserRoleList = addMenuIdSet.stream()
-                    .map(menuId -> new SysRoleMenu(roleId, menuId)).toList();
-            saveBath = super.saveBatch(saveUserRoleList);
-        }
-        sysMenuService.saveRoleMenuToCache(roleId, menuIds);
-        return saveBath;
+        // 处理结果
+        AtomicBoolean saveBath = new AtomicBoolean(true);
+        CollectionUtil.handleDifference(
+                originMenuIdSet,
+                menuIdSet,
+                // 处理增加和删除的菜单
+                (addMenuIdSet, removeMenuIdSet) -> {
+                    // 如有删除，则进行删除数据
+                    if (!CollectionUtils.isEmpty(removeMenuIdSet)) {
+                        LambdaQueryWrapper<SysRoleMenu> removeQueryWrapper = new LambdaQueryWrapper<SysRoleMenu>()
+                                .eq(SysRoleMenu::getRoleId, roleId)
+                                .in(SysRoleMenu::getMenuId, removeMenuIdSet);
+                        baseMapper.delete(removeQueryWrapper);
+                    }
+                    // 根据菜单 ID 找出找出是否有目录的ID，进行移除，无需保存。在查找用户路由时，会填充进入给到前端
+                    List<SysMenuBO> parentMenuIds = sysMenuService.queryWithDirectoryList(menuIds);
+                    parentMenuIds.stream().map(SysMenuBO::getId).toList().forEach(menuIdSet::remove);
+                    // 进行新增数据
+                    if (!CollectionUtils.isEmpty(addMenuIdSet)) {
+                        menuIdSet.remove(0L);
+                        // 进行新增数据
+                        List<SysRoleMenu> saveUserRoleList = addMenuIdSet.stream()
+                                .map(menuId -> new SysRoleMenu(roleId, menuId)).toList();
+                        saveBath.set(super.saveBatch(saveUserRoleList));
+                    }
+                    sysMenuService.saveRoleMenuToCache(roleId, menuIds);
+                }
+        );
+        return saveBath.get();
     }
 
     @Override

@@ -71,30 +71,34 @@ public class SysRolePermissionServiceImpl extends ServiceImpl<SysRolePermissionM
         // 提取权限ID，并进行比较是否相同
         Set<Long> originPermissionSet = originRolePermissionList.stream()
                 .map(SysRolePermission::getPermissionId).collect(Collectors.toSet());
+        // 前端传输权限Ids，转换为 Set
         Set<Long> newPermissionSet = Sets.newHashSet(permissionIds);
-        if (originPermissionSet.equals(newPermissionSet)) return true;
-        // 计算差异，需要增加的权限
-        Set<Long> addPermissionSet = Sets.difference(newPermissionSet, originPermissionSet);
-        // 计算差异，需要删除的权限
-        Set<Long> removePermissionSet = Sets.difference(originPermissionSet, newPermissionSet);
-        // 如有删除，则进行删除数据
-        if (!CollectionUtils.isEmpty(removePermissionSet)) {
-            LambdaQueryWrapper<SysRolePermission> removeQueryWrapper = new LambdaQueryWrapper<SysRolePermission>()
-                    .eq(SysRolePermission::getRoleId, roleId)
-                    .in(SysRolePermission::getPermissionId, removePermissionSet);
-            baseMapper.delete(removeQueryWrapper);
-        }
-        // 如有新数据，则需要进行新增
-        boolean saveBath = true;
-        if (!CollectionUtils.isEmpty(addPermissionSet)) {
-            List<SysRolePermission> addRolePermissionList = addPermissionSet.stream()
-                    .map(permissionId -> new SysRolePermission(roleId, permissionId)).toList();
-            // 进行新增数据
-            saveBath = super.saveBatch(addRolePermissionList);
-        }
-        // 保存角色权限到缓存
-        sysPermissionService.saveRolePermissionToCache(roleId, permissionIds);
-        return saveBath;
+        // 处理结果
+        AtomicBoolean saveBath = new AtomicBoolean(true);
+        CollectionUtil.handleDifference(
+                originPermissionSet,
+                newPermissionSet,
+                // 处理增加和删除的权限
+                (addPermissionSet, removePermissionSet) -> {
+                    // 如有删除，则进行删除数据
+                    if (!CollectionUtils.isEmpty(removePermissionSet)) {
+                        LambdaQueryWrapper<SysRolePermission> removeQueryWrapper = new LambdaQueryWrapper<SysRolePermission>()
+                                .eq(SysRolePermission::getRoleId, roleId)
+                                .in(SysRolePermission::getPermissionId, removePermissionSet);
+                        baseMapper.delete(removeQueryWrapper);
+                    }
+                    // 如有新增，则进行新增数据
+                    if (!CollectionUtils.isEmpty(addPermissionSet)) {
+                        List<SysRolePermission> addRolePermissionList = addPermissionSet.stream()
+                                .map(permissionId -> new SysRolePermission(roleId, permissionId)).toList();
+                        // 进行新增数据
+                        saveBath.set(super.saveBatch(addRolePermissionList));
+                    }
+                    // 保存角色权限到缓存
+                    sysPermissionService.saveRolePermissionToCache(roleId, permissionIds);
+                }
+        );
+        return saveBath.get();
     }
 
     @Override

@@ -34,7 +34,7 @@ public class CodeGenerator {
     // 生成作者
     private static final String AUTHOR = "payne.zhuang <paynezhuang@gmail.com>";
 
-    @SuppressWarnings({"java:S125"})
+    @SuppressWarnings({"java:S125","java:S6437"})
     public static void main(String[] args) {
         // 数据源配置
         FastAutoGenerator.create("jdbc:mysql://127.0.0.1:3306/panis_boot?serverTimezone=GMT%2B8", "root", "root")
