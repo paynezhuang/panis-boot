@@ -17,6 +17,7 @@ import com.izpan.modules.system.service.ISysRoleService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -50,18 +51,21 @@ public class SysRoleFacadeImpl implements ISysRoleFacade {
     }
 
     @Override
+    @Transactional
     public boolean add(SysRoleAddDTO sysRoleAddDTO) {
         SysRoleBO sysRoleBO = CglibUtil.convertObj(sysRoleAddDTO, SysRoleBO::new);
         return sysRoleService.save(sysRoleBO);
     }
 
     @Override
+    @Transactional
     public boolean update(SysRoleUpdateDTO sysRoleUpdateDTO) {
         SysRoleBO sysRoleBO = CglibUtil.convertObj(sysRoleUpdateDTO, SysRoleBO::new);
         return sysRoleService.updateById(sysRoleBO);
     }
 
     @Override
+    @Transactional
     public boolean batchDelete(SysRoleDeleteDTO sysRoleDeleteDTO) {
         SysRoleBO sysRoleBO = CglibUtil.convertObj(sysRoleDeleteDTO, SysRoleBO::new);
         return sysRoleService.removeBatchByIds(sysRoleBO.getIds(), true);

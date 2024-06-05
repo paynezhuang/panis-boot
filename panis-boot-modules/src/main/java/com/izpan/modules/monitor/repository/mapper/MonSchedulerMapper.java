@@ -33,7 +33,7 @@ public interface MonSchedulerMapper extends BaseMapper<MonScheduler> {
      *
      * @param id ID
      * @return {@link MonSchedulerBO} 调度任务对象
-     * @author payne.zhuang <payne.zhuang@gmail.com>
+     * @author payne.zhuang <paynezhuang@gmail.com>
      * @CreateTime 2024-05-21 - 03:09:30
      */
     MonSchedulerBO queryById(Long id);

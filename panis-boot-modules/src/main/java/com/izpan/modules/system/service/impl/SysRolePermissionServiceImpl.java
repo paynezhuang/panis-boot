@@ -8,6 +8,7 @@ import com.google.common.collect.Sets;
 import com.google.common.collect.Streams;
 import com.izpan.common.constants.SystemCacheConstant;
 import com.izpan.common.pool.StringPools;
+import com.izpan.common.util.CollectionUtil;
 import com.izpan.infrastructure.page.PageQuery;
 import com.izpan.infrastructure.util.RedisUtil;
 import com.izpan.modules.system.domain.bo.SysPermissionBO;
@@ -22,11 +23,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 /**
@@ -51,6 +54,7 @@ public class SysRolePermissionServiceImpl extends ServiceImpl<SysRolePermissionM
     }
 
     @Override
+    @Transactional
     public boolean add(SysRolePermissionBO sysRolePermissionBO) {
         List<SysRolePermission> sysRolePermissions = sysRolePermissionBO.getPermissionIds().stream()
                 .map(permissionId -> new SysRolePermission(sysRolePermissionBO.getRoleId(), permissionId)).toList();
@@ -58,6 +62,7 @@ public class SysRolePermissionServiceImpl extends ServiceImpl<SysRolePermissionM
     }
 
     @Override
+    @Transactional
     public boolean addPermissionForRoleId(Long roleId, List<Long> permissionIds) {
         // 查找原有权限
         LambdaQueryWrapper<SysRolePermission> queryWrapper = new LambdaQueryWrapper<SysRolePermission>()

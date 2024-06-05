@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Sets;
 import com.izpan.common.constants.SystemCacheConstant;
 import com.izpan.common.util.CglibUtil;
+import com.izpan.common.util.CollectionUtil;
 import com.izpan.infrastructure.page.PageQuery;
 import com.izpan.infrastructure.util.RedisUtil;
 import com.izpan.modules.system.domain.bo.SysMenuBO;
@@ -20,11 +21,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 /**
@@ -49,6 +52,7 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
     }
 
     @Override
+    @Transactional
     public boolean add(SysRoleMenuBO sysRoleMenuBO) {
         List<SysRoleMenu> sysRoleMenus = sysRoleMenuBO.getMenuIds().stream()
                 .map(menuId -> new SysRoleMenu(sysRoleMenuBO.getRoleId(), menuId)).toList();
@@ -56,6 +60,7 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
     }
 
     @Override
+    @Transactional
     public boolean addMenuForRoleId(Long roleId, List<Long> menuIds) {
         LambdaQueryWrapper<SysRoleMenu> inQueryWrapper = new LambdaQueryWrapper<SysRoleMenu>()
                 .eq(SysRoleMenu::getRoleId, roleId);

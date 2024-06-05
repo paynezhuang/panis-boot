@@ -16,6 +16,7 @@ import com.izpan.modules.system.service.ISysRolePermissionService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -55,12 +56,14 @@ public class SysRolePermissionFacadeImpl implements ISysRolePermissionFacade {
     }
 
     @Override
+    @Transactional
     public boolean update(SysRolePermissionUpdateDTO sysRolePermissionUpdateDTO) {
         SysRolePermissionBO sysRolePermissionBO = CglibUtil.convertObj(sysRolePermissionUpdateDTO, SysRolePermissionBO::new);
         return sysRolePermissionService.updateById(sysRolePermissionBO);
     }
 
     @Override
+    @Transactional
     public boolean batchDelete(SysRolePermissionDeleteDTO sysRolePermissionDeleteDTO) {
         SysRolePermissionBO sysRolePermissionBO = CglibUtil.convertObj(sysRolePermissionDeleteDTO, SysRolePermissionBO::new);
         return sysRolePermissionService.removeBatchByIds(sysRolePermissionBO.getIds(), true);

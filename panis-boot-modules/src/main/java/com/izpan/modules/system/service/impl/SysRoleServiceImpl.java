@@ -24,6 +24,7 @@ import java.util.List;
  */
 @Service
 public class SysRoleServiceImpl extends ServiceImpl<SysRoleMapper, SysRole> implements ISysRoleService {
+
     @Override
     public IPage<SysRole> listSysRolePage(PageQuery pageQuery, SysRoleBO sysRoleBO) {
         var queryWrapper = new LambdaQueryWrapper<SysRole>()

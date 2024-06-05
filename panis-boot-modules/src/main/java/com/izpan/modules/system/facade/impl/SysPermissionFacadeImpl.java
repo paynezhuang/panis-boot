@@ -18,6 +18,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 权限管理 门面接口实现层
@@ -59,6 +60,7 @@ public class SysPermissionFacadeImpl implements ISysPermissionFacade {
     }
 
     @Override
+    @Transactional
     public boolean update(SysPermissionUpdateDTO sysPermissionUpdateDTO) {
         SysPermissionBO sysPermissionBO = CglibUtil.convertObj(sysPermissionUpdateDTO, SysPermissionBO::new);
         boolean update = sysPermissionService.updateById(sysPermissionBO);
@@ -67,6 +69,7 @@ public class SysPermissionFacadeImpl implements ISysPermissionFacade {
     }
 
     @Override
+    @Transactional
     public boolean batchDelete(SysPermissionDeleteDTO sysPermissionDeleteDTO) {
         SysPermissionBO sysPermissionBO = CglibUtil.convertObj(sysPermissionDeleteDTO, SysPermissionBO::new);
         boolean batchByIds = sysPermissionService.removeBatchByIds(sysPermissionBO.getIds(), true);

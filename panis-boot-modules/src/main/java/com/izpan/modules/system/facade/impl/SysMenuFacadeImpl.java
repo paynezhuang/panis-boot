@@ -25,6 +25,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;
 import java.util.List;
@@ -101,6 +102,7 @@ public class SysMenuFacadeImpl implements ISysMenuFacade {
     }
 
     @Override
+    @Transactional
     public boolean add(SysMenuAddDTO sysMenuAddDTO) {
         SysMenuBO sysMenuBO = CglibUtil.convertObj(sysMenuAddDTO, SysMenuBO::new);
         sysMenuBO.setQuery(GsonUtil.toJson(sysMenuAddDTO.getQuery()));
@@ -108,6 +110,7 @@ public class SysMenuFacadeImpl implements ISysMenuFacade {
     }
 
     @Override
+    @Transactional
     public boolean update(SysMenuUpdateDTO sysMenuUpdateDTO) {
         SysMenuBO sysMenuBO = CglibUtil.convertObj(sysMenuUpdateDTO, SysMenuBO::new);
         sysMenuBO.setQuery(GsonUtil.toJson(sysMenuUpdateDTO.getQuery()));
@@ -117,6 +120,7 @@ public class SysMenuFacadeImpl implements ISysMenuFacade {
     }
 
     @Override
+    @Transactional
     public boolean batchDelete(SysMenuDeleteDTO sysMenuDeleteDTO) {
         SysMenuBO sysMenuBO = CglibUtil.convertObj(sysMenuDeleteDTO, SysMenuBO::new);
         boolean removeBatchByIds = sysMenuService.removeBatchByIds(sysMenuBO.getIds(), true);

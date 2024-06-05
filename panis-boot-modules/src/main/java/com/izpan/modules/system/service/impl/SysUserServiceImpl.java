@@ -31,6 +31,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -75,6 +76,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
+    @Transactional
     public boolean addUser(SysUserBO sysUserBO) {
         // 密码盐值
         sysUserBO.setSalt(RandomStringUtils.randomAlphabetic(6));
@@ -88,6 +90,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
+    @Transactional
     public boolean updateUser(SysUserBO sysUserBO) {
         boolean updateById = super.updateById(sysUserBO);
         sysUserRoleService.initUserRoleHandler(sysUserBO.getId(), sysUserBO.getRoleIds());
@@ -97,6 +100,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
+    @Transactional
     public boolean updateCurrentUserInfo(SysUserBO sysUserBO) {
         boolean updateById = super.updateById(sysUserBO);
         // 自我更新个人资料，需要更新缓存资料
@@ -105,6 +109,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
+    @Transactional
     public boolean removeBatchByIds(List<Long> ids) {
         if (!StpUtil.hasRole("ADMIN")) {
             throw new BizException("非管理员禁止删除用户");
@@ -117,6 +122,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
+    @Transactional
     public Map<String, String> userLogin(SysUserBO sysUserBO) {
         MonLogsLogin loginLogs = initLoginLog(sysUserBO);
         SysUser userForUserName = baseMapper.getUserByUserName(sysUserBO.getUserName());
@@ -201,6 +207,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     }
 
     @Override
+    @Transactional
     public String resetPassword(Long userId) {
         if (!StpUtil.hasRole("ADMIN")) {
             throw new BizException("非管理员禁止重置用户密码");

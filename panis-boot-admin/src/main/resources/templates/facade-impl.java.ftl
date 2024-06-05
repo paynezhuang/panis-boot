@@ -1,6 +1,7 @@
 
 import org.springframework.stereotype.Service;
 import lombok.NonNull;
+import org.springframework.transaction.annotation.Transactional;
 /**
 * ${table.comment!} 门面接口实现层
 *
@@ -31,18 +32,21 @@ public RPage<${entity}VO> list${entity}Page(PageQuery pageQuery, ${entity}Search
     }
 
     @Override
+    @Transactional
     public boolean add(${entity}AddDTO ${table.entityPath!}AddDTO) {
     ${entity}BO ${table.entityPath!}BO = CglibUtil.convertObj(${table.entityPath!}AddDTO, ${entity}BO::new);
         return ${table.entityPath!}Service.save(${table.entityPath!}BO);
     }
 
     @Override
+    @Transactional
     public boolean update(${entity}UpdateDTO ${table.entityPath!}UpdateDTO) {
     ${entity}BO ${table.entityPath!}BO = CglibUtil.convertObj(${table.entityPath!}UpdateDTO, ${entity}BO::new);
         return ${table.entityPath!}Service.updateById(${table.entityPath!}BO);
     }
 
     @Override
+    @Transactional
     public boolean batchDelete(${entity}DeleteDTO ${table.entityPath!}DeleteDTO) {
     ${entity}BO ${table.entityPath!}BO = CglibUtil.convertObj(${table.entityPath!}DeleteDTO, ${entity}BO::new);
         return ${table.entityPath!}Service.removeBatchByIds(${table.entityPath!}BO.getIds(), true);

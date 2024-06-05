@@ -16,6 +16,7 @@ import com.izpan.modules.system.service.ISysUserRoleService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 用户角色管理 门面接口实现层
@@ -47,18 +48,21 @@ public class SysUserRoleFacadeImpl implements ISysUserRoleFacade {
     }
 
     @Override
+    @Transactional
     public boolean add(SysUserRoleAddDTO sysUserRoleAddDTO) {
         SysUserRoleBO sysUserRoleBO = CglibUtil.convertObj(sysUserRoleAddDTO, SysUserRoleBO::new);
         return sysUserRoleService.save(sysUserRoleBO);
     }
 
     @Override
+    @Transactional
     public boolean update(SysUserRoleUpdateDTO sysUserRoleUpdateDTO) {
         SysUserRoleBO sysUserRoleBO = CglibUtil.convertObj(sysUserRoleUpdateDTO, SysUserRoleBO::new);
         return sysUserRoleService.updateById(sysUserRoleBO);
     }
 
     @Override
+    @Transactional
     public boolean batchDelete(SysUserRoleDeleteDTO sysUserRoleDeleteDTO) {
         SysUserRoleBO sysUserRoleBO = CglibUtil.convertObj(sysUserRoleDeleteDTO, SysUserRoleBO::new);
         return sysUserRoleService.removeBatchByIds(sysUserRoleBO.getIds(), true);

@@ -28,7 +28,7 @@ public class SchedulerSetupUtil {
      *
      * @param monSchedulerBO {@link MonSchedulerBO} 调度任务 BO 对象
      * @return {@link SchedulerSetup } 调度任务对象
-     * @author payne.zhuang <payne.zhuang@gmail.com>
+     * @author payne.zhuang <paynezhuang@gmail.com>
      * @CreateTime 2024-05-29 - 10:30:20
      */
     public static SchedulerSetup convert(MonSchedulerBO monSchedulerBO) {
@@ -52,7 +52,7 @@ public class SchedulerSetupUtil {
      *
      * @param kvPairsList KV对列 集合
      * @return {@link JobDataMap }
-     * @author payne.zhuang <payne.zhuang@gmail.com>
+     * @author payne.zhuang <paynezhuang@gmail.com>
      * @CreateTime 2024-05-29 - 10:30:43
      */
     private static JobDataMap convertKVPairsListToJobDataMap(List<KVPairs> kvPairsList) {

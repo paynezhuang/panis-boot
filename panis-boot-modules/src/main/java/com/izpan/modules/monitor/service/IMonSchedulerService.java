@@ -35,7 +35,7 @@ public interface IMonSchedulerService extends IService<MonScheduler> {
      *
      * @param id ID
      * @return {@link MonSchedulerBO} 调度任务对象
-     * @author payne.zhuang <payne.zhuang@gmail.com>
+     * @author payne.zhuang <paynezhuang@gmail.com>
      * @CreateTime 2024-05-21 - 03:10:57
      */
     MonSchedulerBO queryById(Long id);
@@ -45,7 +45,7 @@ public interface IMonSchedulerService extends IService<MonScheduler> {
      *
      * @param monSchedulerBO 调度任务对象
      * @return {@link Boolean} 结果 {@code true} 成功 {@code false} 失败
-     * @author payne.zhuang <payne.zhuang@gmail.com>
+     * @author payne.zhuang <paynezhuang@gmail.com>
      * @CreateTime 2024-05-21 - 11:56:31
      */
     boolean addMonScheduler(MonSchedulerBO monSchedulerBO);
@@ -55,7 +55,7 @@ public interface IMonSchedulerService extends IService<MonScheduler> {
      *
      * @param monSchedulerBO 调度任务对象
      * @return {@link Boolean} 结果 {@code true} 成功 {@code false} 失败
-     * @author payne.zhuang <payne.zhuang@gmail.com>
+     * @author payne.zhuang <paynezhuang@gmail.com>
      * @CreateTime 2024-05-21 - 11:57:06
      */
     boolean updateMonScheduler(MonSchedulerBO monSchedulerBO);
@@ -65,7 +65,7 @@ public interface IMonSchedulerService extends IService<MonScheduler> {
      *
      * @param ids IDs
      * @return {@link Boolean} 结果 {@code true} 成功 {@code false} 失败
-     * @author payne.zhuang <payne.zhuang@gmail.com>
+     * @author payne.zhuang <paynezhuang@gmail.com>
      * @CreateTime 2024-05-21 - 11:57:25
      */
     boolean batchDeleteMonScheduler(List<Long> ids);
@@ -75,7 +75,7 @@ public interface IMonSchedulerService extends IService<MonScheduler> {
      *
      * @param id ID
      * @return {@link Boolean} 执行结果 {@code true} 成功 {@code false} 失败
-     * @author payne.zhuang <payne.zhuang@gmail.com>
+     * @author payne.zhuang <paynezhuang@gmail.com>
      * @CreateTime 2024-05-23 - 10:46:33
      */
     boolean immediateMonScheduler(Long id);
@@ -85,7 +85,7 @@ public interface IMonSchedulerService extends IService<MonScheduler> {
      *
      * @param id ID
      * @return {@link Boolean} 结果 {@code true} 成功 {@code false} 失败
-     * @author payne.zhuang <payne.zhuang@gmail.com>
+     * @author payne.zhuang <paynezhuang@gmail.com>
      * @CreateTime 2024-05-21 - 11:57:58
      */
     boolean pauseMonScheduler(Long id);
@@ -95,7 +95,7 @@ public interface IMonSchedulerService extends IService<MonScheduler> {
      *
      * @param id ID
      * @return {@link Boolean} 结果 {@code true} 成功 {@code false} 失败
-     * @author payne.zhuang <payne.zhuang@gmail.com>
+     * @author payne.zhuang <paynezhuang@gmail.com>
      * @CreateTime 2024-05-21 - 12:25:19
      */
     boolean pauseMonSchedulerGroup(Long id);
@@ -105,7 +105,7 @@ public interface IMonSchedulerService extends IService<MonScheduler> {
      *
      * @param id ID
      * @return {@link Boolean} 结果 {@code true} 成功 {@code false} 失败
-     * @author payne.zhuang <payne.zhuang@gmail.com>
+     * @author payne.zhuang <paynezhuang@gmail.com>
      * @CreateTime 2024-05-21 - 11:58:04
      */
     boolean resumeMonScheduler(Long id);
@@ -115,7 +115,7 @@ public interface IMonSchedulerService extends IService<MonScheduler> {
      *
      * @param id ID
      * @return {@link Boolean} 结果 {@code true} 成功 {@code false} 失败
-     * @author payne.zhuang <payne.zhuang@gmail.com>
+     * @author payne.zhuang <paynezhuang@gmail.com>
      * @CreateTime 2024-05-21 - 12:25:10
      */
     boolean resumeMonSchedulerGroup(Long id);
@@ -124,7 +124,7 @@ public interface IMonSchedulerService extends IService<MonScheduler> {
      * 获取所有调度任务名称
      *
      * @return {@link List }<{@link MonScheduler }> 调度任务名称集合
-     * @author payne.zhuang <payne.zhuang@gmail.com>
+     * @author payne.zhuang <paynezhuang@gmail.com>
      * @CreateTime 2024-05-30 - 10:09:23
      */
     List<MonScheduler> getAllMonSchedulerJobName();

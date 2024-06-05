@@ -28,6 +28,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -79,6 +80,7 @@ public class AuthenticationFacadeImpl implements IAuthenticationFacade {
     }
 
     @Override
+    @Transactional
     public SysUserVO updateCurrentUserInfo(SysUserUpdateCurrentInfoDTO currentInfoDTO) {
         SysUserBO sysUserBO = CglibUtil.convertObj(currentInfoDTO, SysUserBO::new);
         boolean updated = sysUserService.updateCurrentUserInfo(sysUserBO);

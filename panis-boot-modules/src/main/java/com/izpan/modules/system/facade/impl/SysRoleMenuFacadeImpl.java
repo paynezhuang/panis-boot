@@ -16,6 +16,7 @@ import com.izpan.modules.system.service.ISysRoleMenuService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -55,12 +56,14 @@ public class SysRoleMenuFacadeImpl implements ISysRoleMenuFacade {
     }
 
     @Override
+    @Transactional
     public boolean update(SysRoleMenuUpdateDTO sysRoleMenuUpdateDTO) {
         SysRoleMenuBO sysRoleMenuBO = CglibUtil.convertObj(sysRoleMenuUpdateDTO, SysRoleMenuBO::new);
         return sysRoleMenuService.updateById(sysRoleMenuBO);
     }
 
     @Override
+    @Transactional
     public boolean batchDelete(SysRoleMenuDeleteDTO sysRoleMenuDeleteDTO) {
         SysRoleMenuBO sysRoleMenuBO = CglibUtil.convertObj(sysRoleMenuDeleteDTO, SysRoleMenuBO::new);
         return sysRoleMenuService.removeBatchByIds(sysRoleMenuBO.getIds(), true);
