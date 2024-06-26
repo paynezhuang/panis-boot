@@ -1,59 +1,49 @@
 package ${package.Entity};
 
 <#list table.importPackages as pkg>
-    import ${pkg};
+import ${pkg};
 </#list>
 import com.izpan.infrastructure.domain.BaseVO;
 <#if springdoc>
-    import io.swagger.v3.oas.annotations.media.Schema;
-<#elseif swagger>
-    import io.swagger.annotations.ApiModel;
-    import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 </#if>
 <#if entityLombokModel>
-    import lombok.AllArgsConstructor;
-    import lombok.Data;
-    import lombok.NoArgsConstructor;
-    import lombok.experimental.SuperBuilder;
-    <#if chainModel>
-        import lombok.experimental.Accessors;
-    </#if>
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 </#if>
 <#if entitySerialVersionUID>
-    import java.io.Serial;
+import java.io.Serial;
 </#if>
 
 /**
-* ${table.comment!} Entity 实体类
-*
-* @Author ${author}
-* @ProjectName panis-boot
-* @ClassName ${package.Entity}.${entity}
-* @CreateTime ${date}
-*/
+ * ${table.comment!} Entity 实体类
+ *
+ * @Author ${author}
+ * @ProjectName panis-boot
+ * @ClassName ${package.Entity}.${entity}
+ * @CreateTime ${date}
+ */
 
 <#if entityLombokModel>
-    @Data
-    @SuperBuilder
-    @NoArgsConstructor
-    @AllArgsConstructor
-    <#if chainModel>
-        @Accessors(chain = true)
-    </#if>
+@Data
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
 </#if>
 <#if table.convert>
-    @TableName("${schemaName}${table.name}")
+@TableName("${schemaName}${table.name}")
 </#if>
 <#if superEntityClass??>
-    public class ${entity} extends ${superEntityClass}<#if activeRecord><${entity}></#if> {
+public class ${entity} extends ${superEntityClass}<#if activeRecord><${entity}></#if> {
 <#elseif activeRecord>
-    public class ${entity} extends Model<${entity}> {
+public class ${entity} extends Model<${entity}> {
 <#elseif entitySerialVersionUID>
-    public class ${entity} implements Serializable {
+public class ${entity} implements Serializable {
 <#else>
-    public class ${entity} {
+public class ${entity} {
 </#if>
-
 <#-- ----------  BEGIN 字段循环遍历  ---------->
 <#list table.fields as field>
     <#if field.keyFlag>
@@ -61,9 +51,9 @@ import com.izpan.infrastructure.domain.BaseVO;
     </#if>
 
     <#if field.comment!?length gt 0>
-        /**
-        * ${field.comment}
-        */
+    /**
+     * ${field.comment}
+     */
     </#if>
     <#if field.keyFlag>
     <#-- 主键 -->

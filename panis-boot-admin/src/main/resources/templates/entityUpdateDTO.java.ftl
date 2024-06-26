@@ -1,46 +1,39 @@
+package ${cfg.dtoPackageName};
+
 <#if springdoc>
-    import io.swagger.v3.oas.annotations.media.Schema;
-<#elseif swagger>
-    import io.swagger.annotations.ApiModel;
-    import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 </#if>
 <#if entityLombokModel>
-    import lombok.Getter;
-    import lombok.Setter;
-    <#if chainModel>
-        import lombok.experimental.Accessors;
-    </#if>
+import lombok.Getter;
+import lombok.Setter;
 </#if>
+import java.io.Serializable;
 
 /**
-* ${table.comment!} 编辑更新 DTO 对象
-*
-* @Author ${author}
-* @ProjectName panis-boot
-* @ClassName ${entity}UpdateDTO
-* @CreateTime ${date}
-*/
+ * ${table.comment!} 编辑更新 DTO 对象
+ *
+ * @Author ${author}
+ * @ProjectName panis-boot
+ * @ClassName ${cfg.dtoPackageName}.${entity}UpdateDTO
+ * @CreateTime ${date}
+ */
 
 <#if entityLombokModel>
-    @Getter
-    @Setter
-    <#if chainModel>
-        @Accessors(chain = true)
-    </#if>
+@Getter
+@Setter
 </#if>
 <#if springdoc>
-    @Schema(name = "${entity}UpdateDTO", description = "${table.comment!} 编辑更新 DTO 对象")
+@Schema(name = "${entity}UpdateDTO", description = "${table.comment!} 编辑更新 DTO 对象")
 <#elseif swagger>
-    @ApiModel(value = "${entity}对象", description = "${table.comment!}")
+@ApiModel(value = "${entity}对象", description = "${table.comment!}")
 </#if>
 <#if activeRecord>
-    public class ${entity} extends Model<${entity}> {
+public class ${entity} extends Model<${entity}> {
 <#elseif entitySerialVersionUID>
-    public class ${entity}UpdateDTO implements Serializable{
+public class ${entity}UpdateDTO implements Serializable {
 <#else>
-    public class ${entity} {
+public class ${entity} {
 </#if>
-
 <#if entitySerialVersionUID>
 
 </#if>

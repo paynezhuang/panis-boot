@@ -6,10 +6,12 @@ import com.baomidou.mybatisplus.generator.config.OutputFile;
 import com.baomidou.mybatisplus.generator.config.builder.CustomFile;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.izpan.infrastructure.domain.BaseEntity;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Mybatis Plus 代码生成
@@ -25,6 +27,9 @@ public class CodeGenerator {
     // 生成存储路径
     private static final String EXPORT_FILE_PATH = "/Users/paynezhuang/Desktop/1/";
 
+    // 父包名
+    private static final String PARENT = "com.izpan";
+
     // 生成的表名
     private static final String TABLE_NAMES = "sys_role";
 
@@ -34,8 +39,12 @@ public class CodeGenerator {
     // 生成作者
     private static final String AUTHOR = "payne.zhuang <paynezhuang@gmail.com>";
 
-    @SuppressWarnings({"java:S125","java:S6437"})
+    // 自定义参数
+    private static final Map<String, Object> CUSTOM_MAP = Maps.newHashMap();
+
+    @SuppressWarnings({"java:S125", "java:S6437"})
     public static void main(String[] args) {
+        CUSTOM_MAP.put("parent", PARENT);
         // 数据源配置
         FastAutoGenerator.create("jdbc:mysql://127.0.0.1:3306/panis_boot?serverTimezone=GMT%2B8", "root", "root")
                 .globalConfig(builder -> {
@@ -46,7 +55,7 @@ public class CodeGenerator {
                             // 禁止打开输出目录 默认值:true
                             .disableOpenDir()
                             // 注释日期
-                            .commentDate("yyyy-MM-dd")
+                            .commentDate("yyyy-MM-dd - HH:mm:ss")
                             // 定义生成的实体类中日期类型 DateType.ONLY_DATE 默认值: DateType.TIME_PACK
                             .dateType(DateType.TIME_PACK)
                             // 指定输出目录
@@ -55,7 +64,7 @@ public class CodeGenerator {
 
                 .packageConfig(builder -> {
                     // 父包模块名
-                    builder.parent("com.izpan")
+                    builder.parent(PARENT)
                             // Controller 包名 默认值:controller
                             .controller(String.format("admin.controller.%s", MODULES))
                             // Entity 包名 默认值:modules
@@ -66,11 +75,8 @@ public class CodeGenerator {
                             .serviceImpl(String.format("modules.%s.service.impl", MODULES))
                             // Mapper 包名 默认值:mapper
                             .mapper(String.format("modules.%s.repository.mapper", MODULES))
-                            // Modules
-                            // .moduleName(MODULES)
                             // Mapper xml 输出目录
                             .pathInfo(Collections.singletonMap(OutputFile.xml, String.format(EXPORT_FILE_PATH + "src/main/java/com/izpan/modules/%s/repository/mapper/", MODULES)));
-                    // 设置mapperXml生成路径
                 })
 
                 .injectionConfig(consumer -> {
@@ -121,10 +127,11 @@ public class CodeGenerator {
                     // facade impl
                     customFiles.add(new CustomFile.Builder().fileName("%sFacadeImpl.java")
                             .enableFileOverride()
-                            .templatePath("/templates/facade-impl.java.ftl")
+                            .templatePath("/templates/facadeImpl.java.ftl")
                             .packageName(String.format("modules.%s.facade.impl", MODULES))
                             .build());
                     consumer.customFile(customFiles);
+                    consumer.customMap(CUSTOM_MAP);
                 })
 
                 // 指定表名
@@ -137,7 +144,6 @@ public class CodeGenerator {
                         .formatServiceFileName("I%sService")
                         // 格式化 Service 实现类文件名称
                         .formatServiceImplFileName("%sServiceImpl")
-
 
                         // 实体类策略配置
                         .entityBuilder()
@@ -181,9 +187,7 @@ public class CodeGenerator {
                         // 格式化 Mapper xml 实现类文件名称
                         .formatXmlFileName("%sMapper"))
 
-
-                // 使用Freemarker引擎模板
-//                .templateEngine(new FreemarkerTemplateEngine())
+                // 使用 Freemarker 自定义引擎模板
                 .templateEngine(new EnhanceFreemarkerTemplateEngine())
                 .execute();
 
