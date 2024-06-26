@@ -36,9 +36,9 @@
         SELECT 1
         FROM sys_user su
         WHERE su.is_deleted = 0
-            AND su.status = 1
-            AND su.user_name = 'admin'
-            AND su.id IN
+        AND su.status = 1
+        AND su.user_name = 'admin'
+        AND su.id IN
         <foreach collection="userIds" item="userId" open="(" separator="," close=")">
             #{userId}
         </foreach>

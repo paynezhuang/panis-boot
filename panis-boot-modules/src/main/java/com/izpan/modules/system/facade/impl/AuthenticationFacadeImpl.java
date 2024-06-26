@@ -55,6 +55,56 @@ public class AuthenticationFacadeImpl implements IAuthenticationFacade {
     @NonNull
     private ISysUserService sysUserService;
 
+    /**
+     * 初始化菜单路由
+     *
+     * @param parentId          父级菜单ID
+     * @param sysMenus          菜单列表
+     * @param menuPermissionMap 菜单对应的权限按钮 Map 结构
+     * @return {@link SysUserRouteVO.Route} 路由对象列表
+     * @author payne.zhuang
+     * @CreateTime 2024-02-04 23:42
+     */
+    private static List<SysUserRouteVO.Route> initMenuRoute(Long parentId, List<SysMenuBO> sysMenus,
+                                                            Map<Long, List<String>> menuPermissionMap) {
+        // 根据 parentId 获取菜单列表
+        List<SysMenuBO> parentMenuList = sysMenus.stream()
+                .filter(item -> item.getParentId().equals(parentId)).toList();
+        List<SysUserRouteVO.Route> routes = Lists.newArrayList();
+        parentMenuList.forEach(menu -> {
+            // 路由元数据
+            SysUserRouteVO.Meta routeMeta = SysUserRouteVO.Meta.builder()
+                    .title(menu.getName())
+                    .i18nKey(menu.getI18nKey())
+                    .order(menu.getSort())
+                    .keepAlive(StringPools.Y.equals(menu.getKeepAlive()))
+                    .hideInMenu(StringPools.Y.equals(menu.getHide()))
+                    .multiTab(StringPools.Y.equals(menu.getMultiTab()))
+                    .fixedIndexInTab(menu.getFixedIndexInTab())
+                    .query(GsonUtil.fromJsonList(menu.getQuery()))
+                    .permissions(menuPermissionMap.getOrDefault(menu.getId(), Lists.newArrayList()))
+                    .build();
+            if (menu.getIconType().equals(StringPools.TWO)) {
+                routeMeta.setLocalIcon(menu.getIcon());
+            } else {
+                routeMeta.setIcon(menu.getIcon());
+            }
+            // 路由对象
+            SysUserRouteVO.Route route = SysUserRouteVO.Route.builder()
+                    .name(menu.getRouteName())
+                    .path(menu.getRoutePath())
+                    .component(menu.getComponent().replace(StringPools.HASH, StringPools.DOLLAR))
+                    .meta(routeMeta)
+                    .children(initMenuRoute(menu.getId(), sysMenus, menuPermissionMap))
+                    .build();
+            // 添加到路由列表
+            routes.add(route);
+        });
+        // 按照排序值排序
+        routes.sort(Comparator.comparing(route -> route.getMeta().getOrder()));
+        return routes;
+    }
+
     @Override
     public Map<String, String> userNameLogin(LoginFormDTO loginFormDTO) {
         SysUserBO sysUserBO = CglibUtil.convertObj(loginFormDTO, SysUserBO::new);
@@ -148,55 +198,5 @@ public class AuthenticationFacadeImpl implements IAuthenticationFacade {
                                 )
                         )
                 ));
-    }
-
-    /**
-     * 初始化菜单路由
-     *
-     * @param parentId          父级菜单ID
-     * @param sysMenus          菜单列表
-     * @param menuPermissionMap 菜单对应的权限按钮 Map 结构
-     * @return {@link SysUserRouteVO.Route} 路由对象列表
-     * @author payne.zhuang
-     * @CreateTime 2024-02-04 23:42
-     */
-    private static List<SysUserRouteVO.Route> initMenuRoute(Long parentId, List<SysMenuBO> sysMenus,
-                                                            Map<Long, List<String>> menuPermissionMap) {
-        // 根据 parentId 获取菜单列表
-        List<SysMenuBO> parentMenuList = sysMenus.stream()
-                .filter(item -> item.getParentId().equals(parentId)).toList();
-        List<SysUserRouteVO.Route> routes = Lists.newArrayList();
-        parentMenuList.forEach(menu -> {
-            // 路由元数据
-            SysUserRouteVO.Meta routeMeta = SysUserRouteVO.Meta.builder()
-                    .title(menu.getName())
-                    .i18nKey(menu.getI18nKey())
-                    .order(menu.getSort())
-                    .keepAlive(StringPools.Y.equals(menu.getKeepAlive()))
-                    .hideInMenu(StringPools.Y.equals(menu.getHide()))
-                    .multiTab(StringPools.Y.equals(menu.getMultiTab()))
-                    .fixedIndexInTab(menu.getFixedIndexInTab())
-                    .query(GsonUtil.fromJsonList(menu.getQuery()))
-                    .permissions(menuPermissionMap.getOrDefault(menu.getId(), Lists.newArrayList()))
-                    .build();
-            if (menu.getIconType().equals(StringPools.TWO)) {
-                routeMeta.setLocalIcon(menu.getIcon());
-            } else {
-                routeMeta.setIcon(menu.getIcon());
-            }
-            // 路由对象
-            SysUserRouteVO.Route route = SysUserRouteVO.Route.builder()
-                    .name(menu.getRouteName())
-                    .path(menu.getRoutePath())
-                    .component(menu.getComponent().replace(StringPools.HASH, StringPools.DOLLAR))
-                    .meta(routeMeta)
-                    .children(initMenuRoute(menu.getId(), sysMenus, menuPermissionMap))
-                    .build();
-            // 添加到路由列表
-            routes.add(route);
-        });
-        // 按照排序值排序
-        routes.sort(Comparator.comparing(route -> route.getMeta().getOrder()));
-        return routes;
     }
 }

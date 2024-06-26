@@ -25,7 +25,7 @@
 
     <sql id="select">
         SELECT ms.id,
-               ms.job_name ,
+               ms.job_name,
                ms.job_group,
                ms.job_data,
                ms.trigger_name,
@@ -33,22 +33,22 @@
                ms.trigger_data,
                mqjd.JOB_CLASS_NAME,
                mqjd.DESCRIPTION,
-               mqct.CRON_EXPRESSION ,
+               mqct.CRON_EXPRESSION,
                mqt.DESCRIPTION AS TRIGGER_DESCRIPTION,
                mqt.TRIGGER_STATE,
                ms.create_time,
                ms.create_user,
                ms.create_user_id
         FROM mon_scheduler ms
-             LEFT JOIN mon_qrtz_JOB_DETAILS mqjd
-               ON ms.job_name = mqjd.JOB_NAME
-               AND ms.job_group = mqjd.JOB_GROUP
-             LEFT JOIN mon_qrtz_TRIGGERS mqt
-               ON ms.job_name = mqt.JOB_NAME
-               AND ms.job_group = mqt.JOB_GROUP
-             LEFT JOIN mon_qrtz_CRON_TRIGGERS mqct
-               ON mqt.TRIGGER_NAME = mqct.TRIGGER_NAME
-               AND mqt.TRIGGER_GROUP = mqct.TRIGGER_GROUP
+                 LEFT JOIN mon_qrtz_JOB_DETAILS mqjd
+                           ON ms.job_name = mqjd.JOB_NAME
+                               AND ms.job_group = mqjd.JOB_GROUP
+                 LEFT JOIN mon_qrtz_TRIGGERS mqt
+                           ON ms.job_name = mqt.JOB_NAME
+                               AND ms.job_group = mqt.JOB_GROUP
+                 LEFT JOIN mon_qrtz_CRON_TRIGGERS mqct
+                           ON mqt.TRIGGER_NAME = mqct.TRIGGER_NAME
+                               AND mqt.TRIGGER_GROUP = mqct.TRIGGER_GROUP
     </sql>
 
     <select id="listMonSchedulerPage" resultMap="MonSchedulerBOMap">
@@ -64,7 +64,8 @@
         </where>
     </select>
 
-    <resultMap id="MonSchedulerBOGetIdMap" type="com.izpan.modules.monitor.domain.bo.MonSchedulerBO" extends="MonSchedulerBOMap">
+    <resultMap id="MonSchedulerBOGetIdMap" type="com.izpan.modules.monitor.domain.bo.MonSchedulerBO"
+               extends="MonSchedulerBOMap">
         <result column="job_data" property="jobData"
                 typeHandler="com.izpan.infrastructure.typehandler.JobDataTypeHandler"/>
         <result column="trigger_data" property="triggerData"

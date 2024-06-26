@@ -22,16 +22,16 @@ import java.util.regex.Matcher;
 @Component
 public class SchedulerJobListener implements JobListener {
 
-    @Override
-    public String getName() {
-        return "QuartzJobListener";
-    }
-
     private final IMonLogsSchedulerFacade monLogsSchedulerFacade;
 
     public SchedulerJobListener(IMonLogsSchedulerFacade monLogsSchedulerFacade) {
         this.monLogsSchedulerFacade = monLogsSchedulerFacade;
         log.info("SchedulerJobListener constructed with monLogsSchedulerFacade: {}", monLogsSchedulerFacade);
+    }
+
+    @Override
+    public String getName() {
+        return "QuartzJobListener";
     }
 
     /**

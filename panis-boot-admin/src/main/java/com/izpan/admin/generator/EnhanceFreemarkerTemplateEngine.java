@@ -30,6 +30,31 @@ import java.util.Map;
 @Component
 public class EnhanceFreemarkerTemplateEngine extends FreemarkerTemplateEngine {
 
+    /**
+     * 获取包名
+     *
+     * @param tableInfo 表信息
+     * @param file      文件信息
+     * @param customMap 自定义参数
+     * @return 包名
+     */
+    private static String getString(TableInfo tableInfo, CustomFile file, Map<String, Object> customMap) {
+        String packageName = file.getPackageName();
+        String parent = (String) customMap.get("parent");
+        // 如果是dto，把包名中的下划线替换成点，形成多级包名，以及再加上子包名
+        if (file.getPackageName().contains(".dto")) {
+            String subPackageName = tableInfo.getName().substring(tableInfo.getName().indexOf(StringPools.UNDERSCORE) + 1);
+            subPackageName = subPackageName.replace(StringPools.UNDERSCORE, StringPools.DOT);
+            packageName = packageName + StringPools.DOT + subPackageName;
+            customMap.put("dtoPackageName", parent + StringPools.DOT + packageName);
+        } else if (file.getPackageName().contains(".facade")) {
+            customMap.put("facadePackageName", parent + StringPools.DOT + packageName);
+        } else if (file.getPackageName().contains(".vo")) {
+            customMap.put("voPackageName", parent + StringPools.DOT + packageName);
+        }
+        return packageName;
+    }
+
     @Override
     protected void outputCustomFile(@NotNull List<CustomFile> customFiles, @NotNull TableInfo tableInfo, @NotNull @NonNull Map<String, Object> objectMap) {
         String entityName = tableInfo.getEntityName();
@@ -55,30 +80,5 @@ public class EnhanceFreemarkerTemplateEngine extends FreemarkerTemplateEngine {
             this.outputFile(new File(fileName), objectMap, file.getTemplatePath(), file.isFileOverride());
         }
 
-    }
-
-    /**
-     * 获取包名
-     *
-     * @param tableInfo 表信息
-     * @param file      文件信息
-     * @param customMap 自定义参数
-     * @return 包名
-     */
-    private static String getString(TableInfo tableInfo, CustomFile file, Map<String, Object> customMap) {
-        String packageName = file.getPackageName();
-        String parent = (String) customMap.get("parent");
-        // 如果是dto，把包名中的下划线替换成点，形成多级包名，以及再加上子包名
-        if (file.getPackageName().contains(".dto")) {
-            String subPackageName = tableInfo.getName().substring(tableInfo.getName().indexOf(StringPools.UNDERSCORE) + 1);
-            subPackageName = subPackageName.replace(StringPools.UNDERSCORE, StringPools.DOT);
-            packageName = packageName + StringPools.DOT + subPackageName;
-            customMap.put("dtoPackageName", parent + StringPools.DOT + packageName);
-        } else if (file.getPackageName().contains(".facade")) {
-            customMap.put("facadePackageName", parent + StringPools.DOT + packageName);
-        } else if (file.getPackageName().contains(".vo")) {
-            customMap.put("voPackageName", parent + StringPools.DOT + packageName);
-        }
-        return packageName;
     }
 }

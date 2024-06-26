@@ -2,7 +2,10 @@ package com.izpan.modules.system.facade;
 
 import com.izpan.infrastructure.page.PageQuery;
 import com.izpan.infrastructure.page.RPage;
-import com.izpan.modules.system.domain.dto.user.*;
+import com.izpan.modules.system.domain.dto.user.SysUserAddDTO;
+import com.izpan.modules.system.domain.dto.user.SysUserDeleteDTO;
+import com.izpan.modules.system.domain.dto.user.SysUserSearchDTO;
+import com.izpan.modules.system.domain.dto.user.SysUserUpdateDTO;
 import com.izpan.modules.system.domain.vo.SysUserInfoVO;
 import com.izpan.modules.system.domain.vo.SysUserVO;
 

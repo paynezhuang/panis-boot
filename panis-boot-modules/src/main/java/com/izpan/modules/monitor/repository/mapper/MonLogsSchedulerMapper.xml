@@ -4,24 +4,24 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="MonLogsSchedulerResultMap" type="com.izpan.modules.monitor.domain.entity.MonLogsScheduler">
-        <result column="job_name" property="jobName" />
-        <result column="job_group" property="jobGroup" />
-        <result column="trigger_name" property="triggerName" />
-        <result column="trigger_group" property="triggerGroup" />
-        <result column="use_time" property="useTime" />
-        <result column="status" property="status" />
-        <result column="exception_message" property="exceptionMessage" />
-        <result column="exception_class" property="exceptionClass" />
-        <result column="line" property="line" />
-        <result column="stack_trace" property="stackTrace" />
-        <result column="id" property="id" />
-        <result column="create_user" property="createUser" />
-        <result column="create_user_id" property="createUserId" />
-        <result column="create_time" property="createTime" />
-        <result column="update_user" property="updateUser" />
-        <result column="update_user_id" property="updateUserId" />
-        <result column="update_time" property="updateTime" />
-        <result column="is_deleted" property="isDeleted" />
+        <result column="job_name" property="jobName"/>
+        <result column="job_group" property="jobGroup"/>
+        <result column="trigger_name" property="triggerName"/>
+        <result column="trigger_group" property="triggerGroup"/>
+        <result column="use_time" property="useTime"/>
+        <result column="status" property="status"/>
+        <result column="exception_message" property="exceptionMessage"/>
+        <result column="exception_class" property="exceptionClass"/>
+        <result column="line" property="line"/>
+        <result column="stack_trace" property="stackTrace"/>
+        <result column="id" property="id"/>
+        <result column="create_user" property="createUser"/>
+        <result column="create_user_id" property="createUserId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="update_user_id" property="updateUserId"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="is_deleted" property="isDeleted"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->

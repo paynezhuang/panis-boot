@@ -105,10 +105,11 @@ public interface ISysUserService extends IService<SysUser> {
 
     /**
      * 批量删除用户
-     * @author payne.zhuang
-     * @CreateTime 2024-04-23 12:01
+     *
      * @param ids 用户 ID 集合
      * @return {@link Boolean} 删除结果
+     * @author payne.zhuang
+     * @CreateTime 2024-04-23 12:01
      */
     boolean removeBatchByIds(List<Long> ids);
 }

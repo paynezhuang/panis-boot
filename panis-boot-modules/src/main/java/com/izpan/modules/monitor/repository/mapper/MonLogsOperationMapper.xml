@@ -4,25 +4,25 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="MonLogsOperationResultMap" type="com.izpan.modules.monitor.domain.entity.MonLogsOperation">
-        <result column="request_id" property="requestId" />
-        <result column="ip" property="ip" />
-        <result column="ip_addr" property="ipAddr" />
-        <result column="user_agent" property="userAgent" />
-        <result column="request_uri" property="requestUri" />
-        <result column="request_method" property="requestMethod" />
-        <result column="content_type" property="contentType" />
-        <result column="operation" property="operation" />
-        <result column="method_name" property="methodName" />
-        <result column="method_params" property="methodParams" />
-        <result column="use_time" property="useTime" />
-        <result column="id" property="id" />
-        <result column="create_user" property="createUser" />
-        <result column="create_user_id" property="createUserId" />
-        <result column="create_time" property="createTime" />
-        <result column="update_user" property="updateUser" />
-        <result column="update_user_id" property="updateUserId" />
-        <result column="update_time" property="updateTime" />
-        <result column="is_deleted" property="isDeleted" />
+        <result column="request_id" property="requestId"/>
+        <result column="ip" property="ip"/>
+        <result column="ip_addr" property="ipAddr"/>
+        <result column="user_agent" property="userAgent"/>
+        <result column="request_uri" property="requestUri"/>
+        <result column="request_method" property="requestMethod"/>
+        <result column="content_type" property="contentType"/>
+        <result column="operation" property="operation"/>
+        <result column="method_name" property="methodName"/>
+        <result column="method_params" property="methodParams"/>
+        <result column="use_time" property="useTime"/>
+        <result column="id" property="id"/>
+        <result column="create_user" property="createUser"/>
+        <result column="create_user_id" property="createUserId"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_user" property="updateUser"/>
+        <result column="update_user_id" property="updateUserId"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="is_deleted" property="isDeleted"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->

@@ -25,22 +25,22 @@ public class SysUserAddDTO implements Serializable {
 
     @Schema(description = "账号")
     private String userName;
-    
+
     @Schema(description = "昵称")
     private String nickName;
-    
+
     @Schema(description = "真名")
     private String realName;
-    
+
     @Schema(description = "头像")
     private String avatar;
-    
+
     @Schema(description = "邮箱")
     private String email;
-    
+
     @Schema(description = "手机")
     private String phone;
-    
+
     @Schema(description = "性别 0保密 1男 2女")
     private String gender;
 
