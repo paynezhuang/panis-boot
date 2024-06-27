@@ -109,7 +109,9 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
 
     @Override
     public List<Long> queryMenuIdsWithRoleId(Long roleId) {
-        if (ObjectUtils.isEmpty(roleId)) return Collections.emptyList();
+        if (ObjectUtils.isEmpty(roleId)) {
+            return Collections.emptyList();
+        }
         LambdaQueryWrapper<SysRoleMenu> inQueryWrapper = new LambdaQueryWrapper<SysRoleMenu>()
                 .eq(SysRoleMenu::getRoleId, roleId);
         List<SysRoleMenu> sysRoleMenus = baseMapper.selectList(inQueryWrapper);
@@ -118,7 +120,9 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
 
     @Override
     public List<SysRoleMenuBO> queryMenuListWithRoleIds(List<Long> roleIds) {
-        if (CollectionUtils.isEmpty(roleIds)) return Collections.emptyList();
+        if (CollectionUtils.isEmpty(roleIds)) {
+            return Collections.emptyList();
+        }
         LambdaQueryWrapper<SysRoleMenu> inQueryWrapper = new LambdaQueryWrapper<SysRoleMenu>()
                 .in(SysRoleMenu::getRoleId, roleIds);
         return CglibUtil.convertList(baseMapper.selectList(inQueryWrapper), SysRoleMenuBO::new);

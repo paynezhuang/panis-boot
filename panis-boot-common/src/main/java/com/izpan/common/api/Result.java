@@ -77,7 +77,9 @@ public class Result<T> {
      * @CreateTime 2023-07-18 19:14
      */
     public static <T> Result<T> data(T data) {
-        if (null == data) return status(false);
+        if (null == data) {
+            return status(false);
+        }
         return success(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getValue(), data);
     }
 

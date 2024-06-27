@@ -56,7 +56,9 @@ public class LocalDateTimeModule extends SimpleModule {
         addDeserializer(LocalDateTime.class, new JsonDeserializer<>() {
             @Override
             public LocalDateTime deserialize(JsonParser p, DeserializationContext deserializationContext) throws IOException {
-                if (ObjectUtils.isEmpty(p.getValueAsString())) return null;
+                if (ObjectUtils.isEmpty(p.getValueAsString())) {
+                    return null;
+                }
                 return LocalDateTime.parse(p.getValueAsString(), ofPattern(DatePattern.NORM_DATETIME_PATTERN));
             }
         });

@@ -354,7 +354,9 @@ public class RedisUtil {
     public static void hmSetAndTime(String key, Map<String, Object> map, long time) {
         try {
             redisTemplate.opsForHash().putAll(key, map);
-            if (time > 0) expire(key, time);
+            if (time > 0) {
+                expire(key, time);
+            }
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
@@ -386,7 +388,9 @@ public class RedisUtil {
     public static void hmSetAndTime(String key, String item, Object value, long time) {
         try {
             redisTemplate.opsForHash().put(key, item, value);
-            if (time > 0) expire(key, time);
+            if (time > 0) {
+                expire(key, time);
+            }
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }
@@ -518,7 +522,9 @@ public class RedisUtil {
     public static Long sSetAndTime(String key, long time, Object... values) {
         try {
             Long count = redisTemplate.opsForSet().add(key, values);
-            if (time > 0) expire(key, time);
+            if (time > 0) {
+                expire(key, time);
+            }
             return count == null ? 0L : count;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
@@ -637,7 +643,9 @@ public class RedisUtil {
     public static <T> void lSet(String key, T value, long time) {
         try {
             redisTemplate.opsForList().rightPush(key, value);
-            if (time > 0) expire(key, time);
+            if (time > 0) {
+                expire(key, time);
+            }
         } catch (Exception e) {
             log.error(e.getMessage(), e);
         }

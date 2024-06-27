@@ -61,7 +61,9 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
 
     @Override
     public List<SysPermissionBO> queryPermissionListWithRoleId(Long roleId) {
-        if (ObjectUtils.isEmpty(roleId)) return Collections.emptyList();
+        if (ObjectUtils.isEmpty(roleId)) {
+            return Collections.emptyList();
+        }
         // 根据角色查找所有权限信息
         List<SysPermission> sysPermissions = baseMapper.queryPermissionListWithRoleId(roleId);
         return CglibUtil.convertList(sysPermissions, SysPermissionBO::new);
@@ -69,7 +71,9 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
 
     @Override
     public List<SysPermissionBO> queryPermissionListWithRoleIds(List<Long> roleIds) {
-        if (CollectionUtils.isEmpty(roleIds)) return Collections.emptyList();
+        if (CollectionUtils.isEmpty(roleIds)) {
+            return Collections.emptyList();
+        }
         // 根据角色查找所有权限信息
         List<SysPermission> sysPermissions = baseMapper.queryPermissionListWithRoleIds(roleIds);
         return CglibUtil.convertList(sysPermissions, SysPermissionBO::new);

@@ -73,7 +73,9 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
     @Override
     public List<SysMenuBO> queryMenuListWithRoleIds(List<Long> roleIds) {
-        if (CollectionUtils.isEmpty(roleIds)) return Collections.emptyList();
+        if (CollectionUtils.isEmpty(roleIds)) {
+            return Collections.emptyList();
+        }
         // 根据角色查找所有菜单信息
         List<SysMenu> sysMenus = baseMapper.listMenuByRoleIds(roleIds);
         // 根据角色保存菜单规则，数据中只存储了菜单，并不存储目录数据，

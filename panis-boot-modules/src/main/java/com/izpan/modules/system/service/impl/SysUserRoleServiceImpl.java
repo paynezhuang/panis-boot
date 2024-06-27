@@ -60,7 +60,9 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
         Set<Long> userOriginRoleIds = sysUserRoles.stream()
                 .map(SysUserRole::getRoleId).collect(Collectors.toSet());
         // 判断用户角色关联关系是否发生变化
-        if (userOriginRoleIds.equals(Sets.newHashSet(roleIds))) return;
+        if (userOriginRoleIds.equals(Sets.newHashSet(roleIds))) {
+            return;
+        }
         if (CollectionUtil.isNotEmpty(userOriginRoleIds)) {
             // 删除用户角色关联关系
             baseMapper.delete(new LambdaQueryWrapper<SysUserRole>().eq(SysUserRole::getUserId, userId));
