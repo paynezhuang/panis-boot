@@ -65,6 +65,7 @@ public class EnhanceFreemarkerTemplateEngine extends FreemarkerTemplateEngine {
         assert injectionConfig != null;
         // 自定义参数
         Map<String, Object> customMap = injectionConfig.getCustomMap();
+        customMap.put("permission", tableInfo.getName().replace(StringPools.UNDERSCORE, StringPools.COLON));
         // 遍历文件
         for (CustomFile file : customFiles) {
             String filePath = StringUtils.isNotBlank(file.getFilePath()) ? file.getFilePath() : parentPath;

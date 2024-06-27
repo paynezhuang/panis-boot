@@ -36,6 +36,7 @@ public class ${table.controllerName} {
     private I${entity}Facade ${table.entityPath}Facade;
 
     @GetMapping("/page")
+    @SaCheckPermission("${cfg.permission!}:page")
     @Operation(operationId = "1", summary = "获取${table.comment!}列表")
     public Result<RPage<${entity}VO>> page(@Parameter(description = "分页对象", required = true) PageQuery pageQuery,
                                            @Parameter(description = "查询对象") ${entity}SearchDTO ${table.entityPath!}SearchDTO) {
@@ -43,24 +44,28 @@ public class ${table.controllerName} {
     }
 
     @GetMapping("/{id}")
+    @SaCheckPermission("${cfg.permission!}:get")
     @Operation(operationId = "2", summary = "根据ID获取${table.comment!}详细信息")
     public Result<${entity}VO> get(@Parameter(description = "ID") @PathVariable("id") Long id) {
         return Result.data(${table.entityPath!}Facade.get(id));
     }
 
     @PostMapping("/")
+    @SaCheckPermission("${cfg.permission!}:add")
     @Operation(operationId = "3", summary = "新增${table.comment!}")
     public Result<Boolean> add(@Parameter(description = "新增对象") @RequestBody ${entity}AddDTO ${table.entityPath!}AddDTO) {
         return Result.status(${table.entityPath!}Facade.add(${table.entityPath!}AddDTO));
     }
 
     @PutMapping("/")
+    @SaCheckPermission("${cfg.permission!}:update")
     @Operation(operationId = "4", summary = "更新${table.comment!}信息")
     public Result<Boolean> update(@Parameter(description = "更新对象") @RequestBody ${entity}UpdateDTO ${table.entityPath!}UpdateDTO) {
         return Result.status(${table.entityPath!}Facade.update(${table.entityPath!}UpdateDTO));
     }
 
     @DeleteMapping("/")
+    @SaCheckPermission("${cfg.permission!}:delete")
     @Operation(operationId = "5", summary = "批量删除${table.comment!}信息")
     public Result<Boolean> batchDelete(@Parameter(description = "删除对象") @RequestBody ${entity}DeleteDTO ${table.entityPath!}DeleteDTO) {
         return Result.status(${table.entityPath!}Facade.batchDelete(${table.entityPath!}DeleteDTO));
