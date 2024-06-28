@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.base.Splitter;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Streams;
 import com.izpan.common.constants.SystemCacheConstant;
@@ -114,7 +115,7 @@ public class SysRolePermissionServiceImpl extends ServiceImpl<SysRolePermissionM
     public List<String> queryPermissionResourcesWithRoleId(Long roleId) {
         List<SysPermissionBO> sysPermissionBOS = sysPermissionService.queryPermissionListWithRoleId(roleId);
         // https://github.com/spring-projects/spring-data-redis/issues/2697
-        return new ArrayList<>(sysPermissionBOS.stream()
+        return Lists.newArrayList(sysPermissionBOS.stream()
                 .map(SysPermission::getResource)
                 .flatMap(resource -> Streams.stream(Splitter.on(StringPools.SEMICOLON)
                         .trimResults().omitEmptyStrings().split(resource)))

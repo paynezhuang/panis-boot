@@ -60,14 +60,8 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Override
     public List<SysMenuBO> queryMenuListWithRoleId(Long roleId) {
         List<SysMenu> sysMenus = baseMapper.queryMenuListWithRoleId(roleId);
-        // 角色菜单表中不包含parentId目录菜单，所以单独提取出来查询获取，加入整体菜单列表中一起返回
-        Set<Long> parentId = sysMenus.stream()
-                .map(SysMenu::getParentId)
-                .filter(id -> !id.equals(0L)).collect(Collectors.toSet());
-        if (!CollectionUtils.isEmpty(parentId)) {
-            List<SysMenu> parentMenus = baseMapper.selectBatchIds(parentId);
-            sysMenus.addAll(parentMenus);
-        }
+        // 构建父级目录菜单数据
+        buildParentMenuData(sysMenus);
         return CglibUtil.convertList(sysMenus, SysMenuBO::new);
     }
 
@@ -114,7 +108,27 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
                 .in(SysMenu::getId, menuIds);
         List<SysMenu> sysMenus = baseMapper.selectList(queryWrapper);
         String roleMenuListKey = SystemCacheConstant.roleMenuListKey(roleId);
+        // 构建父级目录菜单数据
+        buildParentMenuData(sysMenus);
         // 保存角色权限到缓存
         RedisUtil.set(roleMenuListKey, CglibUtil.convertList(sysMenus, SysMenuBO::new));
+    }
+
+    /**
+     * 构建父级目录菜单数据
+     *
+     * @param sysMenus 系统菜单
+     * @author payne.zhuang <payne.zhuang@gmail.com>
+     * @CreateTime 2024-06-28 - 21:36:27
+     */
+    private void buildParentMenuData(List<SysMenu> sysMenus) {
+        // 角色菜单表中不包含parentId目录菜单，所以单独提取出来查询获取，加入整体菜单列表中一起返回
+        Set<Long> parentId = sysMenus.stream()
+                .map(SysMenu::getParentId)
+                .filter(id -> !id.equals(0L)).collect(Collectors.toSet());
+        if (!CollectionUtils.isEmpty(parentId)) {
+            List<SysMenu> parentMenus = baseMapper.selectBatchIds(parentId);
+            sysMenus.addAll(parentMenus);
+        }
     }
 }

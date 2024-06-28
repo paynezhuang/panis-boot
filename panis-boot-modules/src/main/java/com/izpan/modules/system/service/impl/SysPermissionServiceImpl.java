@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.base.Splitter;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Streams;
 import com.izpan.common.constants.SystemCacheConstant;
 import com.izpan.common.exception.BizException;
@@ -24,6 +25,7 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 权限管理 Service 服务接口实现层
@@ -92,13 +94,18 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
                 .eq(SysPermission::getStatus, StringPools.ONE)
                 .in(SysPermission::getId, permissionIds);
         List<SysPermission> sysPermissions = baseMapper.selectList(queryWrapper);
-        List<String> permissionResources = sysPermissions.stream()
+        // 保存权限对象集合至缓存
+        String rolePermissionListKey = SystemCacheConstant.rolePermissionListKey(roleId);
+        RedisUtil.set(rolePermissionListKey, CglibUtil.convertList(sysPermissions, SysPermissionBO::new), 30L, TimeUnit.DAYS);
+        // 提取角色权限资源
+        List<String> permissionResources = Lists.newArrayList(sysPermissions.stream()
                 .map(SysPermission::getResource)
                 .flatMap(resource -> Streams.stream(Splitter.on(StringPools.SEMICOLON)
                         .trimResults().omitEmptyStrings().split(resource)))
-                .distinct().toList();
+                .distinct().toList());
+        permissionResources.sort(String::compareTo);
         // 保存角色权限到缓存
         String rolePermissionKey = SystemCacheConstant.rolePermissionResourcesKey(roleId);
-        RedisUtil.set(rolePermissionKey, permissionResources);
+        RedisUtil.set(rolePermissionKey, permissionResources, 30L, TimeUnit.DAYS);
     }
 }
