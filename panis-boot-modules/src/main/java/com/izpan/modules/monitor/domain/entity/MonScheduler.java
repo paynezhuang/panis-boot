@@ -1,8 +1,10 @@
 package com.izpan.modules.monitor.domain.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.izpan.common.domain.KVPairs;
 import com.izpan.infrastructure.domain.BaseEntity;
+import com.izpan.infrastructure.typehandler.JobDataTypeHandler;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -43,6 +45,7 @@ public class MonScheduler extends BaseEntity {
     /**
      * 任务参数
      */
+    @TableField(typeHandler = JobDataTypeHandler.class)
     private List<KVPairs> jobData;
 
     /**
@@ -58,6 +61,7 @@ public class MonScheduler extends BaseEntity {
     /**
      * 触发器参数
      */
+    @TableField(typeHandler = JobDataTypeHandler.class)
     private List<KVPairs> triggerData;
 
 }
