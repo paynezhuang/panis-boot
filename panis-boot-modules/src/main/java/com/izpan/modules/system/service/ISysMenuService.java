@@ -7,6 +7,7 @@ import com.izpan.modules.system.domain.bo.SysMenuBO;
 import com.izpan.modules.system.domain.entity.SysMenu;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 菜单管理 Service 服务接口层
@@ -94,6 +95,6 @@ public interface ISysMenuService extends IService<SysMenu> {
      * @author payne.zhuang
      * @CreateTime 2024-04-20 21:29
      */
-    void saveRoleMenuToCache(Long roleId, List<Long> menuIds);
+    void saveRoleMenuToCache(Long roleId, Set<Long> menuIds);
 
 }

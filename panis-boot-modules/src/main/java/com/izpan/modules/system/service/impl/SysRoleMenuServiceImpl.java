@@ -95,7 +95,7 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
                                 .map(menuId -> new SysRoleMenu(roleId, menuId)).toList();
                         saveBath.set(super.saveBatch(saveUserRoleList));
                     }
-                    sysMenuService.saveRoleMenuToCache(roleId, menuIds);
+                    sysMenuService.saveRoleMenuToCache(roleId, menuIdSet);
                 }
         );
         return saveBath.get();

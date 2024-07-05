@@ -14,12 +14,14 @@ import com.izpan.modules.system.domain.entity.SysMenu;
 import com.izpan.modules.system.repository.mapper.SysMenuMapper;
 import com.izpan.modules.system.service.ISysMenuService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -30,6 +32,7 @@ import java.util.stream.Collectors;
  * @ClassName com.izpan.modules.system.domain.entity.SysMenu
  * @CreateTime 2023-08-05
  */
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> implements ISysMenuService {
@@ -102,7 +105,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     }
 
     @Override
-    public void saveRoleMenuToCache(Long roleId, List<Long> menuIds) {
+    public void saveRoleMenuToCache(Long roleId, Set<Long> menuIds) {
         LambdaQueryWrapper<SysMenu> queryWrapper = new LambdaQueryWrapper<SysMenu>()
                 .eq(SysMenu::getStatus, StringPools.ONE)
                 .in(SysMenu::getId, menuIds);
@@ -111,7 +114,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
         // 构建父级目录菜单数据
         buildParentMenuData(sysMenus);
         // 保存角色权限到缓存
-        RedisUtil.set(roleMenuListKey, CglibUtil.convertList(sysMenus, SysMenuBO::new));
+        RedisUtil.set(roleMenuListKey, CglibUtil.convertList(sysMenus, SysMenuBO::new), 30L, TimeUnit.DAYS);
     }
 
     /**
