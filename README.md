@@ -30,7 +30,7 @@ Panis: 名为 Pan , is Pan 反过来 `Panis`，同译为：面包。
 | Knife4j      | 接口文档      | 4.5.0      |
 | Lombok       | 工具库       | 1.18.32    |
 | Jackson      | JSON解析    | 2.15.4     |
-| Gson         | JSON解析    | 2.11.0     |
+| Gson         | JSON解析    | 2.10.1     |
 | Guava        | Google工具库 | 33.2.0-jre |
 | Hutool       | 工具库       | 5.8.28     |
 
