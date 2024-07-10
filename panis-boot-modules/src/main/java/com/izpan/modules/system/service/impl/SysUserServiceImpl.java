@@ -112,7 +112,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Transactional
     public boolean removeBatchByIds(List<Long> ids) {
         if (!StpUtil.hasRole("ADMIN")) {
-            throw new BizException("非管理员禁止删除用户");
+            throw new BizException("非管理员角色禁止删除用户");
         }
         boolean containAdmin = baseMapper.queryIsContainAdmin(ids);
         if (containAdmin) {

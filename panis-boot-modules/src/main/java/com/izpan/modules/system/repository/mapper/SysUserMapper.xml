@@ -33,7 +33,7 @@
     </select>
 
     <select id="queryIsContainAdmin" resultType="java.lang.Boolean">
-        SELECT 1
+        SELECT COUNT(1)
         FROM sys_user su
         WHERE su.is_deleted = 0
         AND su.status = 1
