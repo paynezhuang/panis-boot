@@ -62,7 +62,7 @@ git clone https://github.com/paynezhuang/panis-boot-starter
 ##### 导入启动
 
 1. 将`panis-boot`以及`panis-boot-starter`分别导出到IDEA中，等待 Maven 依赖下载完成
-2. 创建数据库`panis_boot`，导入`panis-boot-doc`项目中的`panis_boot.sql`文件
+2. 创建数据库`panis_boot`，导入`panis-boot-doc`项目中的`panis_boot.sql`，文件[暂在QQ群获取](https://github.com/paynezhuang/panis-boot/issues/5)
 3. 修改`panis-boot`项目中的`application-dev.yml`文件中的`数据库`以及`Redis`连接信息
 4. 启动`PanisBootApplication`类
 5. 看到`---[PanisBoot]-[panis-boot-admin]-启动完成，当前使用的端口:[9999]，环境变量:[mybatis,dev]---`即代表启动成功
