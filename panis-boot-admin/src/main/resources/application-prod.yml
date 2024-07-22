@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:mysql://47.119.161.137:3306/panis_boot?socketTimeout=60000&connectTimeout=30000&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    url: jdbc:mysql://172.19.0.2:3306/panis_boot?socketTimeout=60000&connectTimeout=30000&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&allowMultiQueries=true&serverTimezone=Asia/Shanghai
     username: panis
     password:
     driver-class-name: com.mysql.cj.jdbc.Driver
