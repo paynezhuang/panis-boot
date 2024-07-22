@@ -25,7 +25,7 @@ public class PageQuery implements Serializable {
     @Serial
     private static final long serialVersionUID = -9112559334485771185L;
 
-    @Schema(description = "当前页码")
+    @Schema(description = "当前页码", defaultValue = "1")
     private Integer page = 1;
 
     @Schema(description = "每页显示数量", defaultValue = "20")

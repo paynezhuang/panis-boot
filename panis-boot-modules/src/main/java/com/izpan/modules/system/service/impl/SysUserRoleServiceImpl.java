@@ -3,6 +3,7 @@ package com.izpan.modules.system.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.extension.toolkit.Db;
 import com.google.common.collect.Sets;
 import com.izpan.common.util.CollectionUtil;
 import com.izpan.infrastructure.page.PageQuery;
@@ -14,10 +15,11 @@ import com.izpan.modules.system.service.ISysUserRoleService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * 用户角色管理 Service 服务接口实现层
@@ -51,25 +53,33 @@ public class SysUserRoleServiceImpl extends ServiceImpl<SysUserRoleMapper, SysUs
     }
 
     @Override
-    public void initUserRoleHandler(Long userId, List<Long> roleIds) {
-        // 查询
-        LambdaQueryWrapper<SysUserRole> queryWrapper = new LambdaQueryWrapper<SysUserRole>()
-                .eq(SysUserRole::getUserId, userId);
-        List<SysUserRole> sysUserRoles = baseMapper.selectList(queryWrapper);
-        // 提取用户原有角色Ids
-        Set<Long> userOriginRoleIds = sysUserRoles.stream()
-                .map(SysUserRole::getRoleId).collect(Collectors.toSet());
-        // 判断用户角色关联关系是否发生变化
-        if (userOriginRoleIds.equals(Sets.newHashSet(roleIds))) {
-            return;
-        }
-        if (CollectionUtil.isNotEmpty(userOriginRoleIds)) {
-            // 删除用户角色关联关系
-            baseMapper.delete(new LambdaQueryWrapper<SysUserRole>().eq(SysUserRole::getUserId, userId));
-        }
-        // 批量新增用户角色关联关系
-        List<SysUserRole> saveUserRoleList = roleIds.stream()
-                .map(roleId -> new SysUserRole(userId, roleId)).toList();
-        super.saveBatch(saveUserRoleList);
+    public boolean updateUserRole(Long userId, List<Long> roleIds) {
+        List<Long> originUserRoleIds = queryRoleIdsWithUserId(userId);
+        // 处理数据
+        Set<Long> roleIdSet = Sets.newHashSet(roleIds);
+        // 处理结果
+        AtomicBoolean saveResult = new AtomicBoolean(true);
+        CollectionUtil.handleDifference(
+                Sets.newHashSet(originUserRoleIds),
+                roleIdSet,
+                // 处理增加和删除的数据
+                (addRoleIdSet, removeRoleIdSet) -> {
+                    // 如有删除，则进行删除数据
+                    if (!CollectionUtils.isEmpty(removeRoleIdSet)) {
+                        LambdaQueryWrapper<SysUserRole> removeQueryWrapper = new LambdaQueryWrapper<SysUserRole>()
+                                .eq(SysUserRole::getUserId, userId)
+                                .in(SysUserRole::getRoleId, removeRoleIdSet);
+                        baseMapper.delete(removeQueryWrapper);
+                    }
+                    // 进行新增数据
+                    if (!CollectionUtils.isEmpty(addRoleIdSet)) {
+                        List<SysUserRole> sysUserRoleList = addRoleIdSet.stream()
+                                .map(roleId -> new SysUserRole(userId, roleId))
+                                .toList();
+                        saveResult.set(Db.saveBatch(sysUserRoleList));
+                    }
+                }
+        );
+        return saveResult.get();
     }
 }

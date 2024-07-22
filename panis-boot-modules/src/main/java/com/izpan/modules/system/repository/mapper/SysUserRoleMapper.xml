@@ -4,7 +4,8 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="SysUserRoleResultMap" type="com.izpan.modules.system.domain.entity.SysUserRole">
-        <id column="user_id" property="userId"/>
+        <id column="id" property="id"/>
+        <result column="user_id" property="userId"/>
         <result column="role_id" property="roleId"/>
         <result column="status" property="status"/>
         <result column="create_user" property="createUser"/>
@@ -18,6 +19,7 @@
 
     <!-- 通用查询结果列 -->
     <sql id="SysUserRoleColumnList">
+        id,
         create_user,
         create_user_id,
         create_time,
@@ -28,7 +30,7 @@
         user_id, role_id, status
     </sql>
 
-    <select id="listUserRoleByUserId" resultType="com.izpan.modules.system.domain.entity.SysUserRole">
+    <select id="listUserRoleByUserId" resultMap="SysUserRoleResultMap">
         SELECT ur.*
         FROM sys_user_role ur
                  INNER JOIN sys_role r ON ur.role_id = r.id

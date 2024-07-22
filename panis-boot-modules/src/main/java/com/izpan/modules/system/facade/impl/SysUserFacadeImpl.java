@@ -5,22 +5,17 @@ import com.izpan.common.util.CglibUtil;
 import com.izpan.infrastructure.page.PageQuery;
 import com.izpan.infrastructure.page.RPage;
 import com.izpan.modules.system.domain.bo.SysUserBO;
-import com.izpan.modules.system.domain.dto.user.SysUserAddDTO;
-import com.izpan.modules.system.domain.dto.user.SysUserDeleteDTO;
-import com.izpan.modules.system.domain.dto.user.SysUserSearchDTO;
-import com.izpan.modules.system.domain.dto.user.SysUserUpdateDTO;
+import com.izpan.modules.system.domain.bo.SysUserResponsibilitiesBO;
+import com.izpan.modules.system.domain.dto.user.*;
 import com.izpan.modules.system.domain.entity.SysUser;
-import com.izpan.modules.system.domain.vo.SysUserInfoVO;
+import com.izpan.modules.system.domain.vo.SysUserResponsibilitiesVO;
 import com.izpan.modules.system.domain.vo.SysUserVO;
 import com.izpan.modules.system.facade.ISysUserFacade;
-import com.izpan.modules.system.service.ISysUserRoleService;
 import com.izpan.modules.system.service.ISysUserService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 /**
  * 用户管理 门面接口实现层
@@ -38,9 +33,6 @@ public class SysUserFacadeImpl implements ISysUserFacade {
     @NonNull
     private ISysUserService sysUserService;
 
-    @NonNull
-    private ISysUserRoleService sysUserRoleService;
-
     @Override
     public RPage<SysUserVO> listSysUserPage(PageQuery pageQuery, SysUserSearchDTO sysUserSearchDTO) {
         SysUserBO sysUserBO = CglibUtil.convertObj(sysUserSearchDTO, SysUserBO::new);
@@ -49,12 +41,9 @@ public class SysUserFacadeImpl implements ISysUserFacade {
     }
 
     @Override
-    public SysUserInfoVO get(Long id) {
+    public SysUserVO get(Long id) {
         SysUser byId = sysUserService.getById(id);
-        SysUserInfoVO userInfoVO = CglibUtil.convertObj(byId, SysUserInfoVO::new);
-        List<Long> userRoleIdList = sysUserRoleService.queryRoleIdsWithUserId(byId.getId());
-        userInfoVO.setRoleIds(userRoleIdList);
-        return userInfoVO;
+        return CglibUtil.convertObj(byId, SysUserVO::new);
     }
 
     @Override
@@ -80,4 +69,15 @@ public class SysUserFacadeImpl implements ISysUserFacade {
         return sysUserService.resetPassword(userId);
     }
 
+    @Override
+    public SysUserResponsibilitiesVO queryUserResponsibilitiesWithUserId(Long userId) {
+        SysUserResponsibilitiesBO responsibilitiesBO = sysUserService.queryUserResponsibilitiesWithUserId(userId);
+        return CglibUtil.convertObj(responsibilitiesBO, SysUserResponsibilitiesVO::new);
+    }
+
+    @Override
+    public boolean updateUserResponsibilities(SysUserResponsibilitiesUpdateDTO updateDTO) {
+        SysUserResponsibilitiesBO responsibilitiesBO = CglibUtil.convertObj(updateDTO, SysUserResponsibilitiesBO::new);
+        return sysUserService.updateUserResponsibilities(responsibilitiesBO);
+    }
 }

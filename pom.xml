@@ -8,7 +8,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.0</version>
+        <version>3.3.2</version>
         <relativePath/>
     </parent>
 
@@ -43,7 +43,7 @@
         <!-- SpringBoot -->
 
         <!-- 其他工具版本 -->
-        <hutool.version>5.8.28</hutool.version>
+        <lombok.version>1.18.34</lombok.version>
         <knife4j.version>4.5.0</knife4j.version>
         <java.jwt.version>4.4.0</java.jwt.version>
         <jsr310.version>2.17.1</jsr310.version>
@@ -73,18 +73,6 @@
                 <groupId>com.izpan</groupId>
                 <artifactId>panis-boot-admin</artifactId>
                 <version>${project.version}</version>
-            </dependency>
-
-            <!-- Hutool -->
-            <dependency>
-                <groupId>cn.hutool</groupId>
-                <artifactId>hutool-extra</artifactId>
-                <version>${hutool.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>cn.hutool</groupId>
-                <artifactId>hutool-crypto</artifactId>
-                <version>${hutool.version}</version>
             </dependency>
 
             <!-- knife4j swagger -->

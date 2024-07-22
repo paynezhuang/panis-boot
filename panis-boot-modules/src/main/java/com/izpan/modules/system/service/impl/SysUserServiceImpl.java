@@ -19,11 +19,11 @@ import com.izpan.modules.monitor.domain.entity.MonLogsLogin;
 import com.izpan.modules.monitor.service.IMonLogsLoginService;
 import com.izpan.modules.system.domain.bo.SysRoleBO;
 import com.izpan.modules.system.domain.bo.SysUserBO;
+import com.izpan.modules.system.domain.bo.SysUserOrgBO;
+import com.izpan.modules.system.domain.bo.SysUserResponsibilitiesBO;
 import com.izpan.modules.system.domain.entity.SysUser;
 import com.izpan.modules.system.repository.mapper.SysUserMapper;
-import com.izpan.modules.system.service.ISysRoleService;
-import com.izpan.modules.system.service.ISysUserRoleService;
-import com.izpan.modules.system.service.ISysUserService;
+import com.izpan.modules.system.service.*;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -57,6 +57,12 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     private ISysUserRoleService sysUserRoleService;
 
     @NonNull
+    private ISysUserOrgService sysUserOrgService;
+
+    @NonNull
+    private ISysUserPositionService sysUserPositionService;
+
+    @NonNull
     private IMonLogsLoginService monLogsLoginService;
 
     @Override
@@ -84,16 +90,13 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         String sha256HexPwd = DigestUtils.sha256Hex(RandomStringUtils.randomAlphabetic(12));
         String password = DigestUtils.sha256Hex(sha256HexPwd + sysUserBO.getSalt());
         sysUserBO.setPassword(password);
-        boolean save = super.save(sysUserBO);
-        sysUserRoleService.initUserRoleHandler(sysUserBO.getId(), sysUserBO.getRoleIds());
-        return save;
+        return super.save(sysUserBO);
     }
 
     @Override
     @Transactional
     public boolean updateUser(SysUserBO sysUserBO) {
         boolean updateById = super.updateById(sysUserBO);
-        sysUserRoleService.initUserRoleHandler(sysUserBO.getId(), sysUserBO.getRoleIds());
         // 用户管理修改用户，则退出用户，要求重登
         StpUtil.logout(sysUserBO.getId());
         return updateById;
@@ -111,7 +114,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     @Transactional
     public boolean removeBatchByIds(List<Long> ids) {
-        if (!StpUtil.hasRole("ADMIN")) {
+        if (!StpUtil.hasRole(StringPools.ADMIN.toUpperCase())) {
             throw new BizException("非管理员角色禁止删除用户");
         }
         boolean containAdmin = baseMapper.queryIsContainAdmin(ids);
@@ -209,12 +212,15 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
     @Override
     @Transactional
     public String resetPassword(Long userId) {
-        if (!StpUtil.hasRole("ADMIN")) {
+        if (!StpUtil.hasRole(StringPools.ADMIN.toUpperCase())) {
             throw new BizException("非管理员禁止重置用户密码");
         }
         SysUser sysUser = baseMapper.selectById(userId);
         if (ObjectUtils.isEmpty(sysUser)) {
             throw new BizException("查找不到用户信息");
+        }
+        if (StringPools.ADMIN.equalsIgnoreCase(sysUser.getUserName())) {
+            throw new BizException("禁止重置《%s》账户密码".formatted(StringPools.ADMIN));
         }
         // 密码盐值
         sysUser.setSalt(RandomStringUtils.randomAlphabetic(6));
@@ -223,7 +229,36 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         String sha256HexPwd = DigestUtils.sha256Hex(randomPwd);
         String password = DigestUtils.sha256Hex(sha256HexPwd + sysUser.getSalt());
         sysUser.setPassword(password);
+        sysUser.setUpdatePasswordTime(LocalDateTime.now());
         super.updateById(sysUser);
         return randomPwd;
+    }
+
+    @Override
+    public SysUserResponsibilitiesBO queryUserResponsibilitiesWithUserId(Long userId) {
+        List<Long> userRoleIds = sysUserRoleService.queryRoleIdsWithUserId(userId);
+        List<Long> userPositionIds = sysUserPositionService.queryPositionIdsWithUserId(userId);
+        // 用户所属组织
+        List<SysUserOrgBO> sysUserOrgBOList = sysUserOrgService.queryOrgUnitsListWithUserId(userId);
+        List<Long> userOrgUnitsPrincipalIds = sysUserOrgBOList.stream()
+                .filter(item -> StringPools.ONE.equals(item.getPrincipal()))
+                .map(SysUserOrgBO::getOrgId).toList();
+        List<Long> userOrgUnitsIds = sysUserOrgBOList.stream().map(SysUserOrgBO::getOrgId).toList();
+        return SysUserResponsibilitiesBO.builder()
+                .userId(userId)
+                .roleIds(userRoleIds)
+                .positionIds(userPositionIds)
+                .orgUnitsIds(userOrgUnitsIds)
+                .orgUnitsPrincipalIds(userOrgUnitsPrincipalIds)
+                .build();
+    }
+
+    @Override
+    public boolean updateUserResponsibilities(SysUserResponsibilitiesBO responsibilitiesBO) {
+        Long userId = responsibilitiesBO.getUserId();
+        boolean role = sysUserRoleService.updateUserRole(userId, responsibilitiesBO.getRoleIds());
+        boolean position = sysUserPositionService.updateUserPosition(userId, responsibilitiesBO.getPositionIds());
+        boolean userOrg = sysUserOrgService.updateUserOrg(userId, responsibilitiesBO.getOrgUnitsIds(), responsibilitiesBO.getOrgUnitsPrincipalIds());
+        return role && position && userOrg;
     }
 }

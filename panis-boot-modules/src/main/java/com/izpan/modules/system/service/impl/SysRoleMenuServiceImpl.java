@@ -3,6 +3,7 @@ package com.izpan.modules.system.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.extension.toolkit.Db;
 import com.google.common.collect.Sets;
 import com.izpan.common.constants.SystemCacheConstant;
 import com.izpan.common.util.CglibUtil;
@@ -56,7 +57,7 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
     public boolean add(SysRoleMenuBO sysRoleMenuBO) {
         List<SysRoleMenu> sysRoleMenus = sysRoleMenuBO.getMenuIds().stream()
                 .map(menuId -> new SysRoleMenu(sysRoleMenuBO.getRoleId(), menuId)).toList();
-        return super.saveBatch(sysRoleMenus);
+        return Db.saveBatch(sysRoleMenus);
     }
 
     @Override
@@ -93,7 +94,7 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
                         // 进行新增数据
                         List<SysRoleMenu> saveUserRoleList = addMenuIdSet.stream()
                                 .map(menuId -> new SysRoleMenu(roleId, menuId)).toList();
-                        saveBath.set(super.saveBatch(saveUserRoleList));
+                        saveBath.set(Db.saveBatch(saveUserRoleList));
                     }
                     sysMenuService.saveRoleMenuToCache(roleId, menuIdSet);
                 }

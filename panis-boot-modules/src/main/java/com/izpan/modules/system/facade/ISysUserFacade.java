@@ -2,11 +2,8 @@ package com.izpan.modules.system.facade;
 
 import com.izpan.infrastructure.page.PageQuery;
 import com.izpan.infrastructure.page.RPage;
-import com.izpan.modules.system.domain.dto.user.SysUserAddDTO;
-import com.izpan.modules.system.domain.dto.user.SysUserDeleteDTO;
-import com.izpan.modules.system.domain.dto.user.SysUserSearchDTO;
-import com.izpan.modules.system.domain.dto.user.SysUserUpdateDTO;
-import com.izpan.modules.system.domain.vo.SysUserInfoVO;
+import com.izpan.modules.system.domain.dto.user.*;
+import com.izpan.modules.system.domain.vo.SysUserResponsibilitiesVO;
 import com.izpan.modules.system.domain.vo.SysUserVO;
 
 /**
@@ -34,11 +31,11 @@ public interface ISysUserFacade {
      * 根据 ID 获取详情信息
      *
      * @param id 用户ID
-     * @return {@link SysUserInfoVO} 用户个人信息 VO 对象
+     * @return {@link SysUserVO} 用户个人信息 VO 对象
      * @author payne.zhuang
      * @CreateTime 2023-07-15 16:33
      */
-    SysUserInfoVO get(Long id);
+    SysUserVO get(Long id);
 
     /**
      * 新增用户
@@ -80,4 +77,24 @@ public interface ISysUserFacade {
      * @CreateTime 2023-12-18 22:04
      */
     String resetPassword(Long userId);
+
+    /**
+     * 根据用户ID查询用户的职责信息
+     *
+     * @param userId 用户id
+     * @return {@link SysUserResponsibilitiesVO } 用户职责信息 VO 对象
+     * @author payne.zhuang
+     * @CreateTime 2024-07-20 - 15:28:23
+     */
+    SysUserResponsibilitiesVO queryUserResponsibilitiesWithUserId(Long userId);
+
+    /**
+     * 更新用户职责信息
+     *
+     * @param updateDTO 更新dto
+     * @return {@link Boolean} 结果
+     * @author payne.zhuang
+     * @CreateTime 2024-07-20 - 17:08:03
+     */
+    boolean updateUserResponsibilities(SysUserResponsibilitiesUpdateDTO updateDTO);
 }

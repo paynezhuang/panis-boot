@@ -32,7 +32,4 @@ public class SysRolePermissionVO extends BaseVO {
 
     @Schema(description = "权限ID")
     private Long permissionId;
-
-    @Schema(description = "是否启用(0:禁用,1:启用)")
-    private String status;
 }

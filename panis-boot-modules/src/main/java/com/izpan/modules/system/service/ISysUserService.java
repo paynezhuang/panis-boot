@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.izpan.common.domain.LoginUser;
 import com.izpan.infrastructure.page.PageQuery;
 import com.izpan.modules.system.domain.bo.SysUserBO;
+import com.izpan.modules.system.domain.bo.SysUserResponsibilitiesBO;
 import com.izpan.modules.system.domain.entity.SysUser;
 
 import java.util.List;
@@ -112,4 +113,24 @@ public interface ISysUserService extends IService<SysUser> {
      * @CreateTime 2024-04-23 12:01
      */
     boolean removeBatchByIds(List<Long> ids);
+
+    /**
+     * 查询用户职责
+     *
+     * @param userId 用户id
+     * @return {@link SysUserResponsibilitiesBO} 用户职责信息
+     * @author payne.zhuang
+     * @CreateTime 2024-07-20 - 14:32:07
+     */
+    SysUserResponsibilitiesBO queryUserResponsibilitiesWithUserId(Long userId);
+
+    /**
+     * 更新用户职责信息
+     *
+     * @param responsibilitiesBO 用户职责信息
+     * @return {@link Boolean} 结果
+     * @author payne.zhuang
+     * @CreateTime 2024-07-20 - 17:08:58
+     */
+    boolean updateUserResponsibilities(SysUserResponsibilitiesBO responsibilitiesBO);
 }

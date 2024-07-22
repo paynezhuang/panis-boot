@@ -21,18 +21,18 @@ Panis: 名为 Pan , is Pan 反过来 `Panis`，同译为：面包。
 
 | 技术           | 说明        | 版本         |
 |:-------------|:----------|:-----------|
-| Spring Boot  | 核心框架      | 3.3.0      |
+| Spring Boot  | 核心框架      | 3.3.2      |
 | MyBatis-Plus | 持久层框架     | 3.5.6      |
 | MySQL        | 数据库       | 8.0.35     |
 | Redis        | 缓存        | 7.2.3      |
 | Sa-Token     | 鉴权框架      | 1.38.0     |
 | Logback      | 日志管理      | 1.5.6      |
 | Knife4j      | 接口文档      | 4.5.0      |
-| Lombok       | 工具库       | 1.18.32    |
+| Lombok       | 工具库       | 1.18.34    |
 | Jackson      | JSON解析    | 2.15.4     |
 | Gson         | JSON解析    | 2.10.1     |
-| Guava        | Google工具库 | 33.2.0-jre |
-| Hutool       | 工具库       | 5.8.28     |
+| Guava        | Google工具库 | 33.2.1-jre |
+| Hutool       | 工具库       | 5.8.29     |
 
 ### 项目源码
 

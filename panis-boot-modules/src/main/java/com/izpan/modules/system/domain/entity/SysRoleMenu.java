@@ -1,7 +1,6 @@
 package com.izpan.modules.system.domain.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.izpan.common.pool.StringPools;
 import com.izpan.infrastructure.domain.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -38,15 +37,4 @@ public class SysRoleMenu extends BaseEntity {
      * 菜单ID
      */
     private Long menuId;
-
-    /**
-     * 是否启用(0:禁用,1:启用)
-     */
-    private String status;
-
-    public SysRoleMenu(Long roleId, Long menuId) {
-        this.roleId = roleId;
-        this.menuId = menuId;
-        this.status = StringPools.ONE;
-    }
 }

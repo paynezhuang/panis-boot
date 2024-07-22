@@ -3,6 +3,7 @@ package com.izpan.modules.system.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.extension.toolkit.Db;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -58,7 +59,7 @@ public class SysRolePermissionServiceImpl extends ServiceImpl<SysRolePermissionM
     public boolean add(SysRolePermissionBO sysRolePermissionBO) {
         List<SysRolePermission> sysRolePermissions = sysRolePermissionBO.getPermissionIds().stream()
                 .map(permissionId -> new SysRolePermission(sysRolePermissionBO.getRoleId(), permissionId)).toList();
-        return super.saveBatch(sysRolePermissions);
+        return Db.saveBatch(sysRolePermissions);
     }
 
     @Override
@@ -92,7 +93,7 @@ public class SysRolePermissionServiceImpl extends ServiceImpl<SysRolePermissionM
                         List<SysRolePermission> addRolePermissionList = addPermissionSet.stream()
                                 .map(permissionId -> new SysRolePermission(roleId, permissionId)).toList();
                         // 进行新增数据
-                        saveBath.set(super.saveBatch(addRolePermissionList));
+                        saveBath.set(Db.saveBatch(addRolePermissionList));
                     }
                     // 保存角色权限到缓存
                     sysPermissionService.saveRolePermissionToCache(roleId, permissionIds);

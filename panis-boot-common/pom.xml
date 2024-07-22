@@ -21,16 +21,6 @@
             <artifactId>panis-boot-starter-common</artifactId>
         </dependency>
 
-        <!-- Hutool -->
-        <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-extra</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-crypto</artifactId>
-        </dependency>
-
         <!-- Knife4j -->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>

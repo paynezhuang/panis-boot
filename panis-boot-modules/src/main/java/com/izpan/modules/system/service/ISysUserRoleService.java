@@ -49,12 +49,13 @@ public interface ISysUserRoleService extends IService<SysUserRole> {
     List<String> queryRoleCodesWithUserId(Long userId);
 
     /**
-     * 初始化用户与角色信息
+     * 更新用户角色
      *
      * @param userId  用户ID
      * @param roleIds 角色ID列表
+     * @return {@link Boolean} 更新结果
      * @author payne.zhuang
      * @CreateTime 2024-04-18 14:52
      */
-    void initUserRoleHandler(Long userId, List<Long> roleIds);
+    boolean updateUserRole(Long userId, List<Long> roleIds);
 }

@@ -4,11 +4,8 @@ import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.izpan.common.api.Result;
 import com.izpan.infrastructure.page.PageQuery;
 import com.izpan.infrastructure.page.RPage;
-import com.izpan.modules.system.domain.dto.user.SysUserAddDTO;
-import com.izpan.modules.system.domain.dto.user.SysUserDeleteDTO;
-import com.izpan.modules.system.domain.dto.user.SysUserSearchDTO;
-import com.izpan.modules.system.domain.dto.user.SysUserUpdateDTO;
-import com.izpan.modules.system.domain.vo.SysUserInfoVO;
+import com.izpan.modules.system.domain.dto.user.*;
+import com.izpan.modules.system.domain.vo.SysUserResponsibilitiesVO;
 import com.izpan.modules.system.domain.vo.SysUserVO;
 import com.izpan.modules.system.facade.ISysUserFacade;
 import io.swagger.v3.oas.annotations.Operation;
@@ -47,7 +44,7 @@ public class SysUserController {
     @GetMapping("/{id}")
     @SaCheckPermission("sys:user:get")
     @Operation(operationId = "2", summary = "根据ID获取用户详细信息")
-    public Result<SysUserInfoVO> get(@Parameter(description = "ID") @PathVariable("id") Long id) {
+    public Result<SysUserVO> get(@Parameter(description = "ID") @PathVariable("id") Long id) {
         return Result.data(sysUserFacade.get(id));
     }
 
@@ -78,4 +75,19 @@ public class SysUserController {
     public Result<String> resetPassword(@Parameter(description = "用户ID") @PathVariable("userId") Long userId) {
         return Result.data(sysUserFacade.resetPassword(userId));
     }
+
+    @GetMapping("/responsibilities/{userId}")
+    @SaCheckPermission("sys:user:responsibilities")
+    @Operation(operationId = "7", summary = "根据用户ID获取用户职责信息")
+    public Result<SysUserResponsibilitiesVO> queryUserResponsibilities(@Parameter(description = "ID") @PathVariable("userId") Long userId) {
+        return Result.data(sysUserFacade.queryUserResponsibilitiesWithUserId(userId));
+    }
+
+    @PutMapping("/responsibilities")
+    @SaCheckPermission("sys:user:responsibilities")
+    @Operation(operationId = "7", summary = "更新用户职责信息")
+    public Result<Boolean> updateUserResponsibilities(@Parameter(description = "用户职责对象") @RequestBody SysUserResponsibilitiesUpdateDTO updateDTO) {
+        return Result.data(sysUserFacade.updateUserResponsibilities(updateDTO));
+    }
+
 }
