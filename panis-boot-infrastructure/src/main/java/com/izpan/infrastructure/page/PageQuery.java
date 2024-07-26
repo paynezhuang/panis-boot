@@ -4,8 +4,10 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Min;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Range;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -25,9 +27,11 @@ public class PageQuery implements Serializable {
     @Serial
     private static final long serialVersionUID = -9112559334485771185L;
 
+    @Min(value = 1, message = "当前页码不能小于1")
     @Schema(description = "当前页码", defaultValue = "1")
     private Integer page = 1;
 
+    @Range(min = 1, max = 500, message = "每页显示数量范围为[1,500]")
     @Schema(description = "每页显示数量", defaultValue = "20")
     private Integer pageSize = 20;
 

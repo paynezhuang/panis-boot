@@ -13,6 +13,7 @@ import com.izpan.modules.monitor.facade.IMonLogsSchedulerFacade;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -38,7 +39,7 @@ public class MonLogsSchedulerController {
     @GetMapping("/page")
     @SaCheckPermission("mon:logs:scheduler:page")
     @Operation(operationId = "1", summary = "获取调度日志列表")
-    public Result<RPage<MonLogsSchedulerVO>> page(@Parameter(description = "分页对象", required = true) PageQuery pageQuery,
+    public Result<RPage<MonLogsSchedulerVO>> page(@Parameter(description = "分页对象", required = true) @Valid PageQuery pageQuery,
                                                   @Parameter(description = "查询对象") MonLogsSchedulerSearchDTO monLogsSchedulerSearchDTO) {
         return Result.data(monLogsSchedulerFacade.listMonLogsSchedulerPage(pageQuery, monLogsSchedulerSearchDTO));
     }

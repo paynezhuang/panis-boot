@@ -61,7 +61,7 @@ public class SysPositionController {
     @GetMapping("/page")
     @SaCheckPermission("sys:position:page")
     @Operation(operationId = "1", summary = "获取岗位管理列表")
-    public Result<RPage<SysPositionVO>> page(@Parameter(description = "分页对象", required = true) PageQuery pageQuery,
+    public Result<RPage<SysPositionVO>> page(@Parameter(description = "分页对象", required = true) @Valid PageQuery pageQuery,
                                              @Parameter(description = "查询对象") SysPositionSearchDTO sysPositionSearchDTO) {
         return Result.data(sysPositionFacade.listSysPositionPage(pageQuery, sysPositionSearchDTO));
     }

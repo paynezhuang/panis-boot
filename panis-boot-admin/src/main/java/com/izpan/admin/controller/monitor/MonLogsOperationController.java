@@ -13,6 +13,7 @@ import com.izpan.modules.monitor.facade.IMonLogsOperationFacade;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -38,7 +39,7 @@ public class MonLogsOperationController {
     @GetMapping("/page")
     @SaCheckPermission("mon:logs:operation:page")
     @Operation(operationId = "1", summary = "获取操作日志列表")
-    public Result<RPage<MonLogsOperationVO>> page(@Parameter(description = "分页对象", required = true) PageQuery pageQuery,
+    public Result<RPage<MonLogsOperationVO>> page(@Parameter(description = "分页对象", required = true) @Valid PageQuery pageQuery,
                                                   @Parameter(description = "查询对象") MonLogsOperationSearchDTO monLogsOperationSearchDTO) {
         return Result.data(monLogsOperationFacade.listMonLogsOperationPage(pageQuery, monLogsOperationSearchDTO));
     }

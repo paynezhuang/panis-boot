@@ -7,13 +7,20 @@ import com.izpan.common.api.ResultCode;
 import com.izpan.common.exception.BizException;
 import com.izpan.common.exception.LoginException;
 import com.izpan.common.exception.RouteException;
+import com.izpan.common.pool.StringPools;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.ConstraintViolationException;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.validation.BindException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 全局异常捕获
@@ -40,6 +47,8 @@ public class GlobalExceptionHandler {
             11016, ResultCode.UNAUTHORIZED,
             11017, ResultCode.UNAUTHORIZED
     );
+
+    private static final String VALID_MESSAGE = "[校验异常]{}";
 
     /**
      * 业务异常
@@ -114,6 +123,60 @@ public class GlobalExceptionHandler {
     public Result<Object> handleNotLoginException(@NonNull NotPermissionException notPermissionException) {
         log.error("[无权限异常]{}", notPermissionException.getMessage(), notPermissionException);
         return Result.failure(ResultCode.FORBIDDEN.getValue().formatted(notPermissionException.getPermission()));
+    }
+
+    /**
+     * 处理 BindException
+     * 说明：当使用 @Valid 注解验证 @ModelAttribute 参数或表单数据（非 @RequestBody）失败时抛出此异常
+     *
+     * @param bindException 异常信息
+     * @return {@link Result }<{@link Object }> 统一返回结果
+     * @author payne.zhuang
+     * @CreateTime 2024-07-26 - 16:52:43
+     */
+    @ResponseBody
+    @ExceptionHandler(value = BindException.class)
+    public Result<Object> bindExceptionHandler(@NonNull BindException bindException) {
+        String message = bindException.getAllErrors().stream().map(DefaultMessageSourceResolvable::getDefaultMessage)
+                .collect(Collectors.joining(StringPools.COMMA));
+        log.error(VALID_MESSAGE, message, bindException);
+        return Result.failure(message);
+    }
+
+    /**
+     * 处理 MethodArgumentNotValidException
+     * 说明：当使用 @Valid 注解验证 @RequestBody 参数失败时抛出此异常
+     *
+     * @param methodArgumentNotValidException 异常信息
+     * @return {@link Result }<{@link Object }> 统一返回结果
+     * @author payne.zhuang
+     * @CreateTime 2024-07-26 - 17:01:39
+     */
+    @ResponseBody
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Result<Object> methodArgumentNotValidExceptionHandler(@NonNull MethodArgumentNotValidException methodArgumentNotValidException) {
+        String message = methodArgumentNotValidException.getBindingResult().getAllErrors().stream()
+                .map(DefaultMessageSourceResolvable::getDefaultMessage).collect(Collectors.joining(StringPools.COMMA));
+        log.error(VALID_MESSAGE, message, methodArgumentNotValidException);
+        return Result.failure(message);
+    }
+
+    /**
+     * 处理 ConstraintViolationException
+     * 说明：当使用 @Validated 注解验证方法参数（如 @RequestParam、@PathVariable）失败时抛出此异常
+     *
+     * @param constraintViolationException 异常信息
+     * @return {@link Result }<{@link Object }> 统一返回结果
+     * @author payne.zhuang
+     * @CreateTime 2024-07-26 - 17:03:11
+     */
+    @ResponseBody
+    @ExceptionHandler(ConstraintViolationException.class)
+    public Result<Object> constraintViolationExceptionHandler(@NonNull ConstraintViolationException constraintViolationException) {
+        String message = constraintViolationException.getConstraintViolations().stream()
+                .map(ConstraintViolation::getMessage).collect(Collectors.joining(StringPools.COMMA));
+        log.error(VALID_MESSAGE, message, constraintViolationException);
+        return Result.failure(message);
     }
 
     /**

@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RestController;
 import ${superControllerClassPackage};
 </#if>
 import lombok.NonNull;
+import jakarta.validation.Valid;
 
 /**
  * ${table.comment!} Controller 控制层
@@ -57,7 +58,7 @@ public class ${table.controllerName} {
     @GetMapping("/page")
     @SaCheckPermission("${cfg.permission!}:page")
     @Operation(operationId = "1", summary = "获取${table.comment!}列表")
-    public Result<RPage<${entity}VO>> page(@Parameter(description = "分页对象", required = true) PageQuery pageQuery,
+    public Result<RPage<${entity}VO>> page(@Parameter(description = "分页对象", required = true) @Valid PageQuery pageQuery,
                                            @Parameter(description = "查询对象") ${entity}SearchDTO ${table.entityPath!}SearchDTO) {
         return Result.data(${table.entityPath!}Facade.list${entity}Page(pageQuery, ${table.entityPath!}SearchDTO));
     }

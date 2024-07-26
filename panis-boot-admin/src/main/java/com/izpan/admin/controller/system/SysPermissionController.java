@@ -13,6 +13,7 @@ import com.izpan.modules.system.facade.ISysPermissionFacade;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +38,7 @@ public class SysPermissionController {
     @GetMapping("/page")
     @SaCheckPermission("sys:permission:page")
     @Operation(operationId = "1", summary = "获取权限管理列表")
-    public Result<RPage<SysPermissionVO>> page(@Parameter(description = "分页对象", required = true) PageQuery pageQuery,
+    public Result<RPage<SysPermissionVO>> page(@Parameter(description = "分页对象", required = true) @Valid PageQuery pageQuery,
                                                @Parameter(description = "查询对象") SysPermissionSearchDTO sysPermissionSearchDTO) {
         return Result.data(sysPermissionFacade.listSysPermissionPage(pageQuery, sysPermissionSearchDTO));
     }

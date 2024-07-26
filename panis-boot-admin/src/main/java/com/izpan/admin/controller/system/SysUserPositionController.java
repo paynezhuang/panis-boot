@@ -32,9 +32,10 @@ import com.izpan.modules.system.facade.ISysUserPositionFacade;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import lombok.NonNull;
 
 /**
  * 用户岗位管理 Controller 控制层
@@ -57,7 +58,7 @@ public class SysUserPositionController {
     @GetMapping("/page")
     @SaCheckPermission("sys:user:position:page")
     @Operation(operationId = "1", summary = "获取用户岗位管理列表")
-    public Result<RPage<SysUserPositionVO>> page(@Parameter(description = "分页对象", required = true) PageQuery pageQuery,
+    public Result<RPage<SysUserPositionVO>> page(@Parameter(description = "分页对象", required = true) @Valid PageQuery pageQuery,
                                                  @Parameter(description = "查询对象") SysUserPositionSearchDTO sysUserPositionSearchDTO) {
         return Result.data(sysUserPositionFacade.listSysUserPositionPage(pageQuery, sysUserPositionSearchDTO));
     }

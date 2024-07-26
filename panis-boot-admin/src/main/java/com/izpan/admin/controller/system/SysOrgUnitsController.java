@@ -33,6 +33,7 @@ import com.izpan.modules.system.facade.ISysOrgUnitsFacade;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -60,7 +61,7 @@ public class SysOrgUnitsController {
     @GetMapping("/page")
     @SaCheckPermission("sys:org:units:page")
     @Operation(operationId = "1", summary = "获取组织/部门/子部门管理列表")
-    public Result<RPage<SysOrgUnitsTreeVO>> page(@Parameter(description = "分页对象", required = true) PageQuery pageQuery,
+    public Result<RPage<SysOrgUnitsTreeVO>> page(@Parameter(description = "分页对象", required = true) @Valid PageQuery pageQuery,
                                                  @Parameter(description = "查询对象") SysOrgUnitsSearchDTO sysOrgUnitsSearchDTO) {
         return Result.data(sysOrgUnitsFacade.listSysOrgUnitsPage(pageQuery, sysOrgUnitsSearchDTO));
     }

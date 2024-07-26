@@ -13,6 +13,7 @@ import com.izpan.modules.system.facade.ISysUserRoleFacade;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +38,7 @@ public class SysUserRoleController {
     @GetMapping("/page")
     @SaCheckPermission("sys:user:role:page")
     @Operation(operationId = "1", summary = "获取用户角色管理列表")
-    public Result<RPage<SysUserRoleVO>> page(@Parameter(description = "分页对象", required = true) PageQuery pageQuery,
+    public Result<RPage<SysUserRoleVO>> page(@Parameter(description = "分页对象", required = true) @Valid PageQuery pageQuery,
                                              @Parameter(description = "查询对象") SysUserRoleSearchDTO sysUserRoleSearchDTO) {
         return Result.data(sysUserRoleFacade.listSysUserRolePage(pageQuery, sysUserRoleSearchDTO));
     }

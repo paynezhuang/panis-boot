@@ -11,6 +11,7 @@ import com.izpan.modules.system.facade.ISysUserFacade;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -36,7 +37,7 @@ public class SysUserController {
     @GetMapping("/page")
     @SaCheckPermission("sys:user:page")
     @Operation(operationId = "1", summary = "获取用户管理列表")
-    public Result<RPage<SysUserVO>> page(@Parameter(description = "分页对象", required = true) PageQuery pageQuery,
+    public Result<RPage<SysUserVO>> page(@Parameter(description = "分页对象", required = true) @Valid PageQuery pageQuery,
                                          @Parameter(description = "查询对象") SysUserSearchDTO sysUserSearchDTO) {
         return Result.data(sysUserFacade.listSysUserPage(pageQuery, sysUserSearchDTO));
     }

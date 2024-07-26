@@ -60,7 +60,7 @@ public class SysDictController {
     @GetMapping("/page")
     @SaCheckPermission("sys:dict:page")
     @Operation(operationId = "1", summary = "获取数据字典管理列表")
-    public Result<RPage<SysDictVO>> page(@Parameter(description = "分页对象", required = true) PageQuery pageQuery,
+    public Result<RPage<SysDictVO>> page(@Parameter(description = "分页对象", required = true) @Valid PageQuery pageQuery,
                                          @Parameter(description = "查询对象") SysDictSearchDTO sysDictSearchDTO) {
         return Result.data(sysDictFacade.listSysDictPage(pageQuery, sysDictSearchDTO));
     }

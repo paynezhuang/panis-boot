@@ -32,9 +32,10 @@ import com.izpan.modules.system.facade.ISysDictItemFacade;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import lombok.NonNull;
 
 /**
  * 数据字典子项管理 Controller 控制层
@@ -57,7 +58,7 @@ public class SysDictItemController {
     @GetMapping("/page")
     @SaCheckPermission("sys:dict:item:page")
     @Operation(operationId = "1", summary = "获取数据字典子项管理列表")
-    public Result<RPage<SysDictItemVO>> page(@Parameter(description = "分页对象", required = true) PageQuery pageQuery,
+    public Result<RPage<SysDictItemVO>> page(@Parameter(description = "分页对象", required = true) @Valid PageQuery pageQuery,
                                              @Parameter(description = "查询对象") SysDictItemSearchDTO sysDictItemSearchDTO) {
         return Result.data(sysDictItemFacade.listSysDictItemPage(pageQuery, sysDictItemSearchDTO));
     }

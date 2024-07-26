@@ -14,6 +14,7 @@ import com.izpan.modules.monitor.facade.IMonSchedulerFacade;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -41,7 +42,7 @@ public class MonSchedulerController {
     @GetMapping("/page")
     @SaCheckPermission("mon:scheduler:page")
     @Operation(operationId = "1", summary = "获取调度管理列表")
-    public Result<RPage<MonSchedulerVO>> page(@Parameter(description = "分页对象", required = true) PageQuery pageQuery,
+    public Result<RPage<MonSchedulerVO>> page(@Parameter(description = "分页对象", required = true) @Valid PageQuery pageQuery,
                                               @Parameter(description = "查询对象") MonSchedulerSearchDTO monSchedulerSearchDTO) {
         return Result.data(monSchedulerFacade.listMonSchedulerPage(pageQuery, monSchedulerSearchDTO));
     }
