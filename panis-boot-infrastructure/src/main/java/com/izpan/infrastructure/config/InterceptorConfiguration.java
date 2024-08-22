@@ -2,6 +2,8 @@ package com.izpan.infrastructure.config;
 
 import cn.dev33.satoken.interceptor.SaInterceptor;
 import cn.dev33.satoken.stp.StpUtil;
+import com.izpan.infrastructure.interceptor.GlobalRequestInterceptor;
+import jakarta.annotation.Resource;
 import lombok.NonNull;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +22,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Slf4j
 @Configuration
 public class InterceptorConfiguration implements WebMvcConfigurer {
+
+    @Resource
+    private GlobalRequestInterceptor globalRequestInterceptor;
 
     // 对 swagger 的请求不进行拦截
     public final String[] swaggerExcludePatterns = new String[]{
@@ -41,11 +46,16 @@ public class InterceptorConfiguration implements WebMvcConfigurer {
     @Override
     public void addInterceptors(@NonNull InterceptorRegistry registry) {
 
-        // sa token 路由拦截器，拦截器的优先级为最高
+        // 全局请求拦截器，优先级最高
+        registry.addInterceptor(globalRequestInterceptor)
+                .addPathPatterns("/**")
+                .order(Ordered.HIGHEST_PRECEDENCE);
+
+        // sa token 路由拦截器，优先级次之
         registry.addInterceptor(new SaInterceptor(handle -> StpUtil.checkLogin()))
                 .addPathPatterns("/**")
                 .excludePathPatterns(swaggerExcludePatterns)
                 .excludePathPatterns(businessExcludePatterns)
-                .order(Ordered.HIGHEST_PRECEDENCE);
+                .order(Ordered.HIGHEST_PRECEDENCE + 1);
     }
 }
