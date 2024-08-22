@@ -76,6 +76,11 @@ public class SysDictItem extends BaseEntity {
     private String enUS;
 
     /**
+     * 类型(前端渲染类型)
+     */
+    private String type;
+
+    /**
      * 排序值
      */
     private Integer sort;

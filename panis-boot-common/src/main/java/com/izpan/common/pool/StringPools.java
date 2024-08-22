@@ -79,6 +79,8 @@ public final class StringPools {
     public static final String HTML_LT = "&lt;";
     public static final String HTML_GT = "&gt;";
     public static final String ADMIN = "admin";
+    public static final String ZH_CN = "zh-CN";
+    public static final String EN_US = "en-US";
 
     public static final String ZERO = "0";
     public static final String ONE = "1";

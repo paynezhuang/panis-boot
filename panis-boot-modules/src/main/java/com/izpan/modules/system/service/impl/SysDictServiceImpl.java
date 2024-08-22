@@ -56,7 +56,8 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
     public List<SysDict> getAllSysDict(SysDictBO sysDictBO) {
         LambdaQueryWrapper<SysDict> queryWrapper = new LambdaQueryWrapper<SysDict>()
                 .eq(ObjectUtils.isNotEmpty(sysDictBO.getName()), SysDict::getName, sysDictBO.getName())
-                .eq(ObjectUtils.isNotEmpty(sysDictBO.getCode()), SysDict::getCode, sysDictBO.getCode());
+                .eq(ObjectUtils.isNotEmpty(sysDictBO.getCode()), SysDict::getCode, sysDictBO.getCode())
+                .orderByAsc(SysDict::getSort);
         return baseMapper.selectList(queryWrapper);
     }
 

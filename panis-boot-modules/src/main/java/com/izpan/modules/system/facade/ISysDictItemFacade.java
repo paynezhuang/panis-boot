@@ -21,11 +21,12 @@ package com.izpan.modules.system.facade;
 
 import com.izpan.infrastructure.page.PageQuery;
 import com.izpan.infrastructure.page.RPage;
-import com.izpan.modules.system.domain.dto.dict.item.SysDictItemAddDTO;
-import com.izpan.modules.system.domain.dto.dict.item.SysDictItemDeleteDTO;
-import com.izpan.modules.system.domain.dto.dict.item.SysDictItemSearchDTO;
-import com.izpan.modules.system.domain.dto.dict.item.SysDictItemUpdateDTO;
+import com.izpan.modules.system.domain.dto.dict.item.*;
+import com.izpan.modules.system.domain.vo.SysDictItemOptionsVO;
 import com.izpan.modules.system.domain.vo.SysDictItemVO;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 数据字典子项管理 门面接口层
@@ -88,5 +89,24 @@ public interface ISysDictItemFacade {
      * @CreateTime 2024-06-27 - 22:03:29
      */
     boolean batchDelete(SysDictItemDeleteDTO sysDictItemDeleteDTO);
+
+    /**
+     * 查询所有的数据字典子项 Map 结构
+     *
+     * @return {@link Map }<{@link String }, {@link List }<{@link SysDictItemOptionsVO }>> 查询结果集合
+     * @author payne.zhuang
+     * @CreateTime 2024-08-01 - 23:44:12
+     */
+    Map<String, List<SysDictItemOptionsVO>> queryAllDictItemMap();
+
+    /**
+     * 查询字典项Map集合
+     *
+     * @param searchDTO 查询对象
+     * @return @link Map }<{@link String }, {@link List }<{@link SysDictItemOptionsVO }>> 查询结果集合
+     * @author payne.zhuang
+     * @CreateTime 2024-07-27 - 18:24:03
+     */
+    Map<String, List<SysDictItemOptionsVO>> queryDictItemMapOptions(SysDictItemStoreSearchDTO searchDTO);
 
 }

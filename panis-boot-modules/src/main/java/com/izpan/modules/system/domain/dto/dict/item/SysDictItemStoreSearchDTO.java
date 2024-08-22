@@ -20,54 +20,28 @@
 package com.izpan.modules.system.domain.dto.dict.item;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.Serial;
-import java.io.Serializable;
-
 /**
- * 数据字典子项管理 新增 DTO 对象
+ * 数据字典子项管理 全局查询 DTO 对象
  *
  * @Author payne.zhuang <paynezhuang@gmail.com>
  * @ProjectName panis-boot
- * @ClassName com.izpan.modules.system.domain.dto.dict.item.SysDictItemAddDTO
- * @CreateTime 2024-06-27 - 21:26:12
+ * @ClassName com.izpan.modules.system.domain.dto.dict.item.SysDictItemStoreSearchDTO
+ * @CreateTime 2024/7/27 - 18:22
  */
 
 @Getter
 @Setter
-@Schema(name = "SysDictItemAddDTO", description = "数据字典子项管理 新增 DTO 对象")
-public class SysDictItemAddDTO implements Serializable {
+@Schema(name = "SysDictItemStoreSearchDTO", description = "数据字典子项管理 全局查询 DTO 对象")
+public class SysDictItemStoreSearchDTO {
 
-    @Serial
-    private static final long serialVersionUID = -1877337158312263515L;
-
-    @Schema(description = "父字典ID")
-    private Long dictId;
-
-    @Schema(description = "父字典编码")
+    @Schema(description = "字典编码")
     private String dictCode;
 
-    @Schema(description = "数据值")
-    private String value;
-
-    @Schema(description = "中文名称")
-    private String zhCN;
-
-    @Schema(description = "英文名称")
-    private String enUS;
-
-    @Schema(description = "类型(前端渲染类型)")
-    private String type;
-
-    @Schema(description = "排序值")
-    private Integer sort;
-
-    @Schema(description = "字典描述")
-    private String description;
-
-    @Schema(description = "是否启用(0:禁用,1:启用)")
-    private String status;
-
+    @Schema(description = "语言")
+    @NotBlank(message = "语言不能为空")
+    private String language;
 }

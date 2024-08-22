@@ -23,10 +23,8 @@ import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.izpan.common.api.Result;
 import com.izpan.infrastructure.page.PageQuery;
 import com.izpan.infrastructure.page.RPage;
-import com.izpan.modules.system.domain.dto.dict.item.SysDictItemAddDTO;
-import com.izpan.modules.system.domain.dto.dict.item.SysDictItemDeleteDTO;
-import com.izpan.modules.system.domain.dto.dict.item.SysDictItemSearchDTO;
-import com.izpan.modules.system.domain.dto.dict.item.SysDictItemUpdateDTO;
+import com.izpan.modules.system.domain.dto.dict.item.*;
+import com.izpan.modules.system.domain.vo.SysDictItemOptionsVO;
 import com.izpan.modules.system.domain.vo.SysDictItemVO;
 import com.izpan.modules.system.facade.ISysDictItemFacade;
 import io.swagger.v3.oas.annotations.Operation;
@@ -36,6 +34,9 @@ import jakarta.validation.Valid;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 数据字典子项管理 Controller 控制层
@@ -91,4 +92,18 @@ public class SysDictItemController {
         return Result.status(sysDictItemFacade.batchDelete(sysDictItemDeleteDTO));
     }
 
+    @GetMapping("/all_dict")
+    @SaCheckPermission("sys:dict:item:allDict")
+    @Operation(operationId = "6", summary = "查询所有的数据字典子项 Map 结构")
+    public Result<Map<String, List<SysDictItemOptionsVO>>> queryAllDictItemMap() {
+        return Result.data(sysDictItemFacade.queryAllDictItemMap());
+    }
+
+    @GetMapping("/map_options")
+    @SaCheckPermission("sys:dict:item:map:options")
+    @Operation(operationId = "7", summary = "查询数据字典子项 Map 结构")
+    public Result<Map<String, List<SysDictItemOptionsVO>>> queryDictItemMapOptions(
+            @Parameter(description = "查询对象") @Valid SysDictItemStoreSearchDTO searchDTO) {
+        return Result.data(sysDictItemFacade.queryDictItemMapOptions(searchDTO));
+    }
 }

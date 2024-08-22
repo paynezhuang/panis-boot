@@ -19,7 +19,6 @@
 
 package com.izpan.modules.system.domain.vo;
 
-import com.izpan.infrastructure.domain.BaseVO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,50 +26,36 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.io.Serial;
+import java.io.Serializable;
 
 /**
- * 数据字典子项管理 VO 展示类
+ * 数据字典子项 OPTIONS VO 对象
  *
  * @Author payne.zhuang <paynezhuang@gmail.com>
  * @ProjectName panis-boot
- * @ClassName com.izpan.modules.system.domain.vo.SysDictItemVO
- * @CreateTime 2024-06-27 - 21:26:12
+ * @ClassName com.izpan.modules.system.domain.vo.SysDictItemOptionsVO
+ * @CreateTime 2024/8/15 - 22:20
  */
-
 @Data
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(name = "SysDictItemVO", description = "数据字典子项管理 VO 对象")
-public class SysDictItemVO extends BaseVO {
+@Schema(name = "SysDictItemOptionsVO", description = "数据字典子项 OPTIONS VO 对象")
+public class SysDictItemOptionsVO implements Serializable {
 
     @Serial
-    private static final long serialVersionUID = -7429297391463712321L;
+    private static final long serialVersionUID = -1089041051912903245L;
 
-    @Schema(description = "父字典ID")
-    private Long dictId;
+    @Schema(description = "显示的值")
+    private String label;
 
-    @Schema(description = "父字典编码")
-    private String dictCode;
-
-    @Schema(description = "数据值")
+    @Schema(description = "实际值")
     private String value;
-
-    @Schema(description = "中文名称")
-    private String zhCN;
-
-    @Schema(description = "英文名称")
-    private String enUS;
 
     @Schema(description = "类型(前端渲染类型)")
     private String type;
 
-    @Schema(description = "排序值")
+    @Schema(description = "排序")
     private Integer sort;
 
-    @Schema(description = "字典描述")
-    private String description;
-
-    @Schema(description = "是否启用(0:禁用,1:启用)")
-    private String status;
 }

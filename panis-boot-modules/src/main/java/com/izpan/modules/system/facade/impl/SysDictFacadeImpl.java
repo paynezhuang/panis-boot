@@ -31,6 +31,7 @@ import com.izpan.modules.system.domain.dto.dict.SysDictUpdateDTO;
 import com.izpan.modules.system.domain.entity.SysDict;
 import com.izpan.modules.system.domain.vo.SysDictVO;
 import com.izpan.modules.system.facade.ISysDictFacade;
+import com.izpan.modules.system.service.ISysDictItemService;
 import com.izpan.modules.system.service.ISysDictService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
@@ -54,6 +55,9 @@ public class SysDictFacadeImpl implements ISysDictFacade {
 
     @NonNull
     private ISysDictService sysDictService;
+
+    @NonNull
+    private ISysDictItemService sysDictItemService;
 
     @Override
     public RPage<SysDictVO> listSysDictPage(PageQuery pageQuery, SysDictSearchDTO sysDictSearchDTO) {

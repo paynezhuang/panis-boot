@@ -55,6 +55,9 @@ public class SysDictItemUpdateDTO implements Serializable {
     @Schema(description = "英文名称")
     private String enUS;
 
+    @Schema(description = "类型(前端渲染类型)")
+    private String type;
+
     @Schema(description = "排序值")
     private Integer sort;
 

@@ -24,11 +24,10 @@ import com.izpan.common.util.CglibUtil;
 import com.izpan.infrastructure.page.PageQuery;
 import com.izpan.infrastructure.page.RPage;
 import com.izpan.modules.system.domain.bo.SysDictItemBO;
-import com.izpan.modules.system.domain.dto.dict.item.SysDictItemAddDTO;
-import com.izpan.modules.system.domain.dto.dict.item.SysDictItemDeleteDTO;
-import com.izpan.modules.system.domain.dto.dict.item.SysDictItemSearchDTO;
-import com.izpan.modules.system.domain.dto.dict.item.SysDictItemUpdateDTO;
+import com.izpan.modules.system.domain.bo.SysDictItemOptions;
+import com.izpan.modules.system.domain.dto.dict.item.*;
 import com.izpan.modules.system.domain.entity.SysDictItem;
+import com.izpan.modules.system.domain.vo.SysDictItemOptionsVO;
 import com.izpan.modules.system.domain.vo.SysDictItemVO;
 import com.izpan.modules.system.facade.ISysDictItemFacade;
 import com.izpan.modules.system.service.ISysDictItemService;
@@ -36,6 +35,10 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 数据字典子项管理 门面接口实现层
@@ -85,6 +88,27 @@ public class SysDictItemFacadeImpl implements ISysDictItemFacade {
     public boolean batchDelete(SysDictItemDeleteDTO sysDictItemDeleteDTO) {
         SysDictItemBO sysDictItemBO = CglibUtil.convertObj(sysDictItemDeleteDTO, SysDictItemBO::new);
         return sysDictItemService.removeBatchByIds(sysDictItemBO.getIds(), true);
+    }
+
+    @Override
+    public Map<String, List<SysDictItemOptionsVO>> queryAllDictItemMap() {
+        Map<String, List<SysDictItemOptions>> mapOptions = sysDictItemService.queryAllDictItemMap();
+        return mapOptions.entrySet().parallelStream()
+                .collect(Collectors.toConcurrentMap(
+                        Map.Entry::getKey,
+                        entry -> CglibUtil.convertList(entry.getValue(), SysDictItemOptionsVO::new)
+                ));
+    }
+
+    @Override
+    public Map<String, List<SysDictItemOptionsVO>> queryDictItemMapOptions(SysDictItemStoreSearchDTO searchDTO) {
+        SysDictItemBO sysDictItemBO = CglibUtil.convertObj(searchDTO, SysDictItemBO::new);
+        Map<String, List<SysDictItemOptions>> mapOptions = sysDictItemService.queryDictItemMapOptions(sysDictItemBO);
+        return mapOptions.entrySet().parallelStream()
+                .collect(Collectors.toConcurrentMap(
+                        Map.Entry::getKey,
+                        entry -> CglibUtil.convertList(entry.getValue(), SysDictItemOptionsVO::new)
+                ));
     }
 
 }

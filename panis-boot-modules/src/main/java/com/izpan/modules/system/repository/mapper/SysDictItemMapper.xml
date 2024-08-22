@@ -26,8 +26,9 @@
         <result column="dict_id" property="dictId"/>
         <result column="dict_code" property="dictCode"/>
         <result column="value" property="value"/>
-        <result column="zh_cn" property="zhCn"/>
-        <result column="en_us" property="enUs"/>
+        <result column="zh_cn" property="zhCN"/>
+        <result column="en_us" property="enUS"/>
+        <result column="type" property="type"/>
         <result column="sort" property="sort"/>
         <result column="description" property="description"/>
         <result column="id" property="id"/>
@@ -53,5 +54,23 @@
         is_deleted,
         dict_id, dict_code, value, zh_cn, en_us, sort, description, status
     </sql>
+
+    <select id="queryAllDictItemList" resultMap="SysDictItemResultMap">
+        SELECT
+            sdi.*
+        FROM
+            sys_dict sd
+        LEFT JOIN sys_dict_item sdi
+        ON
+            sd.id = sdi.dict_id
+            AND sdi.status = 1
+            AND sdi.is_deleted = 0
+        WHERE
+            sd.status = 1
+            AND sd.is_deleted = 0
+          <if test="code != null and code != ''">
+            AND sdi.dict_code = #{code}
+          </if>
+    </select>
 
 </mapper>

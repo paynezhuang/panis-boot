@@ -23,7 +23,11 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.izpan.infrastructure.page.PageQuery;
 import com.izpan.modules.system.domain.bo.SysDictItemBO;
+import com.izpan.modules.system.domain.bo.SysDictItemOptions;
 import com.izpan.modules.system.domain.entity.SysDictItem;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 数据字典子项管理 Service 服务接口层
@@ -46,4 +50,34 @@ public interface ISysDictItemService extends IService<SysDictItem> {
      * @CreateTime 2024-06-27 - 22:03:29
      */
     IPage<SysDictItem> listSysDictItemPage(PageQuery pageQuery, SysDictItemBO sysDictItemBO);
+
+    /**
+     * 查询所有dict项目
+     *
+     * @param code 查询 code
+     * @return {@link List }<{@link SysDictItem }> 查询结果集合
+     * @author payne.zhuang
+     * @CreateTime 2024-07-27 - 18:02:13
+     */
+    List<SysDictItem> queryAllDictItemList(String code);
+
+    /**
+     * 查询所有字典项Map集合
+     *
+     * @return {@link Map }<{@link String }, {@link List }<{@link SysDictItemOptions }>> 查询结果集合
+     * @author payne.zhuang
+     * @CreateTime 2024-08-01 - 23:44:52
+     */
+    Map<String, List<SysDictItemOptions>> queryAllDictItemMap();
+
+    /**
+     * 查询字典项Map集合
+     *
+     * @param sysDictItemBO 查询对象
+     * @return {@link Map}<{@link String}, {@link List}<{@link SysDictItemOptions}>> 查询结果集合
+     * @author payne.zhuang
+     * @CreateTime 2024-07-27 - 18:24:03
+     */
+    Map<String, List<SysDictItemOptions>> queryDictItemMapOptions(SysDictItemBO sysDictItemBO);
+
 }

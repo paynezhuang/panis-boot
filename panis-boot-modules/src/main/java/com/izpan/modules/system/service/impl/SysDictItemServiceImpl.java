@@ -22,13 +22,23 @@ package com.izpan.modules.system.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.google.common.collect.Maps;
+import com.izpan.common.exception.BizException;
+import com.izpan.common.pool.StringPools;
+import com.izpan.infrastructure.holder.ContextHolder;
 import com.izpan.infrastructure.page.PageQuery;
 import com.izpan.modules.system.domain.bo.SysDictItemBO;
+import com.izpan.modules.system.domain.bo.SysDictItemOptions;
 import com.izpan.modules.system.domain.entity.SysDictItem;
 import com.izpan.modules.system.repository.mapper.SysDictItemMapper;
 import com.izpan.modules.system.service.ISysDictItemService;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
+
+import java.util.Comparator;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 数据字典子项管理 Service 服务接口实现层
@@ -48,9 +58,70 @@ public class SysDictItemServiceImpl extends ServiceImpl<SysDictItemMapper, SysDi
                 .eq(ObjectUtils.isNotEmpty(sysDictItemBO.getDictId()), SysDictItem::getDictId, sysDictItemBO.getDictId())
                 .eq(ObjectUtils.isNotEmpty(sysDictItemBO.getValue()), SysDictItem::getValue, sysDictItemBO.getValue())
                 .like(ObjectUtils.isNotEmpty(sysDictItemBO.getZhCN()), SysDictItem::getZhCN, sysDictItemBO.getZhCN())
-                .like(ObjectUtils.isNotEmpty(sysDictItemBO.getEnUS()), SysDictItem::getEnUS, sysDictItemBO.getEnUS());
+                .like(ObjectUtils.isNotEmpty(sysDictItemBO.getEnUS()), SysDictItem::getEnUS, sysDictItemBO.getEnUS())
+                .orderByAsc(SysDictItem::getSort);
         return baseMapper.selectPage(pageQuery.buildPage(), queryWrapper);
     }
 
+    @Override
+    public boolean save(SysDictItem entity) {
+        // 校验字典项是否存在
+        LambdaQueryWrapper<SysDictItem> queryWrapper = new LambdaQueryWrapper<SysDictItem>()
+                .eq(SysDictItem::getDictId, entity.getDictId())
+                .eq(SysDictItem::getValue, entity.getValue());
+        Long count = baseMapper.selectCount(queryWrapper);
+        if (count > 0) {
+            throw new BizException("字典[%s],[%s]已存在".formatted(entity.getDictCode(), entity.getValue()));
+        }
+        return super.save(entity);
+    }
+
+    @Override
+    public List<SysDictItem> queryAllDictItemList(String code) {
+        return baseMapper.queryAllDictItemList(code);
+    }
+
+    @Override
+    public Map<String, List<SysDictItemOptions>> queryAllDictItemMap() {
+        // 查询所有字典项
+        List<SysDictItem> sysDictItems = queryAllDictItemList(StringPools.EMPTY);
+        return buildMapOptions(sysDictItems);
+    }
+
+    @Override
+    public Map<String, List<SysDictItemOptions>> queryDictItemMapOptions(SysDictItemBO sysDictItemBO) {
+        // 根据 Code 查询字典项
+        List<SysDictItem> sysDictItems = queryAllDictItemList(sysDictItemBO.getDictCode());
+        return buildMapOptions(sysDictItems);
+    }
+
+    /**
+     * 构建字典项 Map 集合
+     *
+     * @param sysDictItems 字典项集合
+     * @return @link Map }<{@link String }, {@link List }<{@link SysDictItemOptions }>> 字典项 Map 集合
+     * @author payne.zhuang
+     * @CreateTime 2024-08-01 - 23:26:44
+     */
+    private static Map<String, List<SysDictItemOptions>> buildMapOptions(List<SysDictItem> sysDictItems) {
+        // 根据字典 Code 进行分组
+        Map<String, List<SysDictItem>> collect = sysDictItems.stream().collect(Collectors.groupingBy(SysDictItem::getDictCode));
+        // 返回结果
+        Map<String, List<SysDictItemOptions>> dictMap = Maps.newLinkedHashMap();
+        // 遍历分组结果，转换为 Options 对象
+        collect.forEach((k, v) -> {
+            // 排序
+            v.sort(Comparator.comparing(SysDictItem::getSort));
+            List<SysDictItemOptions> options = v.stream().map(item ->
+                    SysDictItemOptions.builder()
+                            .label(StringPools.EN_US.equalsIgnoreCase(ContextHolder.language()) ? item.getEnUS() : item.getZhCN())
+                            .value(item.getValue())
+                            .sort(item.getSort())
+                            .type(item.getType())
+                            .build()).toList();
+            dictMap.put(k, options);
+        });
+        return dictMap;
+    }
 }
 

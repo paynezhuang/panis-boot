@@ -45,4 +45,8 @@ public class SysDictItemBO extends SysDictItem {
      */
     private List<Long> ids;
 
+    /**
+     * 语言
+     */
+    private String language;
 }

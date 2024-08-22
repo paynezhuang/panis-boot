@@ -22,6 +22,8 @@ package com.izpan.modules.system.repository.mapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.izpan.modules.system.domain.entity.SysDictItem;
 
+import java.util.List;
+
 /**
  * 数据字典子项管理 Mapper 接口层
  *
@@ -33,4 +35,13 @@ import com.izpan.modules.system.domain.entity.SysDictItem;
 
 public interface SysDictItemMapper extends BaseMapper<SysDictItem> {
 
+    /**
+     * 查询所有dict项目
+     *
+     * @param code 查询 code
+     * @return {@link List }<{@link SysDictItem }> 查询结果集合
+     * @author payne.zhuang
+     * @CreateTime 2024-07-27 - 18:14:26
+     */
+    List<SysDictItem> queryAllDictItemList(String code);
 }
