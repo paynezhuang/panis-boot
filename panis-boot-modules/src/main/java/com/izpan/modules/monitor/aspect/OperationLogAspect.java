@@ -83,7 +83,7 @@ public class OperationLogAspect {
         }
         // 获取 contentType
         String contentType = request.getHeader(RequestConstant.CONTENT_TYPE_NAME);
-        String requestId = request.getHeader(RequestConstant.X_REQUEST_ID);
+        String requestId = request.getHeader(RequestConstant.REQUEST_ID);
         // 获取请求 URI
         String requestURI = request.getRequestURI();
         MethodSignature ms = (MethodSignature) point.getSignature();

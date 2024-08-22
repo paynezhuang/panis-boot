@@ -36,6 +36,9 @@ public class NullSerializersModule extends SimpleModule {
     public void setupModule(SetupContext context) {
         super.setupModule(context);
         context.addBeanSerializerModifier(new BeanSerializerModifier() {
+            @Serial
+            private static final long serialVersionUID = -2457076403295594518L;
+
             @Override
             public List<BeanPropertyWriter> changeProperties(SerializationConfig config, BeanDescription beanDesc, List<BeanPropertyWriter> beanProperties) {
                 beanProperties.forEach(propertyWriter -> {

@@ -18,13 +18,15 @@ public final class RequestConstant {
     public static final String AUTHORIZATION = "Authorization";
     public static final String BEARER = "Bearer ";
     public static final String REFRESH_NONCE = "Refresh-Nonce";
-    public static final String REFRESH = "Z-Request-Refresh";
+    public static final String REFRESH = "P-Request-Refresh";
 
     public static final String CONTENT_TYPE_NAME = "Content-Type";
 
     public static final String CONTENT_TYPE = "application/json;charset=utf-8";
 
-    public static final String X_REQUEST_ID = "X-Request-Id";
+    public static final String REQUEST_ID = "P-Request-Id";
+
+    public static final String LANGUAGE = "P-Language";
 
     public static final String USER_AGENT = "User-Agent";
 }
