@@ -39,7 +39,7 @@
         <result column="update_user" property="updateUser"/>
         <result column="update_user_id" property="updateUserId"/>
         <result column="update_time" property="updateTime"/>
-        <result column="is_deleted" property="isDeleted"/>
+        <result column="is_deleted" property="deleted"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->

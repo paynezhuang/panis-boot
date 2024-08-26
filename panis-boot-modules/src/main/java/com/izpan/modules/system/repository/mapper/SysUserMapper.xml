@@ -22,7 +22,7 @@
         <result column="last_login_time" property="lastLoginTime"/>
         <result column="update_password_time" property="updatePasswordTime"/>
         <result column="status" property="status"/>
-        <result column="is_deleted" property="isDeleted"/>
+        <result column="is_deleted" property="deleted"/>
     </resultMap>
 
     <select id="getUserByUserName" resultMap="SysUserResultMap">

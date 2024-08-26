@@ -83,7 +83,8 @@ public class BaseEntity implements Serializable {
      */
     @TableLogic
     @JsonIgnore
+    @TableField("is_deleted")
     @Schema(description = "是否删除(0:否,1:是)")
-    private Integer isDeleted;
+    private Integer deleted;
 
 }
