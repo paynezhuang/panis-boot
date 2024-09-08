@@ -17,26 +17,32 @@
  * limitations under the License.
  */
 
-package ${package.Mapper};
+package com.izpan.modules.tools.domain.bo;
 
-import ${package.Entity}.${entity};
-import ${superMapperClassPackage};
-<#if mapperAnnotationClass??>
-import ${mapperAnnotationClass.name};
-</#if>
+import com.izpan.modules.tools.domain.entity.ToolGeneratorTableColumn;
+import lombok.Data;
+
+import java.io.Serial;
+import java.util.List;
 
 /**
- * ${table.comment!} Mapper 接口层
+ * 代码生成表字段列管理 BO 业务处理对象
  *
- * @Author ${author}
+ * @Author payne.zhuang <paynezhuang@gmail.com>
  * @ProjectName panis-boot
- * @ClassName ${package.Mapper}.${entity}Mapper
- * @CreateTime ${date}
+ * @ClassName com.izpan.domain.bo.ToolGeneratorTableColumnBO
+ * @CreateTime 2024-08-26 - 22:13:50
  */
 
-<#if mapperAnnotationClass??>
-@${mapperAnnotationClass.simpleName}
-</#if>
-public interface ${table.mapperName} extends ${superMapperClass}<${entity}> {
+@Data
+public class ToolGeneratorTableColumnBO extends ToolGeneratorTableColumn {
+
+    @Serial
+    private static final long serialVersionUID = 2678450102210865725L;
+
+    /**
+     * Ids
+     */
+    private List<Long> ids;
 
 }

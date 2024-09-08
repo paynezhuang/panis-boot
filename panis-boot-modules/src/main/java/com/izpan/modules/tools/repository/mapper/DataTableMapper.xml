@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!--
+ All Rights Reserved: Copyright [2024] [Zhuang Pan]
+ Open Source Agreement: Apache License, Version 2.0
+ For educational purposes only, commercial use shall comply with the author's copyright information.
+ The author does not guarantee or assume any responsibility for the risks of using software.
+
+ Licensed under the Apache License, Version 2.0 (the "License").
+ you may not use this file except in compliance with the License.
+ You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+ Unless required by applicable law or agreed to in writing, software
+ distributed under the License is distributed on an "AS IS" BASIS,
+ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ See the License for the specific language governing permissions and
+ limitations under the License.
+-->
+
+<mapper namespace="com.izpan.modules.tools.repository.mapper.DataTableMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="DataTableResultMap" type="com.izpan.modules.tools.domain.entity.DataTable">
+        <result column="table_name" property="tableName"/>
+        <result column="table_comment" property="tableComment"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <select id="queryAllDataTables" resultMap="DataTableResultMap">
+        SELECT
+            table_name,
+            table_comment,
+            create_time,
+            update_time
+        FROM
+            information_schema.tables
+        WHERE
+            TABLE_SCHEMA = (SELECT DATABASE())
+        <if test="tableName != null and tableName != ''">
+            AND table_name LIKE CONCAT('%', #{tableName}, '%')
+        </if>
+        ORDER BY TABLE_NAME
+    </select>
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="TableColumnResultMap" type="com.izpan.modules.tools.domain.entity.TableColumn">
+        <result column="column_name" property="columnName"/>
+        <result column="column_comment" property="columnComment"/>
+        <result column="ordinal_position" property="ordinalPosition"/>
+        <result column="data_type" property="dataType"/>
+        <result column="character_maximum_length" property="characterMaximumLength"/>
+    </resultMap>
+
+    <select id="queryTableColumns" resultMap="TableColumnResultMap">
+        SELECT
+            column_name,
+            column_comment,
+            ordinal_position,
+            data_type,
+            character_maximum_length
+        FROM
+            information_schema.columns
+        WHERE
+            TABLE_SCHEMA = (SELECT DATABASE())
+          AND
+            table_name = #{tableName}
+        ORDER BY ordinal_position
+    </select>
+
+</mapper>

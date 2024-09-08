@@ -17,44 +17,34 @@
  * limitations under the License.
  */
 
-package ${cfg.dtoPackageName};
+package com.izpan.modules.tools.domain.dto.generator.table;
 
-<#if springdoc>
 import io.swagger.v3.oas.annotations.media.Schema;
-</#if>
-<#if entityLombokModel>
 import lombok.Getter;
 import lombok.Setter;
-</#if>
+
+import java.io.Serial;
 import java.io.Serializable;
+import java.util.List;
 
 /**
- * ${table.comment!} 查询 DTO 对象
+ * 代码生成表管理 删除 DTO 对象
  *
- * @Author ${author}
+ * @Author payne.zhuang <paynezhuang@gmail.com>
  * @ProjectName panis-boot
- * @ClassName ${cfg.dtoPackageName}.${entity}SearchDTO
- * @CreateTime ${date}
+ * @ClassName com.izpan.modules.tools.domain.dto.generator.table.ToolGeneratorTableDeleteDTO
+ * @CreateTime 2024-08-26 - 16:14:53
  */
 
-<#if entityLombokModel>
 @Getter
 @Setter
-</#if>
-<#if springdoc>
-@Schema(name = "${entity}SearchDTO", description = "${table.comment!} 查询 DTO 对象")
-<#elseif swagger>
-@ApiModel(value = "${entity}对象", description = "${table.comment!}")
-</#if>
-<#if activeRecord>
-public class ${entity} extends Model<${entity}> {
-<#elseif entitySerialVersionUID>
-public class ${entity}SearchDTO implements Serializable {
-<#else>
-public class ${entity} {
-</#if>
-<#if entitySerialVersionUID>
+@Schema(name = "ToolGeneratorTableDeleteDTO", description = "代码生成表管理 删除 DTO 对象")
+public class ToolGeneratorTableDeleteDTO implements Serializable {
 
-</#if>
+    @Serial
+    private static final long serialVersionUID = -7043133892083262967L;
+
+    @Schema(description = "IDs")
+    private List<Long> ids;
 
 }

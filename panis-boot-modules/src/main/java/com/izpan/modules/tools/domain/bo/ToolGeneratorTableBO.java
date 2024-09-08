@@ -17,42 +17,32 @@
  * limitations under the License.
  */
 
-package ${cfg.dtoPackageName};
+package com.izpan.modules.tools.domain.bo;
 
-<#if springdoc>
-import io.swagger.v3.oas.annotations.media.Schema;
-</#if>
-<#if entityLombokModel>
-import lombok.Getter;
-import lombok.Setter;
-</#if>
-import java.io.Serializable;
+import com.izpan.modules.tools.domain.entity.ToolGeneratorTable;
+import lombok.Data;
+
+import java.io.Serial;
 import java.util.List;
 
 /**
- * ${table.comment!} 删除 DTO 对象
+ * 代码生成表管理 BO 业务处理对象
  *
- * @Author ${author}
+ * @Author payne.zhuang <paynezhuang@gmail.com>
  * @ProjectName panis-boot
- * @ClassName ${cfg.dtoPackageName}.${entity}DeleteDTO
- * @CreateTime ${date}
+ * @ClassName com.izpan.domain.bo.ToolGeneratorTableBO
+ * @CreateTime 2024-08-26 - 16:14:53
  */
 
-<#if entityLombokModel>
-@Getter
-@Setter
-    <#if chainModel>
-        @Accessors(chain = true)
-    </#if>
-</#if>
-<#if springdoc>
-@Schema(name = "${entity}DeleteDTO", description = "${table.comment!} 删除 DTO 对象")
-<#elseif swagger>
-@ApiModel(value = "${entity}对象", description = "${table.comment!}")
-</#if>
-public class ${entity}DeleteDTO implements Serializable {
+@Data
+public class ToolGeneratorTableBO extends ToolGeneratorTable {
 
-    @Schema(description = "IDs")
+    @Serial
+    private static final long serialVersionUID = 2431632027749833894L;
+
+    /**
+     * Ids
+     */
     private List<Long> ids;
 
 }

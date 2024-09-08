@@ -17,35 +17,42 @@
  * limitations under the License.
  */
 
-package ${package.Parent}.domain.bo;
+package com.izpan.modules.tools.domain.bo;
 
-<#if entityLombokModel>
+import com.izpan.modules.tools.domain.entity.TableColumn;
 import lombok.Data;
-</#if>
-import ${package.Entity}.${entity};
-import java.util.List;
+import lombok.experimental.SuperBuilder;
+
+import java.io.Serial;
 
 /**
- * ${table.comment!} BO 业务处理对象
+ * 数据库表列 BO 业务处理对象
  *
- * @Author ${author}
+ * @Author payne.zhuang <paynezhuang@gmail.com>
  * @ProjectName panis-boot
- * @ClassName ${package.Parent}.domain.bo.${entity}BO
- * @CreateTime ${date}
+ * @ClassName com.izpan.modules.tools.domain.bo.TableColumnBO
+ * @CreateTime 2024/8/24 - 00:27
  */
 
-<#if entityLombokModel>
 @Data
-</#if>
-<#if entitySerialVersionUID>
-public class ${entity}BO extends ${entity} {
-<#else>
-public class ${entity} {
-</#if>
+@SuperBuilder
+public class TableColumnBO extends TableColumn {
+
+    @Serial
+    private static final long serialVersionUID = -7257182532755991954L;
 
     /**
-    * Ids
-    */
-    private List<Long> ids;
+     * 属性名称
+     */
+    private String propertyName;
 
+    /**
+     * Java 类型
+     */
+    private String javaType;
+
+    /**
+     * TypeScript 类型
+     */
+    private String typeScriptType;
 }

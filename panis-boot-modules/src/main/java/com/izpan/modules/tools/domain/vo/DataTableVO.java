@@ -17,31 +17,39 @@
  * limitations under the License.
  */
 
-package ${package.Service};
+package com.izpan.modules.tools.domain.vo;
 
-import ${package.Entity}.${entity};
-import ${superServiceClassPackage};
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 /**
- * ${table.comment!} Service 服务接口层
+ * 数据库表管理 VO 对象
  *
- * @Author ${author}
+ * @Author payne.zhuang <paynezhuang@gmail.com>
  * @ProjectName panis-boot
- * @ClassName ${package.Service}.I${entity}Service
- * @CreateTime ${date}
+ * @ClassName com.izpan.modules.tools.domain.vo.DataTableVO
+ * @CreateTime 2024/8/22 - 16:42
  */
 
-public interface ${table.serviceName} extends ${superServiceClass}<${entity}> {
+@Data
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
+@Schema(name = "DataTableVO", description = "数据库表管理 VO 对象")
+public class DataTableVO {
 
-    /**
-     * ${table.comment!} - 分页查询
-     *
-     * @param pageQuery 分页对象
-     * @param ${table.entityPath!}BO BO 查询对象
-     * @return {@link IPage} 分页结果
-     * @author payne.zhuang
-     * @CreateTime ${date}
-     */
-    IPage<${entity}> list${entity}Page(PageQuery pageQuery, ${entity}BO ${table.entityPath!}BO);
+    @Schema(description = "表名称")
+    private String tableName;
+
+    @Schema(description = "表描述")
+    private String tableComment;
+
+    @Schema(description = "创建时间")
+    private String createTime;
+
+    @Schema(description = "更新时间")
+    private String updateTime;
 }

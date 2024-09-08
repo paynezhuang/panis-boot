@@ -17,44 +17,51 @@
  * limitations under the License.
  */
 
-package ${cfg.dtoPackageName};
+package com.izpan.modules.tools.domain.entity;
 
-<#if springdoc>
-import io.swagger.v3.oas.annotations.media.Schema;
-</#if>
-<#if entityLombokModel>
-import lombok.Getter;
-import lombok.Setter;
-</#if>
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
+
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
- * ${table.comment!} 编辑更新 DTO 对象
+ * 数据库表管理 实体类
  *
- * @Author ${author}
+ * @Author payne.zhuang <paynezhuang@gmail.com>
  * @ProjectName panis-boot
- * @ClassName ${cfg.dtoPackageName}.${entity}UpdateDTO
- * @CreateTime ${date}
+ * @ClassName com.izpan.modules.tools.domain.entity.DataTable
+ * @CreateTime 2024/8/22 - 16:59
  */
 
-<#if entityLombokModel>
-@Getter
-@Setter
-</#if>
-<#if springdoc>
-@Schema(name = "${entity}UpdateDTO", description = "${table.comment!} 编辑更新 DTO 对象")
-<#elseif swagger>
-@ApiModel(value = "${entity}对象", description = "${table.comment!}")
-</#if>
-<#if activeRecord>
-public class ${entity} extends Model<${entity}> {
-<#elseif entitySerialVersionUID>
-public class ${entity}UpdateDTO implements Serializable {
-<#else>
-public class ${entity} {
-</#if>
-<#if entitySerialVersionUID>
+@Data
+@SuperBuilder
+@NoArgsConstructor
+@AllArgsConstructor
+public class DataTable implements Serializable {
 
-</#if>
+    @Serial
+    private static final long serialVersionUID = 4922992150506554585L;
 
+    /**
+     * 表名称
+     */
+    private String tableName;
+
+    /**
+     * 表描述
+     */
+    private String tableComment;
+
+    /**
+     * 创建时间
+     */
+    private String createTime;
+
+    /**
+     * 更新时间
+     */
+    private String updateTime;
 }
