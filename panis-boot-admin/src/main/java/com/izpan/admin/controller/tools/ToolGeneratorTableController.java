@@ -100,6 +100,6 @@ public class ToolGeneratorTableController {
     @Operation(operationId = "6", summary = "代码生成压缩包")
     public void zipCodeGenerate(HttpServletResponse response, @Parameter(description = "ID") @PathVariable("id") Long tableId) {
         byte[] bytes = toolGeneratorTableFacade.zipCodeGenerate(tableId);
-        // DownloadUtil.binary(response, bytes, "generated-code.zip");
+        DownloadUtil.binary(response, bytes, "generated-code.zip");
     }
 }
