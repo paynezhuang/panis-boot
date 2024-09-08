@@ -6,10 +6,10 @@
     <parent>
         <groupId>com.izpan</groupId>
         <artifactId>panis-boot</artifactId>
-        <version>1.0.3-SNAPSHOT</version>
+        <version>1.0.4-SNAPSHOT</version>
     </parent>
 
-    <version>1.0.3-SNAPSHOT</version>
+    <version>1.0.4-SNAPSHOT</version>
     <name>panis-boot-common</name>
     <artifactId>panis-boot-common</artifactId>
     <description>PanisBoot 后台管理系统 - Common Core 基础模块</description>

@@ -6,10 +6,10 @@
     <parent>
         <groupId>com.izpan</groupId>
         <artifactId>panis-boot</artifactId>
-        <version>1.0.3-SNAPSHOT</version>
+        <version>1.0.4-SNAPSHOT</version>
     </parent>
 
-    <version>1.0.3-SNAPSHOT</version>
+    <version>1.0.4-SNAPSHOT</version>
     <name>panis-boot-admin</name>
     <artifactId>panis-boot-admin</artifactId>
     <description>PanisBoot 后台管理系统 - 后台 Application 模块</description>
