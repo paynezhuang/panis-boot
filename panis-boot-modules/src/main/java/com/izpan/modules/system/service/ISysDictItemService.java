@@ -80,4 +80,13 @@ public interface ISysDictItemService extends IService<SysDictItem> {
      */
     Map<String, List<SysDictItemOptions>> queryDictItemMapOptions(SysDictItemBO sysDictItemBO);
 
+    /**
+     * 转换字典项选项
+     *
+     * @param sysDictItems 字典项集合
+     * @return {@link List }<{@link SysDictItemOptions }> 字典项选项集合
+     * @author payne.zhuang
+     * @CreateTime 2024-09-03 - 14:08:41
+     */
+    List<SysDictItemOptions> transformSysDictItemOptions(List<SysDictItem> sysDictItems);
 }

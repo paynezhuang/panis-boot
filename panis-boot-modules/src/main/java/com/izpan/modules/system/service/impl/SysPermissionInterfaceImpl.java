@@ -32,9 +32,9 @@ public class SysPermissionInterfaceImpl implements StpInterface {
 
     @Override
     public List<String> getPermissionList(Object loginId, String loginType) {
-        if (GlobalUserHolder.getUserName().equals(StringPools.ADMIN)) {
-            return List.of(StringPools.STAR);
-        }
+//        if (GlobalUserHolder.getUserName().equals(StringPools.ADMIN)) {
+//            return List.of(StringPools.STAR);
+//        }
         List<String> permissionList = Lists.newArrayList();
         GlobalUserHolder.getRoleIds().stream()
                 .map(sysRolePermissionService::queryPermissionResourcesWithRoleId)

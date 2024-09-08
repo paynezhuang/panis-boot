@@ -58,4 +58,13 @@ public interface ISysDictService extends IService<SysDict> {
      * @CreateTime 2024-06-29 - 14:47:19
      */
     List<SysDict> getAllSysDict(SysDictBO sysDictBO);
+
+    /**
+     * 获取所有数据字典
+     *
+     * @return {@link List }<{@link SysDict }> 数据字典列表
+     * @author payne.zhuang
+     * @CreateTime 2024-09-03 - 14:26:37
+     */
+    List<SysDict> getAllSysDict();
 }

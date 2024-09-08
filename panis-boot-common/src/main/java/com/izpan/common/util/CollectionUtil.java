@@ -3,9 +3,13 @@ package com.izpan.common.util;
 import com.google.common.collect.Sets;
 import org.springframework.lang.Nullable;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 import java.util.function.BiConsumer;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * springframework 的 CollectionUtils 工具类扩展
@@ -55,5 +59,17 @@ public class CollectionUtil extends org.springframework.util.CollectionUtils {
         } else if (noChangeHandler != null) {
             noChangeHandler.run();
         }
+    }
+
+    /**
+     * 将流转换为 ArrayList 集合
+     *
+     * @param stream 流
+     * @return {@link List }<{@link T }> ArrayList 集合
+     * @author payne.zhuang
+     * @CreateTime 2024-09-03 - 11:22:20
+     */
+    public static <T> List<T> toMutableList(Stream<T> stream) {
+        return stream.collect(Collectors.toCollection(ArrayList::new));
     }
 }

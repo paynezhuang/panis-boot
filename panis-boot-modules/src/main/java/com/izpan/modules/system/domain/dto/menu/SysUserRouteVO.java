@@ -55,6 +55,9 @@ public class SysUserRouteVO implements Serializable {
         @Schema(description = "路由组件；详情可查阅：https://github.com/soybeanjs/elegant-router/blob/main/README.zh_CN.md")
         private String component;
 
+        @Schema(description = "渲染道具")
+        private Props props;
+
         @Schema(description = "路由元数据")
         private Meta meta;
 
@@ -62,6 +65,20 @@ public class SysUserRouteVO implements Serializable {
         @JsonInclude(JsonInclude.Include.NON_EMPTY)
         private List<Route> children;
 
+    }
+
+    @Data
+    @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Schema(name = "Props", description = "渲染道具")
+    public static class Props implements Serializable {
+
+        @Serial
+        private static final long serialVersionUID = -7565394327173382676L;
+
+        @Schema(description = "内嵌链接 Iframe URL")
+        private String url;
     }
 
     @Data
@@ -100,6 +117,9 @@ public class SysUserRouteVO implements Serializable {
 
         @Schema(description = "固定在页签中的序号")
         private Integer fixedIndexInTab;
+
+        @Schema(description = "外链")
+        private String href;
 
         @Schema(description = "路由查询参数")
         private List<KVPairs> query;

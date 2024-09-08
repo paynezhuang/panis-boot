@@ -19,6 +19,7 @@
 
 package com.izpan.modules.system.facade;
 
+import com.izpan.common.domain.Options;
 import com.izpan.infrastructure.page.PageQuery;
 import com.izpan.infrastructure.page.RPage;
 import com.izpan.modules.system.domain.dto.dict.SysDictAddDTO;
@@ -50,7 +51,6 @@ public interface ISysDictFacade {
      * @CreateTime 2024-06-27 - 22:03:29
      */
     RPage<SysDictVO> listSysDictPage(PageQuery pageQuery, SysDictSearchDTO sysDictSearchDTO);
-
 
     /**
      * 数据字典管理 - 列表查询
@@ -101,5 +101,14 @@ public interface ISysDictFacade {
      * @CreateTime 2024-06-27 - 22:03:29
      */
     boolean batchDelete(SysDictDeleteDTO sysDictDeleteDTO);
+
+    /**
+     * 获取所有字典选项
+     *
+     * @return {@link List }<{@link Options }<{@link String }>> 字典选项列表
+     * @author payne.zhuang
+     * @CreateTime 2024-09-03 - 14:25:28
+     */
+    List<Options<String>> getAllDictOptions();
 
 }

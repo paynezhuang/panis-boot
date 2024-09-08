@@ -20,6 +20,7 @@
 package com.izpan.modules.system.facade.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.izpan.common.domain.Options;
 import com.izpan.common.util.CglibUtil;
 import com.izpan.infrastructure.page.PageQuery;
 import com.izpan.infrastructure.page.RPage;
@@ -100,4 +101,12 @@ public class SysDictFacadeImpl implements ISysDictFacade {
         return sysDictService.removeBatchByIds(sysDictBO.getIds(), true);
     }
 
+    @Override
+    public List<Options<String>> getAllDictOptions() {
+        List<SysDict> allSysDict = sysDictService.getAllSysDict();
+        return allSysDict.stream().map(item -> Options.<String>builder()
+                .label(item.getName())
+                .value(item.getCode())
+                .build()).toList();
+    }
 }

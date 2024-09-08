@@ -25,6 +25,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Maps;
 import com.izpan.common.exception.BizException;
 import com.izpan.common.pool.StringPools;
+import com.izpan.common.util.CollectionUtil;
 import com.izpan.infrastructure.holder.ContextHolder;
 import com.izpan.infrastructure.page.PageQuery;
 import com.izpan.modules.system.domain.bo.SysDictItemBO;
@@ -78,7 +79,9 @@ public class SysDictItemServiceImpl extends ServiceImpl<SysDictItemMapper, SysDi
 
     @Override
     public List<SysDictItem> queryAllDictItemList(String code) {
-        return baseMapper.queryAllDictItemList(code);
+        List<SysDictItem> sysDictItems = baseMapper.queryAllDictItemList(code);
+        sysDictItems.sort(Comparator.comparing(SysDictItem::getSort));
+        return sysDictItems;
     }
 
     @Override
@@ -99,29 +102,32 @@ public class SysDictItemServiceImpl extends ServiceImpl<SysDictItemMapper, SysDi
      * 构建字典项 Map 集合
      *
      * @param sysDictItems 字典项集合
-     * @return @link Map }<{@link String }, {@link List }<{@link SysDictItemOptions }>> 字典项 Map 集合
+     * @return {@link Map }<{@link String }, {@link List }<{@link SysDictItemOptions }>> 字典项 Map 集合
      * @author payne.zhuang
      * @CreateTime 2024-08-01 - 23:26:44
      */
-    private static Map<String, List<SysDictItemOptions>> buildMapOptions(List<SysDictItem> sysDictItems) {
+    private Map<String, List<SysDictItemOptions>> buildMapOptions(List<SysDictItem> sysDictItems) {
         // 根据字典 Code 进行分组
         Map<String, List<SysDictItem>> collect = sysDictItems.stream().collect(Collectors.groupingBy(SysDictItem::getDictCode));
         // 返回结果
         Map<String, List<SysDictItemOptions>> dictMap = Maps.newLinkedHashMap();
         // 遍历分组结果，转换为 Options 对象
-        collect.forEach((k, v) -> {
-            // 排序
-            v.sort(Comparator.comparing(SysDictItem::getSort));
-            List<SysDictItemOptions> options = v.stream().map(item ->
-                    SysDictItemOptions.builder()
-                            .label(StringPools.EN_US.equalsIgnoreCase(ContextHolder.language()) ? item.getEnUS() : item.getZhCN())
-                            .value(item.getValue())
-                            .sort(item.getSort())
-                            .type(item.getType())
-                            .build()).toList();
-            dictMap.put(k, options);
-        });
+        collect.forEach((k, v) -> dictMap.put(k, transformSysDictItemOptions(v)));
         return dictMap;
+    }
+
+    @Override
+    public List<SysDictItemOptions> transformSysDictItemOptions(List<SysDictItem> sysDictItems) {
+        // 排序
+        sysDictItems.sort(Comparator.comparing(SysDictItem::getSort));
+        // 转换
+        return CollectionUtil.toMutableList(sysDictItems.stream().map(item ->
+                SysDictItemOptions.builder()
+                        .label(StringPools.EN_US.equalsIgnoreCase(ContextHolder.language()) ? item.getEnUS() : item.getZhCN())
+                        .value(item.getValue())
+                        .sort(item.getSort())
+                        .type(item.getType())
+                        .build()));
     }
 }
 

@@ -17,6 +17,10 @@
         <result column="hide" property="hide"/>
         <result column="href" property="href"/>
         <result column="sort" property="sort"/>
+        <result column="multi_tab" property="multiTab"/>
+        <result column="fixed_index_in_tab" property="fixedIndexInTab"/>
+        <result column="iframe_url" property="iframeUrl"/>
+        <result column="query" property="query"/>
         <result column="status" property="status"/>
         <result column="id" property="id"/>
         <result column="create_user" property="createUser"/>
@@ -53,6 +57,7 @@
                sm.sort,
                sm.multi_tab,
                sm.fixed_index_in_tab,
+               sm.iframe_url,
                sm.query,
                sm.status
         FROM sys_menu sm
@@ -74,7 +79,6 @@
             #{roleId}
         </foreach>
     </select>
-
 
     <select id="queryMenuListWithRoleId" resultType="com.izpan.modules.system.domain.entity.SysMenu">
         <include refid="SysRoleAssociationMenu"/>

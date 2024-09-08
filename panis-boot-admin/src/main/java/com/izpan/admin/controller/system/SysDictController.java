@@ -21,6 +21,7 @@ package com.izpan.admin.controller.system;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.izpan.common.api.Result;
+import com.izpan.common.domain.Options;
 import com.izpan.infrastructure.page.PageQuery;
 import com.izpan.infrastructure.page.RPage;
 import com.izpan.modules.system.domain.dto.dict.SysDictAddDTO;
@@ -100,12 +101,11 @@ public class SysDictController {
         return Result.data(sysDictFacade.listSysDict(sysDictSearchDTO));
     }
 
-    @PostMapping("/load_cache")
-    @SaCheckPermission("sys:dict:loadCache")
-    @Operation(operationId = "7", summary = "加载数据字典至缓存中")
-    public Result<List<SysDictVO>> loadCache(@Parameter(description = "查询对象") SysDictSearchDTO sysDictSearchDTO) {
-        // TODO 待做
-        return Result.data(sysDictFacade.listSysDict(sysDictSearchDTO));
+    @GetMapping("/all_options")
+    @SaCheckPermission("sys:dict:allOptions")
+    @Operation(operationId = "7", summary = "获取数据字典管理 Options 选项列表")
+    public Result<List<Options<String>>> getAllDictOptions() {
+        return Result.data(sysDictFacade.getAllDictOptions());
     }
 
 }

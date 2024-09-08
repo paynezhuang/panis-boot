@@ -61,5 +61,11 @@ public class SysDictServiceImpl extends ServiceImpl<SysDictMapper, SysDict> impl
         return baseMapper.selectList(queryWrapper);
     }
 
+    @Override
+    public List<SysDict> getAllSysDict() {
+        LambdaQueryWrapper<SysDict> queryWrapper = new LambdaQueryWrapper<SysDict>()
+                .orderByAsc(SysDict::getSort);
+        return baseMapper.selectList(queryWrapper);
+    }
 }
 

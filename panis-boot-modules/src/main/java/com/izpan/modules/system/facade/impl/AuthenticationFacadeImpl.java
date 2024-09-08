@@ -81,6 +81,7 @@ public class AuthenticationFacadeImpl implements IAuthenticationFacade {
                     .hideInMenu(StringPools.Y.equals(menu.getHide()))
                     .multiTab(StringPools.Y.equals(menu.getMultiTab()))
                     .fixedIndexInTab(menu.getFixedIndexInTab())
+                    .href(menu.getHref())
                     .query(GsonUtil.fromJsonList(menu.getQuery()))
                     .permissions(menuPermissionMap.getOrDefault(menu.getId(), Lists.newArrayList()))
                     .build();
@@ -89,11 +90,16 @@ public class AuthenticationFacadeImpl implements IAuthenticationFacade {
             } else {
                 routeMeta.setIcon(menu.getIcon());
             }
+            // 路由道具
+            SysUserRouteVO.Props props = SysUserRouteVO.Props.builder()
+                    .url(menu.getIframeUrl())
+                    .build();
             // 路由对象
             SysUserRouteVO.Route route = SysUserRouteVO.Route.builder()
                     .name(menu.getRouteName())
                     .path(menu.getRoutePath())
                     .component(menu.getComponent().replace(StringPools.HASH, StringPools.DOLLAR))
+                    .props(props)
                     .meta(routeMeta)
                     .children(initMenuRoute(menu.getId(), sysMenus, menuPermissionMap))
                     .build();

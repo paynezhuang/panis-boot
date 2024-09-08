@@ -7,6 +7,7 @@ import com.izpan.infrastructure.enums.MenuTypeEnum;
 import com.izpan.infrastructure.page.PageQuery;
 import com.izpan.infrastructure.page.RPage;
 import com.izpan.infrastructure.util.GsonUtil;
+import com.izpan.infrastructure.util.JacksonUtil;
 import com.izpan.modules.system.domain.bo.SysMenuBO;
 import com.izpan.modules.system.domain.bo.SysPermissionBO;
 import com.izpan.modules.system.domain.dto.menu.SysMenuAddDTO;

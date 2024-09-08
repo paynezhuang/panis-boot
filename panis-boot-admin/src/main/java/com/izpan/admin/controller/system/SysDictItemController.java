@@ -93,7 +93,7 @@ public class SysDictItemController {
     }
 
     @GetMapping("/all_dict")
-    @SaCheckPermission("sys:dict:item:allDict")
+    @SaCheckPermission("sys:dict:item:allDictMap")
     @Operation(operationId = "6", summary = "查询所有的数据字典子项 Map 结构")
     public Result<Map<String, List<SysDictItemOptionsVO>>> queryAllDictItemMap() {
         return Result.data(sysDictItemFacade.queryAllDictItemMap());

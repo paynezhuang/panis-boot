@@ -64,6 +64,9 @@ public class SysMenuUpdateDTO implements Serializable {
     @Schema(description = "外部链接")
     private String href;
 
+    @Schema(description = "内嵌链接 Iframe URL")
+    private String iframeUrl;
+
     @Schema(description = "排序值")
     private Integer sort;
 

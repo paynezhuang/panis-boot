@@ -109,6 +109,11 @@ public class SysMenu extends BaseEntity {
     private String query;
 
     /**
+     * 内嵌链接 iframe url
+     */
+    private String iframeUrl;
+
+    /**
      * 是否启用(0:禁用,1:启用)
      */
     private String status;
