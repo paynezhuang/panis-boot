@@ -58,6 +58,7 @@ public class SysDictItemServiceImpl extends ServiceImpl<SysDictItemMapper, SysDi
         LambdaQueryWrapper<SysDictItem> queryWrapper = new LambdaQueryWrapper<SysDictItem>()
                 .eq(ObjectUtils.isNotEmpty(sysDictItemBO.getDictId()), SysDictItem::getDictId, sysDictItemBO.getDictId())
                 .eq(ObjectUtils.isNotEmpty(sysDictItemBO.getValue()), SysDictItem::getValue, sysDictItemBO.getValue())
+                .eq(ObjectUtils.isNotEmpty(sysDictItemBO.getDescription()), SysDictItem::getDescription, sysDictItemBO.getDescription())
                 .like(ObjectUtils.isNotEmpty(sysDictItemBO.getZhCN()), SysDictItem::getZhCN, sysDictItemBO.getZhCN())
                 .like(ObjectUtils.isNotEmpty(sysDictItemBO.getEnUS()), SysDictItem::getEnUS, sysDictItemBO.getEnUS())
                 .orderByAsc(SysDictItem::getSort);
