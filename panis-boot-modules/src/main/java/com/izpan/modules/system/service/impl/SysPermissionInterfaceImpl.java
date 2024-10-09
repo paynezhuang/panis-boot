@@ -3,7 +3,7 @@ package com.izpan.modules.system.service.impl;
 
 import cn.dev33.satoken.stp.StpInterface;
 import com.google.common.collect.Lists;
-import com.izpan.common.pool.StringPools;
+import com.izpan.common.exception.BizException;
 import com.izpan.infrastructure.holder.GlobalUserHolder;
 import com.izpan.modules.system.service.ISysRolePermissionService;
 import lombok.AllArgsConstructor;
@@ -32,9 +32,9 @@ public class SysPermissionInterfaceImpl implements StpInterface {
 
     @Override
     public List<String> getPermissionList(Object loginId, String loginType) {
-//        if (GlobalUserHolder.getUserName().equals(StringPools.ADMIN)) {
-//            return List.of(StringPools.STAR);
-//        }
+        if (GlobalUserHolder.getRoleIds().isEmpty()) {
+            throw new BizException("当前用户角色为空，请联系管理员");
+        }
         List<String> permissionList = Lists.newArrayList();
         GlobalUserHolder.getRoleIds().stream()
                 .map(sysRolePermissionService::queryPermissionResourcesWithRoleId)

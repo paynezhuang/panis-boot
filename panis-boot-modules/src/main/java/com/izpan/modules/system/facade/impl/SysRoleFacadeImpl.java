@@ -68,7 +68,7 @@ public class SysRoleFacadeImpl implements ISysRoleFacade {
     @Transactional
     public boolean batchDelete(SysRoleDeleteDTO sysRoleDeleteDTO) {
         SysRoleBO sysRoleBO = CglibUtil.convertObj(sysRoleDeleteDTO, SysRoleBO::new);
-        return sysRoleService.removeBatchByIds(sysRoleBO.getIds(), true);
+        return sysRoleService.removeBatchByIds(sysRoleBO.getIds());
     }
 
     @Override
