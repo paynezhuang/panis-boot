@@ -138,7 +138,7 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
         if (MenuTypeEnum.DIRECTORY.getValue().equalsIgnoreCase(sysMenu.getType())) {
             // 删除目录 ID
             menuIds.clear();
-            // 删除目录下所有菜单
+            // 查找目录下所有菜单
             LambdaQueryWrapper<SysMenu> inQueryWrapper = new LambdaQueryWrapper<SysMenu>()
                     .eq(SysMenu::getParentId, menuId);
             List<SysMenu> sysMenus = sysMenuService.list(inQueryWrapper);
