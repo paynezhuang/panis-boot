@@ -55,13 +55,4 @@ public interface IDataTableFacade {
      */
     List<DataTableVO> queryAllDataTables(String tableName);
 
-    /**
-     * 查询数据表列
-     *
-     * @param tableName 表名
-     * @return {@link List }<{@link TableColumnVO }> 数据表列信息对象
-     * @author payne.zhuang
-     * @CreateTime 2024-08-24 - 00:56:40
-     */
-    List<TableColumnVO> queryTableColumns(String tableName);
 }

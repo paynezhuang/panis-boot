@@ -60,11 +60,4 @@ public class DataTableFacadeImpl implements IDataTableFacade {
         return CglibUtil.convertList(dataTables, DataTableVO::new);
     }
 
-    @Override
-    public List<TableColumnVO> queryTableColumns(String tableName) {
-        List<TableColumnBO> tableColumnBOList = dataTableService.queryTableColumns(tableName);
-        return CglibUtil.convertList(tableColumnBOList, TableColumnVO::new);
-    }
-
-
 }

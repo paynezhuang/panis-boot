@@ -22,15 +22,12 @@ package com.izpan.admin.controller.tools;
 import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.izpan.common.api.Result;
 import com.izpan.modules.tools.domain.vo.DataTableVO;
-import com.izpan.modules.tools.domain.vo.TableColumnVO;
 import com.izpan.modules.tools.facade.IDataTableFacade;
 import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -61,11 +58,4 @@ public class DataTableController {
         return Result.data(dataTableFacade.queryAllDataTables());
     }
 
-    @Deprecated(since = "已弃用")
-    @GetMapping("/table_columns/{tableName}")
-    @SaCheckPermission("tools:data:table:columns")
-    @Operation(operationId = "2", summary = "获取数据库表列信息")
-    public Result<List<TableColumnVO>> queryTableColumns(@Parameter(description = "数据库表名") @PathVariable("tableName") String tableName) {
-        return Result.data(dataTableFacade.queryTableColumns(tableName));
-    }
 }
