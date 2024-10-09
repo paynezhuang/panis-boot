@@ -29,6 +29,16 @@ public interface ISysPermissionService extends IService<SysPermission> {
     IPage<SysPermission> listSysPermissionPage(PageQuery pageQuery, SysPermissionBO sysPermissionBO);
 
     /**
+     * 添加权限
+     *
+     * @param sysPermissionBO 添加 BO 对象
+     * @return {@link Boolean} 添加结果
+     * @author payne.zhuang
+     * @CreateTime 2024-10-09 16:40:37
+     */
+    boolean add(SysPermissionBO sysPermissionBO);
+
+    /**
      * 根据角色ID查询权限列表
      *
      * @param roleId 角色ID

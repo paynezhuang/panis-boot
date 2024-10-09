@@ -50,6 +50,7 @@ public class SysRolePermissionFacadeImpl implements ISysRolePermissionFacade {
     }
 
     @Override
+    @Transactional
     public boolean add(SysRolePermissionAddDTO sysRolePermissionAddDTO) {
         SysRolePermissionBO sysRolePermissionBO = CglibUtil.convertObj(sysRolePermissionAddDTO, SysRolePermissionBO::new);
         return sysRolePermissionService.add(sysRolePermissionBO);
@@ -75,6 +76,7 @@ public class SysRolePermissionFacadeImpl implements ISysRolePermissionFacade {
     }
 
     @Override
+    @Transactional
     public boolean addPermissionForRoleId(Long roleId, List<Long> permissionIds) {
         return sysRolePermissionService.addPermissionForRoleId(roleId, permissionIds);
     }

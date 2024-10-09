@@ -17,6 +17,7 @@ import com.izpan.modules.monitor.service.IMonSchedulerService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -50,43 +51,51 @@ public class MonSchedulerFacadeImpl implements IMonSchedulerFacade {
     }
 
     @Override
+    @Transactional
     public boolean addMonScheduler(MonSchedulerAddDTO monSchedulerAddDTO) {
         MonSchedulerBO monSchedulerBO = CglibUtil.convertObj(monSchedulerAddDTO, MonSchedulerBO::new);
         return monSchedulerService.addMonScheduler(monSchedulerBO);
     }
 
     @Override
+    @Transactional
     public boolean updateMonScheduler(MonSchedulerUpdateDTO monSchedulerUpdateDTO) {
         MonSchedulerBO monSchedulerBO = CglibUtil.convertObj(monSchedulerUpdateDTO, MonSchedulerBO::new);
         return monSchedulerService.updateMonScheduler(monSchedulerBO);
     }
 
     @Override
+    @Transactional
     public boolean batchDeleteMonScheduler(MonSchedulerDeleteDTO monSchedulerDeleteDTO) {
         return monSchedulerService.batchDeleteMonScheduler(monSchedulerDeleteDTO.getIds());
     }
 
     @Override
+    @Transactional
     public boolean immediateMonScheduler(Long id) {
         return monSchedulerService.immediateMonScheduler(id);
     }
 
     @Override
+    @Transactional
     public boolean pauseMonScheduler(Long id) {
         return monSchedulerService.pauseMonScheduler(id);
     }
 
     @Override
+    @Transactional
     public boolean pauseMonSchedulerGroup(Long id) {
         return monSchedulerService.pauseMonSchedulerGroup(id);
     }
 
     @Override
+    @Transactional
     public boolean resumeMonScheduler(Long id) {
         return monSchedulerService.resumeMonScheduler(id);
     }
 
     @Override
+    @Transactional
     public boolean resumeMonSchedulerGroup(Long id) {
         return monSchedulerService.resumeMonSchedulerGroup(id);
     }

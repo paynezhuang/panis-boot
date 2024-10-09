@@ -50,15 +50,14 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
     }
 
     @Override
-    @Transactional
-    public boolean save(SysPermission entity) {
+    public boolean add(SysPermissionBO sysPermissionBO) {
         LambdaQueryWrapper<SysPermission> eq = new LambdaQueryWrapper<SysPermission>()
-                .eq(SysPermission::getResource, entity.getResource());
+                .eq(SysPermission::getResource, sysPermissionBO.getResource());
         SysPermission one = super.getOne(eq);
         if (ObjectUtils.isNotEmpty(one)) {
-            throw new BizException("已存在相同权限资源 %s 按钮".formatted(entity.getResource()));
+            throw new BizException("已存在相同权限资源 %s 按钮".formatted(sysPermissionBO.getResource()));
         }
-        return super.save(entity);
+        return super.save(sysPermissionBO);
     }
 
     @Override

@@ -112,6 +112,7 @@ public class AuthenticationFacadeImpl implements IAuthenticationFacade {
     }
 
     @Override
+    @Transactional
     public Map<String, String> userNameLogin(LoginFormDTO loginFormDTO) {
         SysUserBO sysUserBO = CglibUtil.convertObj(loginFormDTO, SysUserBO::new);
         return sysUserService.userLogin(sysUserBO);

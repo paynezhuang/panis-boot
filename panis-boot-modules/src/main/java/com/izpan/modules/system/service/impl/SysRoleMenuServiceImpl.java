@@ -53,7 +53,6 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
     }
 
     @Override
-    @Transactional
     public boolean add(SysRoleMenuBO sysRoleMenuBO) {
         List<SysRoleMenu> sysRoleMenus = sysRoleMenuBO.getMenuIds().stream()
                 .map(menuId -> new SysRoleMenu(sysRoleMenuBO.getRoleId(), menuId)).toList();
@@ -61,7 +60,6 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
     }
 
     @Override
-    @Transactional
     public boolean addMenuForRoleId(Long roleId, List<Long> menuIds) {
         LambdaQueryWrapper<SysRoleMenu> inQueryWrapper = new LambdaQueryWrapper<SysRoleMenu>()
                 .eq(SysRoleMenu::getRoleId, roleId);

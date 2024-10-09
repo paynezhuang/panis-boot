@@ -60,7 +60,6 @@ public class MonSchedulerServiceImpl extends ServiceImpl<MonSchedulerMapper, Mon
     }
 
     @Override
-    @Transactional
     public boolean addMonScheduler(MonSchedulerBO monSchedulerBO) {
         // 查询任务
         LambdaQueryWrapper<MonScheduler> jobEq = new LambdaQueryWrapper<MonScheduler>()
@@ -86,7 +85,6 @@ public class MonSchedulerServiceImpl extends ServiceImpl<MonSchedulerMapper, Mon
     }
 
     @Override
-    @Transactional
     public boolean updateMonScheduler(MonSchedulerBO monSchedulerBO) {
         SchedulerSetup schedulerSetup = SchedulerSetupUtil.convert(monSchedulerBO);
         boolean updated = schedulerService.update(schedulerSetup);
@@ -104,7 +102,6 @@ public class MonSchedulerServiceImpl extends ServiceImpl<MonSchedulerMapper, Mon
     }
 
     @Override
-    @Transactional
     public boolean batchDeleteMonScheduler(List<Long> ids) {
         List<MonScheduler> monSchedulers = baseMapper.selectBatchIds(ids);
         // 进行安全删除
@@ -119,7 +116,6 @@ public class MonSchedulerServiceImpl extends ServiceImpl<MonSchedulerMapper, Mon
     }
 
     @Override
-    @Transactional
     public boolean immediateMonScheduler(Long id) {
         MonScheduler monScheduler = super.getById(id);
         schedulerService.immediate(monScheduler.getJobName(), monScheduler.getJobGroup());
@@ -127,7 +123,6 @@ public class MonSchedulerServiceImpl extends ServiceImpl<MonSchedulerMapper, Mon
     }
 
     @Override
-    @Transactional
     public boolean pauseMonScheduler(Long id) {
         MonScheduler monScheduler = super.getById(id);
         // 暂停任务，实际上是暂停触发器
@@ -136,7 +131,6 @@ public class MonSchedulerServiceImpl extends ServiceImpl<MonSchedulerMapper, Mon
     }
 
     @Override
-    @Transactional
     public boolean pauseMonSchedulerGroup(Long id) {
         MonScheduler monScheduler = super.getById(id);
         // 按组暂停任务，实际上是暂停触发器组
@@ -145,7 +139,6 @@ public class MonSchedulerServiceImpl extends ServiceImpl<MonSchedulerMapper, Mon
     }
 
     @Override
-    @Transactional
     public boolean resumeMonScheduler(Long id) {
         MonScheduler monScheduler = super.getById(id);
         // 恢复任务，实际上是恢复触发器
@@ -154,7 +147,6 @@ public class MonSchedulerServiceImpl extends ServiceImpl<MonSchedulerMapper, Mon
     }
 
     @Override
-    @Transactional
     public boolean resumeMonSchedulerGroup(Long id) {
         MonScheduler monScheduler = super.getById(id);
         // 按组恢复任务，实际上是恢复触发器

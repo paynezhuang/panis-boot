@@ -54,9 +54,10 @@ public class SysPermissionFacadeImpl implements ISysPermissionFacade {
     }
 
     @Override
+    @Transactional
     public boolean add(SysPermissionAddDTO sysPermissionAddDTO) {
         SysPermissionBO sysPermissionBO = CglibUtil.convertObj(sysPermissionAddDTO, SysPermissionBO::new);
-        return sysPermissionService.save(sysPermissionBO);
+        return sysPermissionService.add(sysPermissionBO);
     }
 
     @Override

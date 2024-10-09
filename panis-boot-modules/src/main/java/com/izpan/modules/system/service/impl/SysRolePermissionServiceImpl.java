@@ -55,7 +55,6 @@ public class SysRolePermissionServiceImpl extends ServiceImpl<SysRolePermissionM
     }
 
     @Override
-    @Transactional
     public boolean add(SysRolePermissionBO sysRolePermissionBO) {
         List<SysRolePermission> sysRolePermissions = sysRolePermissionBO.getPermissionIds().stream()
                 .map(permissionId -> new SysRolePermission(sysRolePermissionBO.getRoleId(), permissionId)).toList();
@@ -63,7 +62,6 @@ public class SysRolePermissionServiceImpl extends ServiceImpl<SysRolePermissionM
     }
 
     @Override
-    @Transactional
     public boolean addPermissionForRoleId(Long roleId, List<Long> permissionIds) {
         // 查找原有权限
         LambdaQueryWrapper<SysRolePermission> queryWrapper = new LambdaQueryWrapper<SysRolePermission>()

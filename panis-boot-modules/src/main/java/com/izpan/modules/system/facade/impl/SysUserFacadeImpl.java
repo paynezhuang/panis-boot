@@ -16,6 +16,7 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * 用户管理 门面接口实现层
@@ -47,24 +48,28 @@ public class SysUserFacadeImpl implements ISysUserFacade {
     }
 
     @Override
+    @Transactional
     public boolean addUser(SysUserAddDTO sysUserAddDTO) {
         SysUserBO sysUserBO = CglibUtil.convertObj(sysUserAddDTO, SysUserBO::new);
         return sysUserService.addUser(sysUserBO);
     }
 
     @Override
+    @Transactional
     public boolean updateUser(SysUserUpdateDTO sysUserUpdateDTO) {
         SysUserBO sysUserBO = CglibUtil.convertObj(sysUserUpdateDTO, SysUserBO::new);
         return sysUserService.updateUser(sysUserBO);
     }
 
     @Override
+    @Transactional
     public boolean batchDeleteUser(SysUserDeleteDTO sysUserDeleteDTO) {
         SysUserBO sysUserBO = CglibUtil.convertObj(sysUserDeleteDTO, SysUserBO::new);
         return sysUserService.removeBatchByIds(sysUserBO.getIds());
     }
 
     @Override
+    @Transactional
     public String resetPassword(Long userId) {
         return sysUserService.resetPassword(userId);
     }
@@ -76,6 +81,7 @@ public class SysUserFacadeImpl implements ISysUserFacade {
     }
 
     @Override
+    @Transactional
     public boolean updateUserResponsibilities(SysUserResponsibilitiesUpdateDTO updateDTO) {
         SysUserResponsibilitiesBO responsibilitiesBO = CglibUtil.convertObj(updateDTO, SysUserResponsibilitiesBO::new);
         return sysUserService.updateUserResponsibilities(responsibilitiesBO);

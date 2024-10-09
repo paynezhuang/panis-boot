@@ -50,6 +50,7 @@ public class SysRoleMenuFacadeImpl implements ISysRoleMenuFacade {
     }
 
     @Override
+    @Transactional
     public boolean add(SysRoleMenuAddDTO sysRoleMenuAddDTO) {
         SysRoleMenuBO sysRoleMenuBO = CglibUtil.convertObj(sysRoleMenuAddDTO, SysRoleMenuBO::new);
         return sysRoleMenuService.add(sysRoleMenuBO);
@@ -75,6 +76,7 @@ public class SysRoleMenuFacadeImpl implements ISysRoleMenuFacade {
     }
 
     @Override
+    @Transactional
     public boolean addMenuForRoleId(Long roleId, List<Long> menuIds) {
         return sysRoleMenuService.addMenuForRoleId(roleId, menuIds);
     }
