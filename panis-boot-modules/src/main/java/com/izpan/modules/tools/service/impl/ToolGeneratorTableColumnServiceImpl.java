@@ -38,6 +38,8 @@ import com.izpan.modules.tools.service.IToolGeneratorTableColumnService;
 import com.izpan.modules.tools.service.IToolGeneratorTableService;
 import com.izpan.starter.code.generator.constants.GeneratorConstants;
 import jakarta.annotation.Resource;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
@@ -58,12 +60,13 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @Service
+@RequiredArgsConstructor
 public class ToolGeneratorTableColumnServiceImpl extends ServiceImpl<ToolGeneratorTableColumnMapper, ToolGeneratorTableColumn> implements IToolGeneratorTableColumnService {
 
     @Resource
     private IToolGeneratorTableService toolGeneratorTableService;
 
-    @Resource
+    @NonNull
     private IDataTableService dataTableService;
 
     @Override

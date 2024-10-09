@@ -21,13 +21,11 @@ package com.izpan.modules.tools.facade.impl;
 
 import com.izpan.common.pool.StringPools;
 import com.izpan.common.util.CglibUtil;
-import com.izpan.modules.tools.domain.bo.TableColumnBO;
 import com.izpan.modules.tools.domain.entity.DataTable;
 import com.izpan.modules.tools.domain.vo.DataTableVO;
-import com.izpan.modules.tools.domain.vo.TableColumnVO;
 import com.izpan.modules.tools.facade.IDataTableFacade;
 import com.izpan.modules.tools.service.IDataTableService;
-import jakarta.annotation.Resource;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -46,7 +44,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class DataTableFacadeImpl implements IDataTableFacade {
 
-    @Resource
+    @NonNull
     private IDataTableService dataTableService;
 
     @Override

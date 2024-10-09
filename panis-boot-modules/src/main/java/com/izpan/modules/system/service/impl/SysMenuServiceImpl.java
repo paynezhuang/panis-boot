@@ -16,6 +16,7 @@ import com.izpan.modules.system.service.ISysMenuService;
 import com.izpan.modules.system.service.ISysPermissionService;
 import com.izpan.modules.system.service.ISysRoleMenuService;
 import jakarta.annotation.Resource;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -43,7 +44,7 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
     @Resource
     private ISysRoleMenuService sysRoleMenuService;
 
-    @Resource
+    @NonNull
     private ISysPermissionService sysPermissionService;
 
     @Override

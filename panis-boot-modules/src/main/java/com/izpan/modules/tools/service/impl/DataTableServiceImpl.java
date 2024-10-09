@@ -26,7 +26,8 @@ import com.izpan.modules.tools.repository.mapper.DataTableMapper;
 import com.izpan.modules.tools.service.IDataTableService;
 import com.izpan.starter.code.generator.constants.GeneratorConstants;
 import com.izpan.starter.common.util.StringUtil;
-import jakarta.annotation.Resource;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -42,9 +43,10 @@ import java.util.List;
  */
 
 @Service
+@RequiredArgsConstructor
 public class DataTableServiceImpl implements IDataTableService {
 
-    @Resource
+    @NonNull
     private DataTableMapper dataTableMapper;
 
     @Override

@@ -37,6 +37,7 @@ import com.izpan.starter.code.generator.entity.TableColumn;
 import com.izpan.starter.code.generator.service.CodeGeneratorService;
 import com.izpan.starter.common.util.ZipUtil;
 import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
 
@@ -55,6 +56,7 @@ import java.util.List;
  */
 
 @Service
+@RequiredArgsConstructor
 public class ToolGeneratorTableServiceImpl extends ServiceImpl<ToolGeneratorTableMapper, ToolGeneratorTable> implements IToolGeneratorTableService {
 
     @Resource

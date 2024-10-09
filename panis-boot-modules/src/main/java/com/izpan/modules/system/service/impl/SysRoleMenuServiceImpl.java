@@ -19,7 +19,7 @@ import com.izpan.modules.system.domain.entity.SysRoleMenu;
 import com.izpan.modules.system.repository.mapper.SysRoleMenuMapper;
 import com.izpan.modules.system.service.ISysMenuService;
 import com.izpan.modules.system.service.ISysRoleMenuService;
-import lombok.NonNull;
+import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
@@ -46,7 +46,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRoleMenu> implements ISysRoleMenuService {
 
-    @NonNull
+    @Resource
     private ISysMenuService sysMenuService;
 
     @Override

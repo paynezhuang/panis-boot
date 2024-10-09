@@ -50,9 +50,6 @@ public class SysMenuFacadeImpl implements ISysMenuFacade {
     private ISysMenuService sysMenuService;
 
     @NonNull
-    private ISysRoleMenuService sysRoleMenuService;
-
-    @NonNull
     private ISysPermissionService sysPermissionService;
 
     /**
