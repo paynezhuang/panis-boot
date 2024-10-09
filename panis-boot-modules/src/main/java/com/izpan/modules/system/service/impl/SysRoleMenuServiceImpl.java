@@ -4,14 +4,17 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.baomidou.mybatisplus.extension.toolkit.Db;
+import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.izpan.common.constants.SystemCacheConstant;
 import com.izpan.common.util.CglibUtil;
 import com.izpan.common.util.CollectionUtil;
+import com.izpan.infrastructure.enums.MenuTypeEnum;
 import com.izpan.infrastructure.page.PageQuery;
 import com.izpan.infrastructure.util.RedisUtil;
 import com.izpan.modules.system.domain.bo.SysMenuBO;
 import com.izpan.modules.system.domain.bo.SysRoleMenuBO;
+import com.izpan.modules.system.domain.entity.SysMenu;
 import com.izpan.modules.system.domain.entity.SysRoleMenu;
 import com.izpan.modules.system.repository.mapper.SysRoleMenuMapper;
 import com.izpan.modules.system.service.ISysMenuService;
@@ -22,7 +25,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Collections;
@@ -129,9 +131,23 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
 
     @Override
     public void deleteRoleMenuCacheWithMenuId(Long menuId) {
+        SysMenu sysMenu = sysMenuService.getById(menuId);
+        // 初始化成 ID 集合，方便后续目录时方便 IN 查找
+        List<Long> menuIds = Lists.newArrayList(menuId);
+        // 如果当前菜单是目录，则需要找出目录下所有菜单
+        if (MenuTypeEnum.DIRECTORY.getValue().equalsIgnoreCase(sysMenu.getType())) {
+            // 删除目录 ID
+            menuIds.clear();
+            // 删除目录下所有菜单
+            LambdaQueryWrapper<SysMenu> inQueryWrapper = new LambdaQueryWrapper<SysMenu>()
+                    .eq(SysMenu::getParentId, menuId);
+            List<SysMenu> sysMenus = sysMenuService.list(inQueryWrapper);
+            menuIds.addAll(sysMenus.stream().map(SysMenu::getId).toList());
+        }
+        if (CollectionUtils.isEmpty(menuIds)) return;
         // 找出所有关于此菜单的角色
         LambdaQueryWrapper<SysRoleMenu> inQueryWrapper = new LambdaQueryWrapper<SysRoleMenu>()
-                .eq(SysRoleMenu::getMenuId, menuId);
+                .in(SysRoleMenu::getMenuId, menuIds);
         List<SysRoleMenu> sysRoleMenus = baseMapper.selectList(inQueryWrapper);
         sysRoleMenus.stream().map(SysRoleMenu::getRoleId).toList()
                 .forEach(roleId -> RedisUtil.del(SystemCacheConstant.roleMenuListKey(roleId)));
