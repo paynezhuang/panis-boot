@@ -76,4 +76,14 @@ public interface ISysPermissionService extends IService<SysPermission> {
      * @CreateTime 2024-04-19 21:52
      */
     void saveRolePermissionToCache(Long roleId, List<Long> permissionIds);
+
+    /**
+     * 根据菜单 ID 删除权限
+     *
+     * @param menuIds 菜单 IDs
+     * @return boolean
+     * @author payne.zhuang
+     * @CreateTime 2024-10-09 - 18:48:34
+     */
+    boolean deletePermissionWithMenuIds(List<Long> menuIds);
 }

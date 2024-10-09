@@ -13,6 +13,9 @@ import com.izpan.modules.system.domain.bo.SysMenuBO;
 import com.izpan.modules.system.domain.entity.SysMenu;
 import com.izpan.modules.system.repository.mapper.SysMenuMapper;
 import com.izpan.modules.system.service.ISysMenuService;
+import com.izpan.modules.system.service.ISysPermissionService;
+import com.izpan.modules.system.service.ISysRoleMenuService;
+import jakarta.annotation.Resource;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -37,11 +40,38 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> implements ISysMenuService {
 
+    @Resource
+    private ISysRoleMenuService sysRoleMenuService;
+
+    @Resource
+    private ISysPermissionService sysPermissionService;
+
     @Override
     public IPage<SysMenu> listSysMenuPage(PageQuery pageQuery, SysMenuBO sysMenuBO) {
         LambdaQueryWrapper<SysMenu> queryWrapper = new LambdaQueryWrapper<SysMenu>()
                 .eq(SysMenu::getParentId, sysMenuBO.getParentId());
         return baseMapper.selectPage(pageQuery.buildPage(), queryWrapper);
+    }
+
+    @Override
+    public boolean updateMenu(SysMenuBO sysMenuBO) {
+        boolean update = updateById(sysMenuBO);
+        if (Boolean.TRUE.equals(update)) {
+            sysRoleMenuService.deleteRoleMenuCacheWithMenuId(sysMenuBO.getId());
+        }
+        return update;
+    }
+
+    @Override
+    public boolean batchDeleteMenu(List<Long> menuIds) {
+        boolean removeBatchByIds = super.removeBatchByIds(menuIds, true);
+        if (Boolean.TRUE.equals(removeBatchByIds)) {
+            // 删除角色缓存
+            menuIds.forEach(sysRoleMenuService::deleteRoleMenuCacheWithMenuId);
+            // 删除权限按钮数据
+            sysPermissionService.deletePermissionWithMenuIds(menuIds);
+        }
+        return removeBatchByIds;
     }
 
     @Override

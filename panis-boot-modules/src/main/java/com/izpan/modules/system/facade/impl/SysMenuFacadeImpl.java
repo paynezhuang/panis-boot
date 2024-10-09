@@ -7,7 +7,6 @@ import com.izpan.infrastructure.enums.MenuTypeEnum;
 import com.izpan.infrastructure.page.PageQuery;
 import com.izpan.infrastructure.page.RPage;
 import com.izpan.infrastructure.util.GsonUtil;
-import com.izpan.infrastructure.util.JacksonUtil;
 import com.izpan.modules.system.domain.bo.SysMenuBO;
 import com.izpan.modules.system.domain.bo.SysPermissionBO;
 import com.izpan.modules.system.domain.dto.menu.SysMenuAddDTO;
@@ -115,18 +114,13 @@ public class SysMenuFacadeImpl implements ISysMenuFacade {
     public boolean update(SysMenuUpdateDTO sysMenuUpdateDTO) {
         SysMenuBO sysMenuBO = CglibUtil.convertObj(sysMenuUpdateDTO, SysMenuBO::new);
         sysMenuBO.setQuery(GsonUtil.toJson(sysMenuUpdateDTO.getQuery()));
-        boolean update = sysMenuService.updateById(sysMenuBO);
-        sysRoleMenuService.deleteRoleMenuCacheWithRoleId(sysMenuBO.getId());
-        return update;
+        return sysMenuService.updateMenu(sysMenuBO);
     }
 
     @Override
     @Transactional
     public boolean batchDelete(SysMenuDeleteDTO sysMenuDeleteDTO) {
-        SysMenuBO sysMenuBO = CglibUtil.convertObj(sysMenuDeleteDTO, SysMenuBO::new);
-        boolean removeBatchByIds = sysMenuService.removeBatchByIds(sysMenuBO.getIds(), true);
-        sysRoleMenuService.deleteRoleMenuCacheWithRoleId(sysMenuBO.getId());
-        return removeBatchByIds;
+        return sysMenuService.batchDeleteMenu(sysMenuDeleteDTO.getIds());
     }
 
     @Override

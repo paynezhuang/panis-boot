@@ -128,7 +128,7 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
     }
 
     @Override
-    public void deleteRoleMenuCacheWithRoleId(Long menuId) {
+    public void deleteRoleMenuCacheWithMenuId(Long menuId) {
         // 找出所有关于此菜单的角色
         LambdaQueryWrapper<SysRoleMenu> inQueryWrapper = new LambdaQueryWrapper<SysRoleMenu>()
                 .eq(SysRoleMenu::getMenuId, menuId);

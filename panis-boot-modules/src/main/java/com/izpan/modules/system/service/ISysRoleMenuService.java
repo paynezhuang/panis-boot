@@ -87,5 +87,5 @@ public interface ISysRoleMenuService extends IService<SysRoleMenu> {
      * @author payne.zhuang
      * @CreateTime 2024-04-20 21:55
      */
-    void deleteRoleMenuCacheWithRoleId(Long menuId);
+    void deleteRoleMenuCacheWithMenuId(Long menuId);
 }

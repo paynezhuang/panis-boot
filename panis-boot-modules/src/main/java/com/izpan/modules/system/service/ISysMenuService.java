@@ -30,6 +30,26 @@ public interface ISysMenuService extends IService<SysMenu> {
     IPage<SysMenu> listSysMenuPage(PageQuery pageQuery, SysMenuBO sysMenuBO);
 
     /**
+     * 菜单管理 - 编辑更新
+     *
+     * @param sysMenuBO 系统菜单 bo
+     * @return boolean
+     * @author payne.zhuang
+     * @CreateTime 2024-10-09 - 18:18:24
+     */
+    boolean updateMenu(SysMenuBO sysMenuBO);
+
+    /**
+     * 菜单管理 - 批量删除
+     *
+     * @param menuIds 菜单 ID
+     * @return boolean
+     * @author payne.zhuang
+     * @CreateTime 2024-10-09 - 18:18:34
+     */
+    boolean batchDeleteMenu(List<Long> menuIds);
+
+    /**
      * 获取所有菜单信息
      *
      * @return {@link List} 菜单列表

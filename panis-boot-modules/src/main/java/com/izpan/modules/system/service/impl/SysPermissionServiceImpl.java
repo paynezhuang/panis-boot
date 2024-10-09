@@ -1,6 +1,7 @@
 package com.izpan.modules.system.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.base.Splitter;
@@ -20,7 +21,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 import java.util.Collections;
@@ -106,5 +106,13 @@ public class SysPermissionServiceImpl extends ServiceImpl<SysPermissionMapper, S
         // 保存角色权限到缓存
         String rolePermissionKey = SystemCacheConstant.rolePermissionResourcesKey(roleId);
         RedisUtil.set(rolePermissionKey, permissionResources, 30L, TimeUnit.DAYS);
+    }
+
+    @Override
+    public boolean deletePermissionWithMenuIds(List<Long> menuIds) {
+        LambdaUpdateWrapper<SysPermission> deleteWrapper = new LambdaUpdateWrapper<SysPermission>()
+                .set(SysPermission::getDeleted, 1)
+                .in(SysPermission::getMenuId, menuIds);
+        return super.update(deleteWrapper);
     }
 }
