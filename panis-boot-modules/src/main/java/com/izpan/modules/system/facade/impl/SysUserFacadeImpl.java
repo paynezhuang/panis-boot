@@ -2,6 +2,7 @@ package com.izpan.modules.system.facade.impl;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.izpan.common.util.CglibUtil;
+import com.izpan.common.util.StringUtil;
 import com.izpan.infrastructure.page.PageQuery;
 import com.izpan.infrastructure.page.RPage;
 import com.izpan.modules.system.domain.bo.SysUserBO;
@@ -37,6 +38,7 @@ public class SysUserFacadeImpl implements ISysUserFacade {
     @Override
     public RPage<SysUserVO> listSysUserPage(PageQuery pageQuery, SysUserSearchDTO sysUserSearchDTO) {
         SysUserBO sysUserBO = CglibUtil.convertObj(sysUserSearchDTO, SysUserBO::new);
+        sysUserBO.setOrgIds(StringUtil.toLongList(sysUserSearchDTO.getOrgIds()));
         IPage<SysUser> sysUserIPage = sysUserService.listSysUserPage(pageQuery, sysUserBO);
         return RPage.build(sysUserIPage, SysUserVO::new);
     }

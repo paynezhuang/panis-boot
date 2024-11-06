@@ -131,5 +131,25 @@ public class SystemCacheConstant implements Serializable {
         return SYSTEM_ROLE_MENU_LIST + StringPools.DOUBLE_COLON + roleId;
     }
 
-    // ====================== 用户管理 End ======================
+    // ====================== 角色权限 End ======================
+
+    // ====================== Controller 注解 Begin ======================
+
+    private static final String ANNOTATION = "annotation";
+
+    private static final String PERMISSION = "permission";
+
+    /**
+     * Controller 注解权限缓存 Key
+     *
+     * @return {@link String } system:annotation:permission
+     * @author payne.zhuang
+     * @CreateTime 2024-11-06 - 11:56:51
+     */
+    public static String controllerAnnotationPermissionKey() {
+        return SYSTEM + StringPools.COLON + ANNOTATION + StringPools.COLON + PERMISSION;
+    }
+
+    // ====================== Controller 注解 End ======================
+
 }

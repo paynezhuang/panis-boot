@@ -26,6 +26,7 @@ public final class StringPools {
     public static final String COMMA = ",";
     public static final String CRLF = "\r\n";
     public static final String DASH = "-";
+    public static final String DEV = "dev";
     public static final String DOLLAR = "$";
     public static final String DOT = ".";
     public static final String DOT_DOUBLE = "..";

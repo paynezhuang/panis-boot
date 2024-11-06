@@ -34,4 +34,9 @@ public class SysUserBO extends SysUser {
      * 路由权限按钮
      */
     private List<String> permissions;
+
+    /**
+     * 组织 Ids 集合
+     */
+    private List<Long> orgIds;
 }

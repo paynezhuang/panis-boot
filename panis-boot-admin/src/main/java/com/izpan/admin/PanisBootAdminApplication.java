@@ -22,8 +22,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 public class PanisBootAdminApplication {
 
     public static void main(String[] args) {
-        ApplicationContext context = SpringApplication.run(PanisBootAdminApplication.class, args);
-        SpringUtil.setApplicationContext(context);
+        SpringApplication.run(PanisBootAdminApplication.class, args);
     }
 
 }

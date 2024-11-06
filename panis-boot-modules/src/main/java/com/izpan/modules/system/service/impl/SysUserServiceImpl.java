@@ -2,7 +2,6 @@ package com.izpan.modules.system.service.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.extra.servlet.JakartaServletUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.izpan.common.constants.RequestConstant;
@@ -66,12 +65,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public IPage<SysUser> listSysUserPage(PageQuery pageQuery, SysUserBO sysUserBO) {
-        var queryWrapper = new LambdaQueryWrapper<SysUser>()
-                .like(ObjectUtils.isNotEmpty(sysUserBO.getUserName()), SysUser::getUserName, sysUserBO.getUserName())
-                .like(ObjectUtils.isNotEmpty(sysUserBO.getRealName()), SysUser::getRealName, sysUserBO.getRealName())
-                .like(ObjectUtils.isNotEmpty(sysUserBO.getEmail()), SysUser::getEmail, sysUserBO.getEmail())
-                .eq(ObjectUtils.isNotEmpty(sysUserBO.getStatus()), SysUser::getStatus, sysUserBO.getStatus());
-        return baseMapper.selectPage(pageQuery.buildPage(), queryWrapper);
+        IPage<SysUser> iPage = pageQuery.buildPage();
+        iPage.setRecords(baseMapper.listSysUserPage(iPage, sysUserBO));
+        return iPage;
     }
 
     @Override

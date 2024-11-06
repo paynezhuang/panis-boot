@@ -4,6 +4,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.stereotype.Component;
 
 /**
  * SpringUtil 是一个standalone的工具类,用于获取Spring容器中的Bean
@@ -19,8 +21,9 @@ import org.springframework.context.ApplicationContext;
  * @ClassName com.izpan.infrastructure.util.SpringUtil
  * @CreateTime 2023/8/15 - 13:58
  */
+@Component
 @SuppressWarnings({"unchecked", "java:S1905"})
-public class SpringUtil {
+public class SpringUtil implements ApplicationContextAware {
 
     @Getter
     private static ApplicationContext applicationContext;
@@ -32,7 +35,7 @@ public class SpringUtil {
     /*
      * 通过传递applicationContext参数初始化成员变量applicationContext
      */
-    public static void setApplicationContext(@NotNull ApplicationContext applicationContext) {
+    public void setApplicationContext(@NotNull ApplicationContext applicationContext) {
         SpringUtil.applicationContext = applicationContext;
     }
 

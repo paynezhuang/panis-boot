@@ -32,7 +32,7 @@ public class SysUserSearchDTO implements Serializable {
     @Schema(description = "邮箱")
     private String email;
 
-    @Schema(description = "启用状态(0:禁用,1:启用)")
-    private String status;
+    @Schema(description = "组织ID")
+    private String orgIds;
 
 }

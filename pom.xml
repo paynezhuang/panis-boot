@@ -49,6 +49,7 @@
         <jsr310.version>2.17.1</jsr310.version>
         <oshi.version>6.6.1</oshi.version>
         <ip2region.version>2.7.0</ip2region.version>
+        <classgraph.version>4.8.177</classgraph.version>
     </properties>
 
     <dependencyManagement>
@@ -103,6 +104,13 @@
                 <version>${ip2region.version}</version>
             </dependency>
 
+            <!-- 类路径扫描器 ClassGraph -->
+            <dependency>
+                <groupId>io.github.classgraph</groupId>
+                <artifactId>classgraph</artifactId>
+                <version>${classgraph.version}</version>
+            </dependency>
+
             <!-- Starter -->
             <dependency>
                 <groupId>com.izpan</groupId>
@@ -137,6 +145,11 @@
             <dependency>
                 <groupId>com.izpan</groupId>
                 <artifactId>panis-boot-starter-job-quartz</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.izpan</groupId>
+                <artifactId>panis-boot-starter-excel</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

@@ -77,7 +77,7 @@ public class SysMenuController {
 
     @GetMapping("/all_pages")
     @SaCheckPermission("sys:menu:allPages")
-    @Operation(operationId = "6", summary = "所有菜单路由名称，提供前端，达到页面组件复用的效果")
+    @Operation(operationId = "6", summary = "所有菜单路由名称")
     public Result<List<String>> queryAllPageRouteName() {
         return Result.data(sysMenuFacade.queryAllPageRouteName());
     }

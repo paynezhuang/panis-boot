@@ -45,6 +45,11 @@
             <artifactId>oshi-core</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>io.github.classgraph</groupId>
+            <artifactId>classgraph</artifactId>
+        </dependency>
+
         <!-- PanisBoot Starter Begin -->
         <!-- MyBatis Plus -->
         <dependency>

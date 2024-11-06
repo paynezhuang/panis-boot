@@ -25,8 +25,30 @@
         <result column="is_deleted" property="deleted"/>
     </resultMap>
 
+    <sql id="UserColumnList">
+        su.id,
+        su.user_name,
+        su.password,
+        su.nick_name,
+        su.real_name,
+        su.avatar,
+        su.email,
+        su.phone,
+        su.gender,
+        su.status,
+        su.salt,
+        su.last_login_time,
+        su.update_password_time,
+        su.create_user,
+        su.create_user_id,
+        su.create_time,
+        su.update_user,
+        su.update_user_id,
+        su.update_time
+    </sql>
+
     <select id="getUserByUserName" resultMap="SysUserResultMap">
-        SELECT *
+        SELECT <include refid="UserColumnList" />
         FROM sys_user su
         WHERE su.user_name = #{userName}
           AND su.is_deleted = 0
@@ -42,6 +64,32 @@
         <foreach collection="userIds" item="userId" open="(" separator="," close=")">
             #{userId}
         </foreach>
+    </select>
+
+    <select id="listSysUserPage" resultMap="SysUserResultMap">
+        SELECT <include refid="UserColumnList" /> FROM
+            sys_user su
+        WHERE
+        <if test="bo.orgIds.toString().contains('-1')">
+            NOT EXISTS ( SELECT 1 FROM sys_user_org suo WHERE suo.user_id = su.id AND suo.is_deleted = 0 )
+        </if>
+        <if test="!bo.orgIds.toString().contains('-1')">
+            EXISTS ( SELECT 1 FROM sys_user_org suo WHERE suo.user_id = su.id AND suo.is_deleted = 0 AND suo.org_id IN
+            <foreach collection="bo.orgIds" item="orgId" open="(" separator="," close=")">
+                #{orgId}
+            </foreach>
+            )
+        </if>
+        <if test="bo.userName != null and bo.userName != ''">
+            AND su.user_name LIKE CONCAT(#{bo.userName}, '%')
+        </if>
+        <if test="bo.realName != null and bo.realName != ''">
+            AND su.real_name LIKE CONCAT(#{bo.realName}, '%')
+        </if>
+        <if test="bo.email != null and bo.email != ''">
+            AND su.email LIKE CONCAT(#{bo.email}, '%')
+        </if>
+          AND su.is_deleted = 0
     </select>
 
 
