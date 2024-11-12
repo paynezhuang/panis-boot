@@ -20,7 +20,6 @@
 package com.izpan.admin.controller.tools;
 
 import cn.dev33.satoken.annotation.SaCheckPermission;
-import cn.dev33.satoken.annotation.SaIgnore;
 import com.izpan.common.api.Result;
 import com.izpan.infrastructure.page.PageQuery;
 import com.izpan.infrastructure.page.RPage;
@@ -94,7 +93,6 @@ public class ToolGeneratorTableController {
         return Result.status(toolGeneratorTableFacade.batchDelete(toolGeneratorTableDeleteDTO));
     }
 
-    @SaIgnore
     @PostMapping("/zip/{id}")
     @SaCheckPermission("tools:generator:table:zip")
     @Operation(operationId = "6", summary = "代码生成压缩包")
