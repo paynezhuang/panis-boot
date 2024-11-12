@@ -11,12 +11,17 @@ import com.fasterxml.jackson.databind.JsonSerializer;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.jsontype.TypeSerializer;
 import com.fasterxml.jackson.databind.module.SimpleModule;
+import com.izpan.infrastructure.annotation.Timestamp;
+import com.izpan.infrastructure.util.AnnotationUtil;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 
 import java.io.IOException;
 import java.io.Serial;
+import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 import static java.time.format.DateTimeFormatter.ofPattern;
 
@@ -37,14 +42,16 @@ public class LocalDateTimeModule extends SimpleModule {
         super();
         // 序列化时，当值为 LocalDateTime 类型时，转换为字符串类型
         addSerializer(LocalDateTime.class, new JsonSerializer<>() {
+
             @Override
-            public void serialize(LocalDateTime value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
-                gen.writeString(value.format(ofPattern(DatePattern.NORM_DATETIME_PATTERN)));
+            @SneakyThrows
+            public void serialize(LocalDateTime value, JsonGenerator gen, SerializerProvider serializers) {
+                gen.writeNumber(value.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
             }
 
             @Override
             public void serializeWithType(LocalDateTime value, JsonGenerator gen, SerializerProvider serializers, TypeSerializer typeSer) throws IOException {
-                WritableTypeId typeIdDef = typeSer.typeId(value, JsonToken.VALUE_STRING);
+                WritableTypeId typeIdDef = typeSer.typeId(value, JsonToken.VALUE_NUMBER_INT);
                 typeSer.writeTypePrefix(gen, typeIdDef);
                 serialize(value, gen, serializers);
                 typeSer.writeTypeSuffix(gen, typeIdDef);
@@ -59,9 +66,31 @@ public class LocalDateTimeModule extends SimpleModule {
                 if (ObjectUtils.isEmpty(p.getValueAsString())) {
                     return null;
                 }
-                return LocalDateTime.parse(p.getValueAsString(), ofPattern(DatePattern.NORM_DATETIME_PATTERN));
+
+                if (p.getCurrentToken() == JsonToken.VALUE_STRING) {
+                    return LocalDateTime.parse(p.getValueAsString(), ofPattern(DatePattern.NORM_DATETIME_PATTERN));
+                }
+
+                return LocalDateTime.ofInstant(Instant.ofEpochMilli(p.getLongValue()), ZoneId.systemDefault());
             }
         });
+
+
+    }
+
+    /**
+     * 是否有时间戳注解
+     *
+     * @param gen JsonGenerator
+     * @return boolean 是否有时间戳注解
+     * @author payne.zhuang
+     * @CreateTime 2024-11-12 - 11:04:20
+     */
+    @SneakyThrows
+    private boolean withTimestampAnnotation(JsonGenerator gen) {
+        String fieldName = gen.getOutputContext().getCurrentName();
+        Class<?> currentClass = gen.currentValue().getClass();
+        return AnnotationUtil.hasAnnotation(currentClass, fieldName, Timestamp.class);
     }
 
 }
