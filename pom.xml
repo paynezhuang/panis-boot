@@ -50,6 +50,7 @@
         <oshi.version>6.6.1</oshi.version>
         <ip2region.version>2.7.0</ip2region.version>
         <classgraph.version>4.8.177</classgraph.version>
+        <snakeyaml.version>2.3</snakeyaml.version>
     </properties>
 
     <dependencyManagement>
@@ -111,6 +112,13 @@
                 <version>${classgraph.version}</version>
             </dependency>
 
+            <!-- SnakeYAML -->
+            <dependency>
+                <groupId>org.yaml</groupId>
+                <artifactId>snakeyaml</artifactId>
+                <version>${snakeyaml.version}</version>
+            </dependency>
+
             <!-- Starter -->
             <dependency>
                 <groupId>com.izpan</groupId>
@@ -149,7 +157,7 @@
             </dependency>
             <dependency>
                 <groupId>com.izpan</groupId>
-                <artifactId>panis-boot-starter-excel</artifactId>
+                <artifactId>panis-boot-starter-database-sharding</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>
