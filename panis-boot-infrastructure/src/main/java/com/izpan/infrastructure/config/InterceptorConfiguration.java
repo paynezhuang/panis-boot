@@ -38,6 +38,11 @@ public class InterceptorConfiguration implements WebMvcConfigurer {
             "/api-docs/**",
             "/doc.html/**"};
 
+    // 对 Druid 的请求不进行拦截
+    public final String[] druidExcludePatterns = new String[]{
+            "/druid/**"
+    };
+
     // 业务放行接口
     public final String[] businessExcludePatterns = new String[]{
             "/auth/user_name"
@@ -55,6 +60,7 @@ public class InterceptorConfiguration implements WebMvcConfigurer {
         registry.addInterceptor(new SaInterceptor(handle -> StpUtil.checkLogin()))
                 .addPathPatterns("/**")
                 .excludePathPatterns(swaggerExcludePatterns)
+                .excludePathPatterns(druidExcludePatterns)
                 .excludePathPatterns(businessExcludePatterns)
                 .order(Ordered.HIGHEST_PRECEDENCE + 1);
     }

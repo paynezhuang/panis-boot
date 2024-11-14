@@ -13,6 +13,7 @@ spring:
     allow-bean-definition-overriding: true
   config:
     import:
+      - classpath:config/druid.yml
       - classpath:config/mybatis-plus.yml
       - classpath:config/swagger.yml
       - classpath:config/quartz.yml
