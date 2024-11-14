@@ -1,0 +1,66 @@
+# ShardingSphere 配置文件
+# 官方文档：https://shardingsphere.apache.org/document/current/cn/overview/
+
+# 配置模式
+mode:
+  # 独立模式
+  type: Standalone
+  # 使用JDBC作为存储库类型
+  repository:
+    type: JDBC
+
+# 数据源配置
+dataSources:
+  db_0:
+    type: com.zaxxer.hikari.HikariDataSource
+    dataSourceClassName: com.zaxxer.hikari.HikariDataSource
+    driverClassName: com.mysql.cj.jdbc.Driver
+    jdbcUrl: jdbc:mysql://127.0.0.1:3306/panis_boot?socketTimeout=60000&connectTimeout=30000&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    username: root
+    password: root
+
+# 规则配置
+rules:
+  - !SHARDING
+    # 数据分片规则配置
+    tables:
+      sys_notice:
+        # 实际数据节点 库名db_0.sys_notice_${1..2} 代表有 sys_notice_1 和 sys_notice_2 两个表
+        # 以下示例是固定两个表
+        actualDataNodes: db_0.sys_notice, db_0.sys_notice_1
+        tableStrategy:
+          standard:
+            # 分片列
+            shardingColumn: id
+            # 分片算法名称
+            shardingAlgorithmName: notice-inline
+        keyGenerateStrategy:
+          # 主键生成列
+          column: id
+          # 主键生成器名称
+          keyGeneratorName: snowflake
+    keyGenerators:
+      snowflake:
+        # 主键生成器类型
+        type: SNOWFLAKE
+    shardingAlgorithms:
+      notice-inline:
+        # 分片算法类型
+        type: INLINE
+        props:
+          # 分片算法表达式，表示根据id的值对2取模，决定数据存储在sys_notice或sys_notice_1表中
+          algorithm-expression: "sys_notice$->{id % 2 == 0 ? '' : '_1'}"
+  - !SINGLE
+    # 单表配置
+    tables:
+      # 加载指定数据源中的全部单表
+      - "db_0.*"
+    # 默认数据源，仅在执行 CREATE TABLE 创建单表时有效。缺失值为空，表示随机单播路由。
+    defaultDataSource: ds_0
+
+# 其他属性配置
+props:
+  # 是否显示SQL语句
+  sql-show: true
+  # 每个查询的最大连接数
+  max-connections-size-per-query: 5
