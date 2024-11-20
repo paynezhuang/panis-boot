@@ -17,20 +17,33 @@
  * limitations under the License.
  */
 
-package com.izpan.modules.monitor.repository.mapper;
+package com.izpan.modules.monitor.service;
 
-import com.izpan.modules.monitor.domain.entity.MonFileRecord;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.izpan.infrastructure.page.PageQuery;
+import com.izpan.modules.monitor.domain.bo.MonFileBO;
+import com.izpan.modules.monitor.domain.entity.MonFile;
+import com.baomidou.mybatisplus.extension.service.IService;
+import com.baomidou.mybatisplus.core.metadata.IPage;
 
 /**
- * 文件记录 Mapper 接口层
+ * 文件管理 Service 服务接口层
  *
- * @Author payne.zhuang <paynezhuang@gmail.com>
+ * @Author monitor
  * @ProjectName panis-boot
- * @ClassName com.izpan.modules.monitor.repository.mapper.MonFileRecordMapper
- * @CreateTime 2024-11-20 - 14:27:48
+ * @ClassName com.izpan.modules.monitor.service.IMonFileService
+ * @CreateTime 2024-11-20 - 17:16:20
  */
 
-public interface MonFileRecordMapper extends BaseMapper<MonFileRecord> {
+public interface IMonFileService extends IService<MonFile> {
 
+    /**
+     * 文件管理 - 分页查询
+     *
+     * @param pageQuery 分页对象
+     * @param monFileBO BO 查询对象
+     * @return {@link IPage} 分页结果
+     * @author payne.zhuang
+     * @CreateTime 2024-11-20 - 17:16:20
+     */
+    IPage<MonFile> listMonFilePage(PageQuery pageQuery, MonFileBO monFileBO);
 }

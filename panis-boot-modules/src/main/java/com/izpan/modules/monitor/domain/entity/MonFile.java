@@ -17,68 +17,97 @@
 * limitations under the License.
 */
 
-package com.izpan.modules.monitor.domain.vo;
+package com.izpan.modules.monitor.domain.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableName;
+import com.izpan.infrastructure.domain.BaseEntity;
+import java.io.Serializable;
 import com.izpan.infrastructure.domain.BaseVO;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
-
-import java.io.Serial;
-import java.time.LocalDateTime;
+    import java.io.Serial;
 
 /**
-* 文件记录 VO 展示类
+* 文件管理 Entity 实体类
 *
-* @Author payne.zhuang <paynezhuang@gmail.com>
+* @Author monitor
 * @ProjectName panis-boot
-* @ClassName com.izpan.modules.monitor.domain.vo.MonFileRecordVO
-* @CreateTime 2024-11-20 - 14:27:48
+* @ClassName com.izpan.modules.monitor.domain.entity.MonFile
+* @CreateTime 2024-11-20 - 17:16:20
 */
 
 @Data
 @SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@Schema(name = "MonFileRecordVO", description = "文件记录 VO 对象")
-public class MonFileRecordVO extends BaseVO {
+@TableName("mon_file")
+public class MonFile extends BaseEntity {
 
     @Serial
-    private static final long serialVersionUID = 5904611064758559880L;
+    private static final long serialVersionUID = -5397867642544054703L;
 
-    @Schema(description = "订单ID")
+    /**
+    * 订单ID
+    */
     private Long orderId;
 
-    @Schema(description = "订单号码")
+    /**
+    * 订单号码
+    */
     private String orderNo;
 
-    @Schema(description = "分类1:上传 2:下载")
+    /**
+    * 分类1:上传 2:下载
+    */
     private String category;
 
-    @Schema(description = "文件名称")
+    /**
+    * 存储位置 1:本地 2:Minio
+    */
+    private String location;
+
+    /**
+    * 文件名称
+    */
     private String name;
 
-    @Schema(description = "文件路径")
+    /**
+    * 文件尾缀
+    */
+    private String suffix;
+
+    /**
+    * 文件路径
+    */
     private String path;
 
-    @Schema(description = "文件大小")
-    private Integer length;
+    /**
+    * 文件大小
+    */
+    private Long length;
 
-    @Schema(description = "文件UUID")
+    /**
+    * 文件大小(带单位)
+    */
+    private String size;
+
+    /**
+    * 文件UUID
+    */
     private String uuid;
 
-    @Schema(description = "文件类型")
+    /**
+    * 文件类型
+    */
     private String contentType;
 
-    @Schema(description = "备注")
+    /**
+    * 备注
+    */
     private String remark;
-
-    @Schema(description = "创建用户")
-    private String createUser;
-
-    @Schema(description = "创建时间")
-    private LocalDateTime createTime;
 
 }

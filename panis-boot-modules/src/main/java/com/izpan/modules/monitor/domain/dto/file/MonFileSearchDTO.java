@@ -17,7 +17,7 @@
 * limitations under the License.
 */
 
-package com.izpan.modules.monitor.domain.dto.file.record;
+package com.izpan.modules.monitor.domain.dto.file;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
@@ -27,23 +27,32 @@ import java.io.Serial;
 import java.io.Serializable;
 
 /**
-* 文件记录 编辑更新 DTO 对象
+* 文件管理 查询 DTO 对象
 *
-* @Author payne.zhuang <paynezhuang@gmail.com>
+* @Author monitor
 * @ProjectName panis-boot
-* @ClassName com.izpan.modules.monitor.domain.dto.file.record.MonFileRecordUpdateDTO
-* @CreateTime 2024-11-20 - 14:27:48
+* @ClassName com.izpan.modules.monitor.domain.dto.file.MonFileSearchDTO
+* @CreateTime 2024-11-20 - 17:16:20
 */
 
 @Getter
 @Setter
-@Schema(name = "MonFileRecordUpdateDTO", description = "文件记录 编辑更新 DTO 对象")
-public class MonFileRecordUpdateDTO implements Serializable {
+@Schema(name = "MonFileSearchDTO", description = "文件管理 查询 DTO 对象")
+public class MonFileSearchDTO implements Serializable {
 
     @Serial
-    private static final long serialVersionUID = 450682688073676114L;
+    private static final long serialVersionUID = 4577928295576197656L;
 
-    @Schema(description = "ID")
-    private Long id;
+    @Schema(description = "订单号码")
+    private String orderNo;
+
+    @Schema(description = "分类1:上传 2:下载")
+    private String category;
+
+    @Schema(description = "存储位置 1:本地 2:Minio")
+    private String location;
+
+    @Schema(description = "文件名称")
+    private String name;
 
 }

@@ -17,34 +17,32 @@
  * limitations under the License.
  */
 
-package com.izpan.modules.monitor.domain.dto.file.record;
+package com.izpan.modules.monitor.domain.bo;
 
-import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Getter;
-import lombok.Setter;
+import com.izpan.modules.monitor.domain.entity.MonFile;
+import lombok.Data;
 
 import java.io.Serial;
-import java.io.Serializable;
 import java.util.List;
 
 /**
- * 文件记录 删除 DTO 对象
+ * 文件管理 BO 业务处理对象
  *
- * @Author payne.zhuang <paynezhuang@gmail.com>
+ * @Author monitor
  * @ProjectName panis-boot
- * @ClassName com.izpan.modules.monitor.domain.dto.file.record.MonFileRecordDeleteDTO
- * @CreateTime 2024-11-20 - 14:27:48
+ * @ClassName com.izpan.domain.bo.MonFileBO
+ * @CreateTime 2024-11-20 - 17:16:20
  */
 
-@Getter
-@Setter
-@Schema(name = "MonFileRecordDeleteDTO", description = "文件记录 删除 DTO 对象")
-public class MonFileRecordDeleteDTO implements Serializable {
+@Data
+public class MonFileBO extends MonFile {
 
     @Serial
-    private static final long serialVersionUID = -4944742678690300555L;
+    private static final long serialVersionUID = -2236532660642367336L;
 
-    @Schema(description = "IDs")
+    /**
+     * Ids
+     */
     private List<Long> ids;
 
 }
