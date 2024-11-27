@@ -14,7 +14,7 @@
 
     <groupId>com.izpan</groupId>
     <artifactId>panis-boot</artifactId>
-    <version>1.0.4-SNAPSHOT</version>
+    <version>1.0.5-SNAPSHOT</version>
     <description>PanisBoot 后台管理项目</description>
 
     <packaging>pom</packaging>
