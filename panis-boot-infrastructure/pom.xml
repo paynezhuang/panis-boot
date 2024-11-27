@@ -35,6 +35,11 @@
         </dependency>
 
         <!-- PanisBoot Starter Begin -->
+        <!-- MySQL -->
+        <dependency>
+            <groupId>com.izpan</groupId>
+            <artifactId>panis-boot-starter-database-mysql</artifactId>
+        </dependency>
         <!-- MyBatis Plus -->
         <dependency>
             <groupId>com.izpan</groupId>
@@ -58,6 +63,11 @@
         <dependency>
             <groupId>com.izpan</groupId>
             <artifactId>panis-boot-starter-job-quartz</artifactId>
+        </dependency>
+        <!-- OSS -->
+        <dependency>
+            <groupId>com.izpan</groupId>
+            <artifactId>panis-boot-starter-oss</artifactId>
         </dependency>
         <!-- PanisBoot Starter End -->
     </dependencies>

@@ -32,10 +32,11 @@ import com.izpan.modules.monitor.domain.entity.MonFile;
 import com.izpan.modules.monitor.domain.vo.MonFileVO;
 import com.izpan.modules.monitor.facade.IMonFileFacade;
 import com.izpan.modules.monitor.service.IMonFileService;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import lombok.NonNull;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 文件管理 门面接口实现层
@@ -84,7 +85,16 @@ public class MonFileFacadeImpl implements IMonFileFacade {
     @Transactional
     public boolean batchDelete(MonFileDeleteDTO monFileDeleteDTO) {
         MonFileBO monFileBO = CglibUtil.convertObj(monFileDeleteDTO, MonFileBO::new);
-        return monFileService.removeBatchByIds(monFileBO.getIds(), true);
+        return monFileService.removeBatchByIds(monFileBO.getIds());
     }
 
+    @Override
+    public boolean putFile(MultipartFile file) {
+        return monFileService.putFile(file);
+    }
+
+    @Override
+    public String preview(Long id) {
+        return monFileService.preview(id);
+    }
 }

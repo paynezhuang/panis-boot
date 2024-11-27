@@ -13,3 +13,11 @@ spring:
       lettuce:
         pool:
           enabled: true
+oss:
+  name: minio
+  bucket-name: panis
+  endpoint:
+  access-key:
+  secret-key:
+  sync-delete: true
+  expiry: 3600

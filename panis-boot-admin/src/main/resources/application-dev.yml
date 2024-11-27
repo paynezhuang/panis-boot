@@ -4,7 +4,6 @@ spring:
     url: jdbc:mysql://127.0.0.1:3306/panis_boot?socketTimeout=60000&connectTimeout=30000&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&allowMultiQueries=true&serverTimezone=Asia/Shanghai
     username: root
     password: root
-
   data:
     redis:
       database: 1
@@ -13,3 +12,11 @@ spring:
       lettuce:
         pool:
           enabled: true
+oss:
+  name: minio
+  bucket-name: panis
+  endpoint:
+  access-key:
+  secret-key:
+  sync-delete: true
+  expiry: 3600

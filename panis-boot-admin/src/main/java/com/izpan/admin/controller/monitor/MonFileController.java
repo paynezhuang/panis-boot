@@ -32,11 +32,11 @@ import com.izpan.modules.monitor.facade.IMonFileFacade;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.RestController;
-import lombok.NonNull;
-import jakarta.validation.Valid;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 文件管理 Controller 控制层
@@ -90,6 +90,20 @@ public class MonFileController {
     @Operation(operationId = "5", summary = "批量删除文件管理信息")
     public Result<Boolean> batchDelete(@Parameter(description = "删除对象") @RequestBody MonFileDeleteDTO monFileDeleteDTO) {
         return Result.status(monFileFacade.batchDelete(monFileDeleteDTO));
+    }
+
+    @PostMapping("/upload")
+    @SaCheckPermission("mon:file:upload")
+    @Operation(operationId = "6", summary = "上传文件")
+    public Result<Boolean> batchDelete(@Parameter(description = "文件对象") @RequestParam("file") MultipartFile file) {
+        return Result.status(monFileFacade.putFile(file));
+    }
+
+    @GetMapping("/preview/{id}")
+    @SaCheckPermission("mon:file:preview")
+    @Operation(operationId = "7", summary = "获取文件外链链接")
+    public Result<String> preview(@Parameter(description = "ID") @PathVariable("id") Long id) {
+        return Result.data(monFileFacade.preview(id));
     }
 
 }

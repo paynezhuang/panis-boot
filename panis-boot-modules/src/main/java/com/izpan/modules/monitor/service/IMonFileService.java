@@ -19,11 +19,14 @@
 
 package com.izpan.modules.monitor.service;
 
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.izpan.infrastructure.page.PageQuery;
 import com.izpan.modules.monitor.domain.bo.MonFileBO;
 import com.izpan.modules.monitor.domain.entity.MonFile;
-import com.baomidou.mybatisplus.extension.service.IService;
-import com.baomidou.mybatisplus.core.metadata.IPage;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 /**
  * 文件管理 Service 服务接口层
@@ -46,4 +49,33 @@ public interface IMonFileService extends IService<MonFile> {
      * @CreateTime 2024-11-20 - 17:16:20
      */
     IPage<MonFile> listMonFilePage(PageQuery pageQuery, MonFileBO monFileBO);
+
+    /**
+     * 文件管理 - 新增
+     *
+     * @param file 文件
+     * @return {@link boolean} 是否成功
+     * @author payne.zhuang
+     * @CreateTime 2024-11-25 - 21:19:40
+     */
+    boolean putFile(MultipartFile file);
+
+    /**
+     * 获取文件外链链接
+     *
+     * @param id ID
+     * @return {@link String } 文件外链链接
+     * @author payne.zhuang
+     * @CreateTime 2024-11-26 - 22:08:25
+     */
+    String preview(Long id);
+
+    /**
+     * 同步删除 OSS 文件
+     *
+     * @param ids IDs 集合
+     * @author payne.zhuang
+     * @CreateTime 2024-11-26 - 19:04:03
+     */
+    void syncDeleteWithOSS(List<Long> ids);
 }

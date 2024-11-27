@@ -51,6 +51,7 @@
         <ip2region.version>2.7.0</ip2region.version>
         <classgraph.version>4.8.177</classgraph.version>
         <snakeyaml.version>2.3</snakeyaml.version>
+        <minio.version>8.5.13</minio.version>
     </properties>
 
     <dependencyManagement>
@@ -119,6 +120,14 @@
                 <version>${snakeyaml.version}</version>
             </dependency>
 
+            <!-- OSS -->
+            <!-- Minio -->
+            <dependency>
+                <groupId>io.minio</groupId>
+                <artifactId>minio</artifactId>
+                <version>${minio.version}</version>
+            </dependency>
+
             <!-- Starter -->
             <dependency>
                 <groupId>com.izpan</groupId>
@@ -158,6 +167,11 @@
             <dependency>
                 <groupId>com.izpan</groupId>
                 <artifactId>panis-boot-starter-database-sharding</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.izpan</groupId>
+                <artifactId>panis-boot-starter-oss</artifactId>
                 <version>${project.version}</version>
             </dependency>
         </dependencies>

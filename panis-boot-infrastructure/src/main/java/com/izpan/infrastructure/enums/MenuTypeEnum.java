@@ -1,5 +1,6 @@
 package com.izpan.infrastructure.enums;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.io.Serializable;
@@ -14,6 +15,7 @@ import java.io.Serializable;
  */
 
 @Getter
+@AllArgsConstructor
 public enum MenuTypeEnum implements Serializable {
 
     DIRECTORY("1", "目录"),
@@ -22,9 +24,4 @@ public enum MenuTypeEnum implements Serializable {
     private final String value;
 
     private final String name;
-
-    MenuTypeEnum(String value, String name) {
-        this.value = value;
-        this.name = name;
-    }
 }

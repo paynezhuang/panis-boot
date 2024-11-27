@@ -20,11 +20,5 @@
             <groupId>com.izpan</groupId>
             <artifactId>panis-boot-infrastructure</artifactId>
         </dependency>
-
-        <!-- MySQL -->
-        <dependency>
-            <groupId>com.izpan</groupId>
-            <artifactId>panis-boot-starter-database-mysql</artifactId>
-        </dependency>
     </dependencies>
 </project>

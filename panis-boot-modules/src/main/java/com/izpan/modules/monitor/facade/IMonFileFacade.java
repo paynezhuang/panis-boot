@@ -26,6 +26,7 @@ import com.izpan.modules.monitor.domain.dto.file.MonFileDeleteDTO;
 import com.izpan.modules.monitor.domain.dto.file.MonFileSearchDTO;
 import com.izpan.modules.monitor.domain.dto.file.MonFileUpdateDTO;
 import com.izpan.modules.monitor.domain.vo.MonFileVO;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 文件管理 门面接口层
@@ -89,4 +90,23 @@ public interface IMonFileFacade {
      */
     boolean batchDelete(MonFileDeleteDTO monFileDeleteDTO);
 
+    /**
+     * 上传文件
+     *
+     * @param file 文件
+     * @return {@link Boolean} 结果
+     * @author payne.zhuang
+     * @CreateTime 2024-11-25 - 21:18:48
+     */
+    boolean putFile(MultipartFile file);
+
+    /**
+     * 获取文件外链链接
+     *
+     * @param id ID
+     * @return {@link String } 文件外链链接
+     * @author payne.zhuang
+     * @CreateTime 2024-11-26 - 22:08:25
+     */
+    String preview(Long id);
 }
