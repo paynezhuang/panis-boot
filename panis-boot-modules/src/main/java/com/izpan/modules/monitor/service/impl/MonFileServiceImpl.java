@@ -22,7 +22,6 @@ package com.izpan.modules.monitor.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.izpan.common.exception.BizException;
 import com.izpan.common.util.LongUtil;
 import com.izpan.infrastructure.enums.FileCategoryEnum;
 import com.izpan.infrastructure.page.PageQuery;
@@ -77,7 +76,6 @@ public class MonFileServiceImpl extends ServiceImpl<MonFileMapper, MonFile> impl
     @Override
     @SneakyThrows
     public boolean putFile(MultipartFile file) {
-        if (ObjectUtils.isNotEmpty(file)) throw new BizException("文件不能为空");
         // 上传文件
         OssFile ossFile = ossManager.service().putFile(file.getOriginalFilename(), file.getInputStream());
         // 保存文件信息
