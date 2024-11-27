@@ -20,7 +20,6 @@ import com.izpan.modules.system.domain.vo.SysMenuTreeVO;
 import com.izpan.modules.system.facade.ISysMenuFacade;
 import com.izpan.modules.system.service.ISysMenuService;
 import com.izpan.modules.system.service.ISysPermissionService;
-import com.izpan.modules.system.service.ISysRoleMenuService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -1,7 +1,7 @@
 package com.izpan.infrastructure.util;
 
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component;
  * @CreateTime 2023/8/15 - 13:58
  */
 @Component
-@SuppressWarnings({"unchecked", "java:S1905"})
+@SuppressWarnings({"unchecked", "java:S1905", "java:S2696"})
 public class SpringUtil implements ApplicationContextAware {
 
     @Getter

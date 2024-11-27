@@ -21,7 +21,6 @@ package com.izpan.modules.tools.facade;
 
 import com.izpan.modules.tools.domain.entity.DataTable;
 import com.izpan.modules.tools.domain.vo.DataTableVO;
-import com.izpan.modules.tools.domain.vo.TableColumnVO;
 
 import java.util.List;
 

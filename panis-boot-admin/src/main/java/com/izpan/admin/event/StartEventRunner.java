@@ -56,11 +56,10 @@ public class StartEventRunner implements CommandLineRunner {
         String profile = StringUtils.arrayToCommaDelimitedString(environment.getActiveProfiles());
         if (StringPools.DEV.equalsIgnoreCase(profile)) {
             long currentTimeMillis = System.currentTimeMillis();
-            log.info("当前启动环境为开发环境，开始提取 Controller 层权限注解信息");
             Map<String, String> allControllerAnnotations = AnnotationExtractor.extractAllControllerAnnotations();
             String permissionKey = SystemCacheConstant.controllerAnnotationPermissionKey();
             RedisUtil.set(permissionKey, allControllerAnnotations);
-            log.info("Controller 层权限注解信息提取完成，共计耗时：{}ms", System.currentTimeMillis() - currentTimeMillis);
+            log.info("提取权限注解 Controller(@SaCheckPermission) 完成，共计耗时：{}ms", System.currentTimeMillis() - currentTimeMillis);
         }
     }
 }
