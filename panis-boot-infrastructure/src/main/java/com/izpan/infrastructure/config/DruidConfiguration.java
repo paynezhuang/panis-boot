@@ -99,6 +99,7 @@ public class DruidConfiguration {
         WallConfig config = new WallConfig();
         // 允许一次执行多条语句
         config.setMultiStatementAllow(true);
+        // 允许非基本语句的执行（如存储过程、函数调用等）
         config.setNoneBaseStatementAllow(true);
         return config;
     }
