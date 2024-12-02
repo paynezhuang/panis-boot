@@ -40,7 +40,7 @@ public class LocalDateTimeModule extends SimpleModule {
 
     public LocalDateTimeModule() {
         super();
-        // 序列化时，当值为 LocalDateTime 类型时，转换为字符串类型
+        // 序列化时，当值为 LocalDateTime 类型时，转换为数值类型
         addSerializer(LocalDateTime.class, new JsonSerializer<>() {
 
             @Override
@@ -66,11 +66,11 @@ public class LocalDateTimeModule extends SimpleModule {
                 if (ObjectUtils.isEmpty(p.getValueAsString())) {
                     return null;
                 }
-
+                // 如果当前 JSON 令牌是字符串类型，则将其解析为 LocalDateTime 对象。
                 if (p.getCurrentToken() == JsonToken.VALUE_STRING) {
                     return LocalDateTime.parse(p.getValueAsString(), ofPattern(DatePattern.NORM_DATETIME_PATTERN));
                 }
-
+                // 默认 JSON 令牌是数值类型，则将其解析为 LocalDateTime 对象。
                 return LocalDateTime.ofInstant(Instant.ofEpochMilli(p.getLongValue()), ZoneId.systemDefault());
             }
         });

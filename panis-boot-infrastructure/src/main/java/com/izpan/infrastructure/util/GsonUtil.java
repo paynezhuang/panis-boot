@@ -4,6 +4,7 @@ import cn.hutool.core.date.DatePattern;
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import com.izpan.infrastructure.gson.adapter.LocalDateTimeTypeAdapter;
+import com.izpan.infrastructure.gson.adapter.StringAdapter;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,6 +26,7 @@ public class GsonUtil {
             // 防止特殊字符出现乱码
             .disableHtmlEscaping()
             .registerTypeAdapter(LocalDateTime.class, new LocalDateTimeTypeAdapter())
+            .registerTypeAdapter(String.class, new StringAdapter())
             .create();
 
     private GsonUtil() {

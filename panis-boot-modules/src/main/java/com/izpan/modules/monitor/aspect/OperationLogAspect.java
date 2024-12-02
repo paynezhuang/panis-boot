@@ -3,9 +3,12 @@ package com.izpan.modules.monitor.aspect;
 import cn.hutool.extra.servlet.JakartaServletUtil;
 import com.google.common.collect.Lists;
 import com.izpan.common.constants.RequestConstant;
+import com.izpan.common.exception.BizException;
 import com.izpan.common.util.CglibUtil;
 import com.izpan.common.util.IPUtil;
+import com.izpan.infrastructure.annotation.RepeatSubmit;
 import com.izpan.infrastructure.util.GsonUtil;
+import com.izpan.infrastructure.util.RedisUtil;
 import com.izpan.modules.monitor.domain.dto.logs.exception.MonLogsErrorAddDTO;
 import com.izpan.modules.monitor.domain.dto.logs.operation.MonLogsOperationAddDTO;
 import com.izpan.modules.monitor.facade.IMonLogsErrorFacade;
@@ -26,6 +29,9 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -100,7 +106,10 @@ public class OperationLogAspect {
             }
             arguments.add(GsonUtil.toJson(arg));
         }
+
+        // ================= 操作日志 Begin =================
         String ip = JakartaServletUtil.getClientIP(request);
+        String params = GsonUtil.toJson(arguments);
         logsOperationAddDTO.set(MonLogsOperationAddDTO.builder()
                 .requestId(requestId)
                 .requestUri(requestURI)
@@ -108,16 +117,55 @@ public class OperationLogAspect {
                 .methodName(ms.getName())
                 .operation(operation.summary())
                 .contentType(contentType)
-                .methodParams(GsonUtil.toJson(arguments))
+                .methodParams(params)
                 .ip(ip)
                 .ipAddr(IPUtil.getIpAddr(ip))
                 .userAgent(request.getHeader(RequestConstant.USER_AGENT))
                 .build());
+        // ================= 操作日志 End =================
+
+        // ================= 防重复提交 Begin =================
+        RepeatSubmit repeatSubmit = ms.getMethod().getDeclaredAnnotation(RepeatSubmit.class);
+        int interval = 5;
+        String message = "重复请求，请稍后重试";
+
+        if (null != repeatSubmit) {
+            interval = repeatSubmit.interval();
+            message = repeatSubmit.message();
+        }
+
+        // -1 则代表不需要防重复提交
+        if (interval == -1) return;
+        String repeatSubmitKey = generateKey(params);
+        if (RedisUtil.exists(repeatSubmitKey)) {
+            throw new BizException(message);
+        }
+        RedisUtil.set(repeatSubmitKey, params, interval);
+        // ================= 防重复提交 End =================
+    }
+
+    /**
+     * 生成key
+     *
+     * @param params params 参数
+     * @return {@link String } MD5 key
+     * @author payne.zhuang
+     * @CreateTime 2024-12-02 - 14:37:54
+     */
+    private String generateKey(String params) throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        byte[] hash = md.digest(params.getBytes(StandardCharsets.UTF_8));
+        StringBuilder hexString = new StringBuilder();
+        for (byte b : hash) {
+            hexString.append(String.format("%02X", b));
+        }
+        return "repeat_submit:%s".formatted(hexString.toString().toLowerCase());
     }
 
     /**
      * 后置操作
      */
+    @SuppressWarnings("unused")
     @AfterReturning(pointcut = "controllerPoint()", returning = "result")
     public void afterReturning(Object result) {
         try {
@@ -134,6 +182,7 @@ public class OperationLogAspect {
     /**
      * 异常 方法
      */
+    @SuppressWarnings("unused")
     @AfterThrowing(pointcut = "controllerPoint()", throwing = "exception")
     public void afterThrowing(JoinPoint joinPoint, Throwable exception) {
         try {
