@@ -68,6 +68,7 @@
                 sou.parent_id = 0
             </otherwise>
         </choose>
+        AND sou.is_deleted = 0
         <if test="bo.status != null and bo.status != ''">
             AND sou.status = #{bo.status}
         </if>
@@ -76,14 +77,16 @@
     <select id="listAllDescendants" resultMap="SysOrgUnitsResultMap">
         WITH RECURSIVE cte AS (
         SELECT sou.* FROM sys_org_units sou
-        WHERE sou.parent_id IN
+        WHERE sou.is_deleted = 0
+        AND sou.parent_id IN
         <foreach item='item' index='index' collection='parentIds' open='(' separator=',' close=')'>
             #{item}
         </foreach>
         UNION ALL
         SELECT t.* FROM sys_org_units t
         INNER JOIN cte
-        ON t.parent_id = cte.id)
+        ON t.parent_id = cte.id
+        WHERE t.is_deleted = 0)
         SELECT * FROM cte
     </select>
 
