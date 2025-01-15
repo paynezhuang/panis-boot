@@ -65,14 +65,12 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
     @Override
     public boolean batchDeleteMenu(List<Long> menuIds) {
-        boolean removeBatchByIds = super.removeBatchByIds(menuIds, true);
-        if (Boolean.TRUE.equals(removeBatchByIds)) {
-            // 删除角色缓存
-            menuIds.forEach(sysRoleMenuService::deleteRoleMenuCacheWithMenuId);
-            // 删除权限按钮数据
-            sysPermissionService.deletePermissionWithMenuIds(menuIds);
-        }
-        return removeBatchByIds;
+        // 删除角色缓存
+        menuIds.forEach(sysRoleMenuService::deleteRoleMenuCacheWithMenuId);
+        // 删除权限按钮数据
+        sysPermissionService.deletePermissionWithMenuIds(menuIds);
+        // 删除菜单
+        return super.removeBatchByIds(menuIds, true);
     }
 
     @Override
