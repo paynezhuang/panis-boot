@@ -52,9 +52,9 @@ public class CollectionUtil extends org.springframework.util.CollectionUtils {
     public static <T> void handleDifference(Set<T> originSet, Set<T> newSet, BiConsumer<Set<T>, Set<T>> handler, Runnable noChangeHandler) {
         if (!originSet.equals(newSet)) {
             // 计算差异，需要新增的集合
-            Set<T> addSet = Sets.difference(newSet, originSet);
+            Set<T> addSet = Sets.newHashSet(Sets.difference(newSet, originSet));
             // 计算差异，需要删除的集合
-            Set<T> removeSet = Sets.difference(originSet, newSet);
+            Set<T> removeSet = Sets.newHashSet(Sets.difference(originSet, newSet));
             handler.accept(addSet, removeSet);
         } else if (noChangeHandler != null) {
             noChangeHandler.run();

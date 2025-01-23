@@ -71,6 +71,8 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
                 .map(SysRoleMenu::getMenuId).collect(Collectors.toSet());
         // 前端传输菜单Ids，转换为 Set
         Set<Long> menuIdSet = Sets.newHashSet(menuIds);
+        // 避免前端错误传值
+        menuIdSet.remove(0L);
         // 处理结果
         AtomicBoolean saveBath = new AtomicBoolean(true);
         CollectionUtil.handleDifference(
@@ -87,15 +89,19 @@ public class SysRoleMenuServiceImpl extends ServiceImpl<SysRoleMenuMapper, SysRo
                     }
                     // 根据菜单 ID 找出找出是否有目录的ID，进行移除，无需保存。在查找用户路由时，会填充进入给到前端
                     List<SysMenuBO> parentMenuIds = sysMenuService.queryWithDirectoryList(menuIds);
-                    parentMenuIds.stream().map(SysMenuBO::getId).toList().forEach(menuIdSet::remove);
+                    // 目录 IDs
+                    Set<Long> directoryIds = parentMenuIds.stream().map(SysMenuBO::getId).collect(Collectors.toSet());
+                    // 新增的菜单进行移除目录 ID
+                    addMenuIdSet.removeAll(directoryIds);
                     // 进行新增数据
                     if (!CollectionUtils.isEmpty(addMenuIdSet)) {
-                        menuIdSet.remove(0L);
                         // 进行新增数据
                         List<SysRoleMenu> saveUserRoleList = addMenuIdSet.stream()
                                 .map(menuId -> new SysRoleMenu(roleId, menuId)).toList();
                         saveBath.set(Db.saveBatch(saveUserRoleList));
                     }
+                    // 所有传值过来的菜单 ID 进行移除目录 ID
+                    menuIdSet.removeAll(directoryIds);
                     sysMenuService.saveRoleMenuToCache(roleId, menuIdSet);
                 }
         );
