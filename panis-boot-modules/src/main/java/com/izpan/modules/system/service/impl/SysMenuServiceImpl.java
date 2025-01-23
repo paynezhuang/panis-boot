@@ -126,6 +126,9 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
     @Override
     public List<SysMenuBO> queryWithDirectoryList(List<Long> menuIds) {
+        if (CollectionUtils.isEmpty(menuIds)) {
+            return Collections.emptyList();
+        }
         LambdaQueryWrapper<SysMenu> parentMenuQuery = new LambdaQueryWrapper<SysMenu>()
                 .select(SysMenu::getId, SysMenu::getParentId, SysMenu::getName)
                 .eq(SysMenu::getType, MenuTypeEnum.DIRECTORY.getValue())
@@ -135,11 +138,15 @@ public class SysMenuServiceImpl extends ServiceImpl<SysMenuMapper, SysMenu> impl
 
     @Override
     public void saveRoleMenuToCache(Long roleId, Set<Long> menuIds) {
+        String roleMenuListKey = SystemCacheConstant.roleMenuListKey(roleId);
+        if (CollectionUtils.isEmpty(menuIds)) {
+            RedisUtil.del(roleMenuListKey);
+            return;
+        }
         LambdaQueryWrapper<SysMenu> queryWrapper = new LambdaQueryWrapper<SysMenu>()
                 .eq(SysMenu::getStatus, StringPools.ONE)
                 .in(SysMenu::getId, menuIds);
         List<SysMenu> sysMenus = baseMapper.selectList(queryWrapper);
-        String roleMenuListKey = SystemCacheConstant.roleMenuListKey(roleId);
         // 构建父级目录菜单数据
         buildParentMenuData(sysMenus);
         // 保存角色权限到缓存
